@@ -1,0 +1,9 @@
+tests/config
+tests/linter_info.txt
+tests/format.txt
+tests/pipeline.txt
+tests/reference
+tests/.snakemake
+tests/logs
+tests/resources
+tests/benchmark
