@@ -1,7 +1,7 @@
 SHELL=/usr/bin/bash
 .ONESHELL:
 .SHELLFLAGS := -euic
-.DELETE_ON_ERROR: linter_info.txt format.txt pipeline_pair_ended.txt pipeline_single_ended.txt pipeline_complex.txt
+.DELETE_ON_ERROR: linter_info.txt format.txt pipeline.txt
 
 MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
@@ -17,33 +17,13 @@ snakefiles := \
 
 
 .PHONY: all
-all: pipeline_pair_ended.txt pipeline_single_ended.txt pipeline_complex.txt
+all: pipeline.txt
 
 
-pipeline_pair_ended.txt: format.txt linter.txt
+
+pipeline.txt: format.txt linter.txt
 	mamba activate test-snakemake-wrappers && \
 	snakemake -s ../workflow/Snakefile \
-		--configfile config_pair_ended/config.yaml \
-		--cores 1 \
-		--use-conda \
-		--use-singularity \
-		--workflow-profile ../profiles 2>&1 | tee pipeline_pair_ended.txt
-
-
-pipeline_single_ended.txt: format.txt linter.txt
-	mamba activate test-snakemake-wrappers && \
-	snakemake -s ../workflow/Snakefile \
-		--configfile config_single_ended/config.yaml \
-		--cores 1 \
-		--use-conda \
-		--use-singularity \
-		--workflow-profile ../profiles 2>&1 | tee pipeline_pair_ended.txt
-
-
-pipeline_complex.txt: format.txt linter.txt
-	mamba activate test-snakemake-wrappers && \
-	snakemake -s ../workflow/Snakefile \
-		--configfile config_complex/config.yaml \
 		--cores 1 \
 		--use-conda \
 		--use-singularity \
@@ -57,7 +37,8 @@ format.txt:
 
 linter.txt:
 	mamba activate test-snakemake-wrappers && \
-	snakemake -s ../workflow/Snakefile --lint 2>&1 | tee linter.txt
+	snakemake -s ../workflow/Snakefile \
+		--lint 2>&1 | tee linter.txt
 
 
 .PHONY: clean

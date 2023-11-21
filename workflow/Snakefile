@@ -1,9 +1,10 @@
 include: "rules/common.smk"
-include: "rules/fair_genome_indexer.smk"
+include: "rules/fair_genome_indexer_pipeline.smk"
 include: "rules/bowtie2_sambamba_meta.smk"
 include: "rules/picard_metrics.smk"
 include: "rules/multiqc.smk"
 
-rule target:
+
+use rule target from fair_genome_indexer with:
     input:
         unpack(get_targets),

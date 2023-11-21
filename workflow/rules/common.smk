@@ -3,7 +3,7 @@ import pandas
 import snakemake
 import snakemake.utils
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 snakemake.utils.min_version("7.29.0")
 
@@ -50,9 +50,8 @@ if genome_table_path:
         dtype=str,
     )
 else:
-    genomes: pandas.DataFrame = samples[["species", "build", "release"]]
-    genomes.drop_duplicates(keep="first", inplace=True, ignore_index=True)
-    genomes.to_csv(file="config/genomes.csv", sep=",", index=False, header=True)
+    genomes: pandas.DataFrame = samples[["species", "build", "release"]].drop_duplicates(keep="first", ignore_index=True)
+    genomes.to_csv("genomes.csv", sep=",", index=False, header=True)
 
 snakemake.utils.validate(genomes, "../schemas/genomes.schema.yaml")
 
@@ -158,7 +157,7 @@ def get_targets(
     wildcards: snakemake.io.Wildcards,
     samples: pandas.DataFrame = samples,
     config: Dict[str, Any] = config,
-) -> Dict[str, List(str)]:
+) -> Dict[str, List[str]]:
     """
     Return the expected list of output files at the end of the pipeline
 
