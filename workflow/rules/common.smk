@@ -57,6 +57,9 @@ snakemake.utils.validate(genomes, "../schemas/genomes.schema.yaml")
 
 snakemake_wrappers_version: str = "v2.13.0"
 
+wildcard_constraints:
+    sample=r"|".join(samples.sample_id)
+
 
 def get_bowtie2_alignment_input(
     wildcards: snakemake.io.Wildcards,
@@ -75,7 +78,7 @@ def get_bowtie2_alignment_input(
     Return (Dict[str, Union[Dict[str, str], str]]):
     Dictionnary of all input files as required by Bowtie2's snakemake-wrapper
     """
-    sample_data: Dict[str, str] = samples.loc[str(wildcards.sample)].to_dict()
+    sample_data: Dict[str, str] = samples[samples.sample_id == str(wildcards.sample)].to_dict(orient="index")[0]
     species: str = str(sample_data["species"])
     build: str = str(sample_data["build"])
     release: str = str(sample_data["release"])
@@ -95,9 +98,9 @@ def get_bowtie2_alignment_input(
 
     results: Dict[str, List[str]] = {
         "idx": idx,
-        "samples": [samples["upstream_file"]],
+        "samples": [sample_data["upstream_file"]],
     }
-    downstream_file: Optional[str] = samples.get("downstream_file")
+    downstream_file: Optional[str] = sample_data.get("downstream_file")
     if downstream_file:
         results["samples"].append(downstream_file)
 
@@ -105,7 +108,7 @@ def get_bowtie2_alignment_input(
 
 
 def get_multiqc_report_input(
-    wildcards: snakemake.io.Wildcards, samples: pandas.DataFrame = config
+    wildcards: snakemake.io.Wildcards, samples: pandas.DataFrame = samples
 ) -> Dict[str, List[str]]:
     """
     Return expected input files for MultiQC report, according to user-input,
