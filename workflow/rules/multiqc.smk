@@ -9,6 +9,6 @@ rule multiqc_report:
     log:
         "logs/multiqc.log",
     benchmark:
-        "benchmark/multiqc.tsv",
+        "benchmark/multiqc.tsv"
     wrapper:
         f"{snakemake_wrappers_version}/bio/multiqc"

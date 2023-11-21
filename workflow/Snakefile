@@ -1,0 +1,9 @@
+include: "rules/common.smk"
+include: "rules/fair_genome_indexer.smk"
+include: "rules/bowtie2_sambamba_meta.smk"
+include: "rules/picard_metrics.smk"
+include: "rules/multiqc.smk"
+
+rule target:
+    input:
+        unpack(get_targets),
