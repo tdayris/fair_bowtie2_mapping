@@ -54,6 +54,8 @@ else:
     genomes.drop_duplicates(keep="first", inplace=True, ignore_index=True)
     genomes.to_csv(file="config/genomes.csv", sep=",", index=False, header=True)
 
+snakemake.utils.validate(genomes, "../schemas/genomes.schema.yaml")
+
 snakemake_wrappers_version: str = "v2.13.0"
 
 
