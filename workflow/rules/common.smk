@@ -60,7 +60,9 @@ snakemake.utils.validate(genomes, "../schemas/genomes.schema.yaml")
 
 snakemake_wrappers_version: str = "v2.13.0"
 
+
 report: "../report/workflows.rst"
+
 
 wildcard_constraints:
     sample=r"|".join(samples.sample_id),
