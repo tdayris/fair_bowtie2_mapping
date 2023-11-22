@@ -50,15 +50,19 @@ if genome_table_path:
         dtype=str,
     )
 else:
-    genomes: pandas.DataFrame = samples[["species", "build", "release"]].drop_duplicates(keep="first", ignore_index=True)
+    genomes: pandas.DataFrame = samples[
+        ["species", "build", "release"]
+    ].drop_duplicates(keep="first", ignore_index=True)
     genomes.to_csv("genomes.csv", sep=",", index=False, header=True)
+    config["genomes"] = "genomes.csv"
 
 snakemake.utils.validate(genomes, "../schemas/genomes.schema.yaml")
 
 snakemake_wrappers_version: str = "v2.13.0"
 
+
 wildcard_constraints:
-    sample=r"|".join(samples.sample_id)
+    sample=r"|".join(samples.sample_id),
 
 
 def get_bowtie2_alignment_input(
@@ -78,7 +82,9 @@ def get_bowtie2_alignment_input(
     Return (Dict[str, Union[Dict[str, str], str]]):
     Dictionnary of all input files as required by Bowtie2's snakemake-wrapper
     """
-    sample_data: Dict[str, str] = samples[samples.sample_id == str(wildcards.sample)].to_dict(orient="index")[0]
+    sample_data: Dict[str, str] = samples[
+        samples.sample_id == str(wildcards.sample)
+    ].to_dict(orient="index")[0]
     species: str = str(sample_data["species"])
     build: str = str(sample_data["build"])
     release: str = str(sample_data["release"])
@@ -98,11 +104,11 @@ def get_bowtie2_alignment_input(
 
     results: Dict[str, List[str]] = {
         "idx": idx,
-        "samples": [sample_data["upstream_file"]],
+        "sample": [sample_data["upstream_file"]],
     }
     downstream_file: Optional[str] = sample_data.get("downstream_file")
     if downstream_file:
-        results["samples"].append(downstream_file)
+        results["sample"].append(downstream_file)
 
     return results
 
@@ -121,7 +127,7 @@ def get_multiqc_report_input(
     Return (Dict[str, Union[Dict[str, str], str]]):
     Dictionnary of all input files as required by Bowtie2's snakemake-wrapper
     """
-    results: Dict[str, List[str]] = {"raw": [], "deduplicated": []}
+    results: Dict[str, List[str]] = {"picard_qc": []}
     datatype: str = "dna"
     sample_iterator = zip(
         samples.sample_id,
@@ -130,19 +136,8 @@ def get_multiqc_report_input(
         samples.release,
     )
     for sample, species, build, release in sample_iterator:
-        results["raw"] += multiext(
-            f"picard/{species}.{build}.{release}.{datatype}/stats/{sample}_raw",
-            ".alignment_summary_metrics",
-            ".insert_size_metrics",
-            ".insert_size_histogram.pdf",
-            ".base_distribution_by_cycle_metrics",
-            ".base_distribution_by_cycle.pdf",
-            ".gc_bias.detail_metrics",
-            ".gc_bias.summary_metrics",
-            ".gc_bias.pdf",
-        )
-        results["deduplicated"] += multiext(
-            f"picard/{species}.{build}.{release}.{datatype}/stats/{sample}",
+        results["picard_qc"] += multiext(
+            f"tmp/picard/{species}.{build}.{release}.{datatype}/stats/{sample}",
             ".alignment_summary_metrics",
             ".insert_size_metrics",
             ".insert_size_histogram.pdf",

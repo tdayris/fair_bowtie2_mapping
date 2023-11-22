@@ -12,3 +12,6 @@ samples: config/samples.csv
 #     view: "--format 'bam' --filter 'mapping_quality >= 30 and not (unmapped or mate_is_unmapped)' "
 #     # Optional parameters for sambamba markdup
 #     markdup: "--remove-duplicates"
+#   picard:
+#     # Mapping QC optional parameters
+#     metrics: ""

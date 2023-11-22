@@ -3,6 +3,13 @@ default-resources:
   mem_mb: 512
   tmpdir: "tmp"
 
+set-threads:
+  bowtie2_build: 20
+  bowtie2_alignment: 20
+  sambamba_sort: 6
+  sambamba_view: 6
+  sambamba_markdup: 6
+
 set-resources:
   bedtools_merge_blacklist:
     mem_mb: 3072
@@ -29,10 +36,10 @@ set-resources:
     mem_mb: 2048
   multiqc_report:
     mem_mb: 5120
-  runtime: 30
+    runtime: 30
   picard_create_multiple_metrics_raw:
     mem_mb: 6144
-  runtime: 45
+    runtime: 45
   picard_create_multiple_metrics:
     mem_mb: 6144
-  runtime: 45
+    runtime: 45

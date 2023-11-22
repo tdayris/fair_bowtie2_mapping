@@ -24,7 +24,7 @@ all: pipeline.txt
 pipeline.txt: format.txt linter.txt
 	mamba activate test-snakemake-wrappers && \
 	snakemake -s ../workflow/Snakefile \
-		--cores 1 \
+		--cores 2 \
 		--use-conda \
 		--use-singularity \
 		--workflow-profile ../profiles 2>&1 | tee pipeline_pair_ended.txt
@@ -48,5 +48,7 @@ clean:
 		   pipeline_pair_ended.txt \
 		   pipeline_single_ended.txt \
 		   pipeline_complex.txt \
-		   reference results \
+		   reference \
+		   results \
+		   tmp \
 		   .snakemake

@@ -1,10 +1,11 @@
 rule picard_create_multiple_metrics_raw:
     input:
-        "results/bowtie2/{species}.{build}.{release}.{datatype}/{sample}_raw.bam",
+        bam="results/Mapping/{species}.{build}.{release}.{datatype}/{sample}.bam",
+        ref="reference/{species}.{build}.{release}.{datatype}.fasta",
     output:
         temp(
             multiext(
-                "picard/{species}.{build}.{release}.{datatype}/stats/{sample}_raw",
+                "tmp/picard/{species}.{build}.{release}.{datatype}/stats/{sample}",
                 ".alignment_summary_metrics",
                 ".insert_size_metrics",
                 ".insert_size_histogram.pdf",
@@ -20,27 +21,6 @@ rule picard_create_multiple_metrics_raw:
     benchmark:
         "benchmark/picard/collectmultiplemetrics/{species}.{build}.{release}.{datatype}/{sample}.tsv"
     params:
-        extra=config.get("params", {})
-        .get("picard", {})
-        .get("", "--METRIC_ACCUMULATION_LEVEL SAMPLE"),
+        extra=config.get("params", {}).get("picard", {}).get("", ""),
     wrapper:
         f"{snakemake_wrappers_version}/bio/picard/collectmultiplemetrics"
-
-
-use rule picard_create_multiple_metrics_raw as picard_create_multiple_metrics with:
-    input:
-        "results/sambamba/markdup/{species}.{build}.{release}.{datatype}/{sample}.bam",
-    output:
-        temp(
-            multiext(
-                "picard/{species}.{build}.{release}.{datatype}/stats/{sample}",
-                ".alignment_summary_metrics",
-                ".insert_size_metrics",
-                ".insert_size_histogram.pdf",
-                ".base_distribution_by_cycle_metrics",
-                ".base_distribution_by_cycle.pdf",
-                ".gc_bias.detail_metrics",
-                ".gc_bias.summary_metrics",
-                ".gc_bias.pdf",
-            )
-        ),
