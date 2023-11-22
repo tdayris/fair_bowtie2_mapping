@@ -6,6 +6,7 @@ rule multiqc_report:
         "results/QC/MultiQC_data.zip",
     params:
         extra="--zip-data-dir",
+        use_input_files_only=True,
     log:
         "logs/multiqc.log",
     benchmark:

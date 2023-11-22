@@ -7,3 +7,4 @@
 .test/resources
 .test/benchmark
 .test/tmp
+.test/results

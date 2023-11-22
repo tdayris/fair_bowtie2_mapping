@@ -65,6 +65,36 @@ wildcard_constraints:
     sample=r"|".join(samples.sample_id),
 
 
+def get_fastp_trimming_input(
+    wildcards: snakemake.io.Wildcards,
+    samples: pandas.DataFrame = samples,
+    config: Dict[str, Any] = config,
+) -> Dict[str, List[str]]:
+    """
+    Return expected input files for Bowtie2 mapping, according to user-input,
+    and snakemake-wrapper requirements
+
+    Parameters:
+    wildcards (snakemake.io.Wildcards): Required for snakemake unpacking function
+    samples   (pandas.DataFrame)      : Describe sample names and related paths/genome
+    config    (Dict[str, Any])        : Configuration file
+
+    Return (Dict[str, List[str]]):
+    Dictionnary of all input files as required by Fastp's snakemake-wrapper
+    """
+    sample_data: Dict[str, str] = samples[
+        samples.sample_id == str(wildcards.sample)
+    ].to_dict(orient="index")[0]
+    downstream_file = sample_data.get("downstream_file")
+    if downstream_file:
+        return {
+            "sample": [sample_data["upstream_file"], downstream_file],
+        }
+    return {
+        "sample": [sample_data["upstream_file"]],
+    }
+
+
 def get_bowtie2_alignment_input(
     wildcards: snakemake.io.Wildcards,
     samples: pandas.DataFrame = samples,
@@ -104,11 +134,17 @@ def get_bowtie2_alignment_input(
 
     results: Dict[str, List[str]] = {
         "idx": idx,
-        "sample": [sample_data["upstream_file"]],
+        "sample": [],
     }
     downstream_file: Optional[str] = sample_data.get("downstream_file")
     if downstream_file:
-        results["sample"].append(downstream_file)
+        results["sample"] = expand(
+            "tmp/fastp/trimmed/{sample}.{stream}.fastq",
+            stream=["1", "2"],
+            sample=[str(wildcards.sample)],
+        )
+    else:
+        results["sample"] = ["tmp/fastp/trimmed/{sample}.fastq"]
 
     return results
 
@@ -124,10 +160,10 @@ def get_multiqc_report_input(
     wildcards (snakemake.io.Wildcards): Required for snakemake unpacking function
     samples   (pandas.DataFrame)      : Describe sample names and related paths/genome
 
-    Return (Dict[str, Union[Dict[str, str], str]]):
-    Dictionnary of all input files as required by Bowtie2's snakemake-wrapper
+    Return (Dict[str, List[str]]):
+    Dictionnary of all input files as required by MultiQC's snakemake-wrapper
     """
-    results: Dict[str, List[str]] = {"picard_qc": []}
+    results: Dict[str, List[str]] = {"picard_qc": [], "fastp": []}
     datatype: str = "dna"
     sample_iterator = zip(
         samples.sample_id,
@@ -147,6 +183,17 @@ def get_multiqc_report_input(
             ".gc_bias.summary_metrics",
             ".gc_bias.pdf",
         )
+        downstream_file: Optional[str] = (
+            samples[samples.sample_id == sample]
+            .to_dict(orient="index")[0]
+            .get("downstream_file")
+        )
+        if downstream_file:
+            results["fastp"].append(f"tmp/fastp/report_pe/{sample}.json")
+            results["fastp"].append(f"tmp/fastp/report_pe/{sample}.html")
+        else:
+            results["fastp"].append(f"tmp/fastp/report_se/{sample}.json")
+            results["fastp"].append(f"tmp/fastp/report_pe/{sample}.html")
 
     return results
 
@@ -189,4 +236,5 @@ def get_targets(
             f"results/Mapping/{species}.{build}.{release}.dna/{sample}.bam.bai"
         )
 
+    print(results)
     return results

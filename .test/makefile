@@ -10,6 +10,7 @@ MAKEFLAGS += --no-builtin-rules
 snakefiles := \
 	"../workflow/rules/bowtie2_sambamba_meta.smk" \
 	"../workflow/rules/multiqc.smk" \
+	"../workflow/rules/fastp.smk" \
 	"../workflow/rules/picard_metrics.smk" \
 	"../workflow/rules/fair_genome_indexer_pipeline.smk" \
 	"../workflow/rules/common.smk" \
@@ -27,7 +28,7 @@ pipeline.txt: format.txt linter.txt
 		--cores 2 \
 		--use-conda \
 		--use-singularity \
-		--workflow-profile ../profiles 2>&1 | tee pipeline_pair_ended.txt
+		--workflow-profile ../profiles 2>&1 | tee pipeline.txt
 
 
 format.txt:
@@ -51,4 +52,5 @@ clean:
 		   reference \
 		   results \
 		   tmp \
-		   .snakemake
+		   logs \
+		   benchmark

@@ -1,3 +1,9 @@
+# 2.0.0
+
+## Features:
+
+* Fastp-trimming (reports included in MultiQC)
+
 # 1.0.0
 
 ## Features:
