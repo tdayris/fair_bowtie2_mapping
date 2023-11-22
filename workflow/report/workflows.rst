@@ -28,4 +28,4 @@ This pipeline is freely available on Github_
 :Authors:
     Thibault Dayris
 
-:Version: 2.1.0 of 11/22/2023
+:Version: 2.1.1 of 11/22/2023

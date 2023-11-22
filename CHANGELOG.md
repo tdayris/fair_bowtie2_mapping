@@ -1,3 +1,9 @@
+# 2.1.1
+
+## Features
+
+* fair_genome_indexer pipeline update
+
 # 2.1.0
 
 ## Features:
