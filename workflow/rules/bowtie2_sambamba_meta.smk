@@ -1,11 +1,13 @@
 module bowtie2_sambamba:
     meta_wrapper:
         f"{snakemake_wrappers_version}/meta/bio/bowtie2_sambamba"
+    config:
+        config
 
 
 use rule bowtie2_build from bowtie2_sambamba with:
     input:
-        "reference/{species}.{build}.{release}.{datatype}.fasta",
+        ref="reference/{species}.{build}.{release}.{datatype}.fasta",
     output:
         multiext(
             "reference/{species}.{build}.{release}.{datatype}",
@@ -29,7 +31,7 @@ use rule bowtie2_alignment from bowtie2_sambamba with:
     input:
         unpack(get_bowtie2_alignment_input),
     output:
-        temp("results/bowtie2/{species}.{build}.{release}.{datatype}/{sample}_raw.bam"),
+        temp("tmp/bowtie2/{species}.{build}.{release}.{datatype}/{sample}_raw.bam"),
     log:
         "logs/bowtie2/align/{species}.{build}.{release}.{datatype}/{sample}.log",
     benchmark:
@@ -45,9 +47,9 @@ use rule bowtie2_alignment from bowtie2_sambamba with:
 
 use rule sambamba_sort from bowtie2_sambamba with:
     input:
-        "results/bowtie2/{species}.{build}.{release}.{datatype}/{sample}_raw.bam",
+        "tmp/bowtie2/{species}.{build}.{release}.{datatype}/{sample}_raw.bam",
     output:
-        temp("sambamba/sort/{species}.{build}.{release}.{datatype}/{sample}.bam"),
+        temp("tmp/sambamba/sort/{species}.{build}.{release}.{datatype}/{sample}.bam"),
     log:
         "logs/sambamba/sort/{species}.{build}.{release}.{datatype}/{sample}.log",
     benchmark:
@@ -56,9 +58,9 @@ use rule sambamba_sort from bowtie2_sambamba with:
 
 use rule sambamba_view from bowtie2_sambamba with:
     input:
-        "results/sambamba/sort/{species}.{build}.{release}.{datatype}/{sample}.bam",
+        "tmp/sambamba/sort/{species}.{build}.{release}.{datatype}/{sample}.bam",
     output:
-        temp("sambamba/view/{species}.{build}.{release}.{datatype}/{sample}.bam"),
+        temp("tmp/sambamba/view/{species}.{build}.{release}.{datatype}/{sample}.bam"),
     log:
         "logs/sambamba/view/{species}.{build}.{release}.{datatype}/{sample}.log",
     benchmark:
@@ -74,7 +76,7 @@ use rule sambamba_view from bowtie2_sambamba with:
 
 use rule sambamba_markdup from bowtie2_sambamba with:
     input:
-        "results/sambamba/view/{species}.{build}.{release}.{datatype}/{sample}.bam",
+        "tmp/sambamba/view/{species}.{build}.{release}.{datatype}/{sample}.bam",
     output:
         "results/Mapping/{species}.{build}.{release}.{datatype}/{sample}.bam",
     log:
@@ -89,7 +91,7 @@ use rule sambamba_markdup from bowtie2_sambamba with:
 
 use rule sambamba_index from bowtie2_sambamba with:
     input:
-        "results/sambamba/markdup/{species}.{build}.{release}.{datatype}/{sample}.bam",
+        "results/Mapping/{species}.{build}.{release}.{datatype}/{sample}.bam",
     output:
         "results/Mapping/{species}.{build}.{release}.{datatype}/{sample}.bam.bai",
     log:

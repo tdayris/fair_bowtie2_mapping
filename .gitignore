@@ -1,5 +1,5 @@
 .test/config
-.test/linter_info.txt
+.test/linter.txt
 .test/format.txt
 .test/pipeline.txt
 .test/reference
@@ -7,3 +7,4 @@
 .test/logs
 .test/resources
 .test/benchmark
+.test/tmp
