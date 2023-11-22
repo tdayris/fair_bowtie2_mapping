@@ -1,3 +1,13 @@
+# 2.1.0
+
+## Features:
+
+* Add report texts
+
+## Documentation
+
+* Fastp citation
+
 # 2.0.0
 
 ## Features:

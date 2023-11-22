@@ -2,7 +2,11 @@ rule multiqc_report:
     input:
         unpack(get_multiqc_report_input),
     output:
-        "results/QC/MultiQC.html",
+        report(
+            "results/QC/MultiQC.html",
+            caption="../report/multiqc.rst",
+            category="Quality Controls",
+        ),
         "results/QC/MultiQC_data.zip",
     params:
         extra="--zip-data-dir",

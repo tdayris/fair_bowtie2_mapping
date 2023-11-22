@@ -21,9 +21,10 @@ The usage of this workflow is described in the [Snakemake workflow catalog](http
 
 ### Bowtie2 Mapping
 
-| Step          | Meta-Wrapper                                                                                                   | Wrapper                                                                                           |
+| Step          | Meta-Wrapper                                                                                                              | Wrapper                                                                                           |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
 | Bowtie2-build | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v2.13.0/meta-wrappers/bowtie2_sambamba.html) | [bowtie2-build](https://snakemake-wrappers.readthedocs.io/en/v2.13.0/wrappers/bowtie2/build.html) |
+| Fastp         |                                                                                                                           | [fastp](https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/fastp.html)                  |
 | Bowtie2-align | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v2.13.0/meta-wrappers/bowtie2_sambamba.html) | [bowtie2-align](https://snakemake-wrappers.readthedocs.io/en/v2.13.0/wrappers/bowtie2/align.html) |
 | Sambamba sort | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v2.13.0/meta-wrappers/bowtie2_sambamba.html) | [sambamba-sort](https://snakemake-wrappers.readthedocs.io/en/v2.13.0/wrappers/sambamba/sort.html) |
 

@@ -18,8 +18,13 @@ snakefiles := \
 
 
 .PHONY: all
-all: pipeline.txt
+all: report.txt
 
+
+report.txt: pipeline.txt
+	mamba activate test-snakemake-wrappers && \
+	snakemake -s ../workflow/Snakefile \
+		--report report.html
 
 
 pipeline.txt: format.txt linter.txt
