@@ -9,6 +9,8 @@ The usage of this workflow is described in the [Snakemake workflow catalog](http
 
 ## Content
 
+![workflow_rulegraph](dag.png)
+
 ### Index and genome sequences
 
 

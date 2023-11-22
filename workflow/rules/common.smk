@@ -237,5 +237,4 @@ def get_targets(
             f"results/Mapping/{species}.{build}.{release}.dna/{sample}.bam.bai"
         )
 
-    print(results)
     return results

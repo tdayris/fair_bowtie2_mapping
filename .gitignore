@@ -8,3 +8,4 @@
 .test/benchmark
 .test/tmp
 .test/results
+.test/dag.png

@@ -21,6 +21,13 @@ snakefiles := \
 all: report.txt
 
 
+dag.png:
+	mamba activate test-snakemake-wrappers && \
+	snakemake -s ../workflow/Snakefile \
+		--rulegraph --forceall | dot -Tpng > dag.png && \
+	cp --verbose dag.png ../dag.png
+
+
 report.txt: pipeline.txt
 	mamba activate test-snakemake-wrappers && \
 	snakemake -s ../workflow/Snakefile \
