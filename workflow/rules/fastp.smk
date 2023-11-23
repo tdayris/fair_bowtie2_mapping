@@ -9,7 +9,11 @@ rule fastp_trimming_pair_ended:
                 allow_missing=True,
             )
         ),
-        html=temp("tmp/fastp/report_pe/{sample}.html"),
+        html=report(
+            "results/QC/report_pe/{sample}.html",
+            caption="../report/fastp.rst",
+            category="Quality Controls",
+        ),
         json=temp("tmp/fastp/report_pe/{sample}.json"),
     log:
         "logs/fastp/{sample}.log",

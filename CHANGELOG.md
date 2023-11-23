@@ -1,3 +1,9 @@
+# Future
+
+## Features
+
+* fastp reports included in snakemake report
+
 # 2.1.1
 
 ## Features
