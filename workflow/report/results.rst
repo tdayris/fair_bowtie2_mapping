@@ -51,8 +51,8 @@ the following files are present:
 ::
 
     results/
-    ├── Mapping
-    │   └── XXX.dna
+    ├── XXX.dna
+    │   └── Mapping
     │       ├── YYY.bam
     │       └── YYY.bam.bai
     └── QC
@@ -65,7 +65,7 @@ the following files are present:
 +---------------+---------------------+-----------------------------------------------+
 | Directory     | File Extension      | Content                                       |
 +===============+=====================+===============================================+
-| Mapping/XXX   | `YYY.bam`           | Aligned reads                                 |
+| XXX/Mapping   | `YYY.bam`           | Aligned reads                                 |
 +               +---------------------+-----------------------------------------------+
 |               | `YYY.bam.bai`       | Aligned reads index                           |
 +---------------+---------------------+-----------------------------------------------+

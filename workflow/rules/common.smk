@@ -241,10 +241,10 @@ def get_targets(
     )
     for sample, species, build, release in sample_iterator:
         results["bams"].append(
-            f"results/Mapping/{species}.{build}.{release}.dna/{sample}.bam"
+            f"results/{species}.{build}.{release}.dna/Mapping/{sample}.bam"
         )
         results["bais"].append(
-            f"results/Mapping/{species}.{build}.{release}.dna/{sample}.bam.bai"
+            f"results/{species}.{build}.{release}.dna/Mapping/{sample}.bam.bai"
         )
 
     return results
