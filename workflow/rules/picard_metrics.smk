@@ -1,6 +1,7 @@
-rule picard_create_multiple_metrics_raw:
+rule picard_create_multiple_metrics:
     input:
         bam="results/Mapping/{species}.{build}.{release}.{datatype}/{sample}.bam",
+        bai="results/Mapping/{species}.{build}.{release}.{datatype}/{sample}.bam.bai",
         ref="reference/{species}.{build}.{release}.{datatype}.fasta",
     output:
         temp(

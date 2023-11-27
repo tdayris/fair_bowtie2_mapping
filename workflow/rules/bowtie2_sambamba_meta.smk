@@ -78,7 +78,7 @@ use rule sambamba_markdup from bowtie2_sambamba with:
     input:
         "tmp/sambamba/view/{species}.{build}.{release}.{datatype}/{sample}.bam",
     output:
-        "results/Mapping/{species}.{build}.{release}.{datatype}/{sample}.bam",
+        protected("results/Mapping/{species}.{build}.{release}.{datatype}/{sample}.bam"),
     log:
         "logs/sambamba/markdup/{species}.{build}.{release}.{datatype}/{sample}.log",
     benchmark:
@@ -93,7 +93,7 @@ use rule sambamba_index from bowtie2_sambamba with:
     input:
         "results/Mapping/{species}.{build}.{release}.{datatype}/{sample}.bam",
     output:
-        "results/Mapping/{species}.{build}.{release}.{datatype}/{sample}.bam.bai",
+        protected("results/Mapping/{species}.{build}.{release}.{datatype}/{sample}.bam.bai"),
     log:
         "logs/sambamba/index/{species}.{build}.{release}.{datatype}/{sample}.log",
     benchmark:

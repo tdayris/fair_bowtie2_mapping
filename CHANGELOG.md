@@ -2,7 +2,9 @@
 
 ## Features:
 
+* Protect bam output
 * Speed-up with wildcards constraints
+* Speed-up Picard with BAI inclusion in input files
 
 ## Fix:
 
