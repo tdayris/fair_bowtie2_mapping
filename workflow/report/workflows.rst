@@ -1,6 +1,11 @@
 Matierial and methods
 =====================
 
+Genome information was download from Ensembl. Samtools_ [#samtoolspaper]_ 
+and Picard_ [#gatkpaper]_ were used to index genome sequences.
+Agat_ [#agatpaper]_ was used to correct common issues found in Ensembl
+genome annotation files.
+
 Raw fastq files were trimmed using Fastp_ [#fastppaper]_ . Cleaned reads were aligned 
 over indexed Ensembl genome with Bowtie2_ [#bowtie2paper]_. Sambamba_ [#sambambapaper]_ 
 was used to sort, filter, mark duplicates, and compress aligned reads. Quality 
@@ -18,6 +23,7 @@ usage, and resutls can be found on the `Snakemake workflow`_ page.
 .. [#picardpaper] McKenna, Aaron, et al. "The Genome Analysis Toolkit: a MapReduce framework for analyzing next-generation DNA sequencing data." Genome research 20.9 (2010): 1297-1303.
 .. [#multiqcpaper] Ewels, Philip, et al. "MultiQC: summarize analysis results for multiple tools and samples in a single report." Bioinformatics 32.19 (2016): 3047-3048.
 .. [#snakemakepaper] Köster, Johannes, and Sven Rahmann. "Snakemake—a scalable bioinformatics workflow engine." Bioinformatics 28.19 (2012): 2520-2522.
+.. [#agatpaper] Dainat J. AGAT: Another Gff Analysis Toolkit to handle annotations in any GTF/GFF format.  (Version v0.7.0). Zenodo. https://www.doi.org/10.5281/zenodo.3552717
 
 .. _Sambamba: https://snakemake-wrappers.readthedocs.io/en/v2.13.0/wrappers/sambamba.html
 .. _Bowtie2: https://snakemake-wrappers.readthedocs.io/en/v2.13.0/wrappers/bowtie2.html
@@ -27,6 +33,7 @@ usage, and resutls can be found on the `Snakemake workflow`_ page.
 .. _Snakemake: https://snakemake.readthedocs.io
 .. _Github: https://github.com/tdayris/fair_bowtie2_mapping
 .. _`Snakemake workflow`: https://snakemake.github.io/snakemake-workflow-catalog?usage=tdayris/fair_bowtie2_mapping
+.. _Agat: https://agat.readthedocs.io/en/latest/index.html
 
 
 :Authors:

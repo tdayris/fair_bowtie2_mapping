@@ -1,3 +1,14 @@
+# 2.2.1
+
+## Features:
+
+* Speed-up with wildcards constraints
+
+## Fix:
+
+* snakemake wrappers version fixed
+
+
 # 2.2.0
 
 ## Features

@@ -58,14 +58,22 @@ else:
 
 snakemake.utils.validate(genomes, "../schemas/genomes.schema.yaml")
 
-snakemake_wrappers_version: str = "v2.13.0"
+snakemake_wrappers_version: str = "v3.0.0"
 
 
 report: "../report/workflows.rst"
 
 
+release_list: List[str] = list(set(genomes.release.tolist()))
+build_list: List[str] = list(set(genomes.build.tolist()))
+species_list: List[str] = list(set(genomes.species.tolist()))
+
+
 wildcard_constraints:
     sample=r"|".join(samples.sample_id),
+    release=r"|".join(release_list),
+    build=r"|".join(build_list),
+    species=r"|".join(species_list),
 
 
 def get_fastp_trimming_input(
