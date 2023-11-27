@@ -2,7 +2,7 @@ Matierial and methods
 =====================
 
 Genome information was download from Ensembl. Samtools_ [#samtoolspaper]_ 
-and Picard_ [#gatkpaper]_ were used to index genome sequences.
+and Picard_ [#picardpaper]_ were used to index genome sequences.
 Agat_ [#agatpaper]_ was used to correct common issues found in Ensembl
 genome annotation files.
 
@@ -24,6 +24,7 @@ usage, and resutls can be found on the `Snakemake workflow`_ page.
 .. [#multiqcpaper] Ewels, Philip, et al. "MultiQC: summarize analysis results for multiple tools and samples in a single report." Bioinformatics 32.19 (2016): 3047-3048.
 .. [#snakemakepaper] Köster, Johannes, and Sven Rahmann. "Snakemake—a scalable bioinformatics workflow engine." Bioinformatics 28.19 (2012): 2520-2522.
 .. [#agatpaper] Dainat J. AGAT: Another Gff Analysis Toolkit to handle annotations in any GTF/GFF format.  (Version v0.7.0). Zenodo. https://www.doi.org/10.5281/zenodo.3552717
+.. [#samtoolspaper] Li, Heng, et al. "The sequence alignment/map format and SAMtools." bioinformatics 25.16 (2009): 2078-2079.
 
 .. _Sambamba: https://snakemake-wrappers.readthedocs.io/en/v2.13.0/wrappers/sambamba.html
 .. _Bowtie2: https://snakemake-wrappers.readthedocs.io/en/v2.13.0/wrappers/bowtie2.html
@@ -34,9 +35,10 @@ usage, and resutls can be found on the `Snakemake workflow`_ page.
 .. _Github: https://github.com/tdayris/fair_bowtie2_mapping
 .. _`Snakemake workflow`: https://snakemake.github.io/snakemake-workflow-catalog?usage=tdayris/fair_bowtie2_mapping
 .. _Agat: https://agat.readthedocs.io/en/latest/index.html
+.. _Samtools: https://snakemake-wrappers.readthedocs.io/en/v3.0.0/wrappers/samtools/faidx.html
 
 
 :Authors:
     Thibault Dayris
 
-:Version: 2.2.0 of 11/27/2023
+:Version: 2.2.1 of 11/27/2023
