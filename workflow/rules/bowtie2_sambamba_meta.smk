@@ -93,7 +93,9 @@ use rule sambamba_index from bowtie2_sambamba with:
     input:
         "results/Mapping/{species}.{build}.{release}.{datatype}/{sample}.bam",
     output:
-        protected("results/Mapping/{species}.{build}.{release}.{datatype}/{sample}.bam.bai"),
+        protected(
+            "results/Mapping/{species}.{build}.{release}.{datatype}/{sample}.bam.bai"
+        ),
     log:
         "logs/sambamba/index/{species}.{build}.{release}.{datatype}/{sample}.log",
     benchmark:
