@@ -193,10 +193,10 @@ def get_multiqc_report_input(
         )
         if downstream_file:
             results["fastp"].append(f"tmp/fastp/report_pe/{sample}.json")
-            results["fastp"].append(f"tmp/fastp/report_pe/{sample}.html")
+            results["fastp"].append(f"results/QC/report_pe/{sample}.html")
         else:
             results["fastp"].append(f"tmp/fastp/report_se/{sample}.json")
-            results["fastp"].append(f"tmp/fastp/report_pe/{sample}.html")
+            results["fastp"].append(f"results/QC/report_se/{sample}.html")
 
     return results
 

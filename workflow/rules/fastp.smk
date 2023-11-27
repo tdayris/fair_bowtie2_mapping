@@ -29,5 +29,9 @@ rule fastp_trimming_pair_ended:
 use rule fastp_trimming_pair_ended as fastp_trimming_single_ended with:
     output:
         trimmed=temp("tmp/fastp/trimmed/{sample}.fastq"),
-        html=temp("tmp/fastp/report_se/{sample}.html"),
+        html=report(
+            "results/QC/report_se/{sample}.html",
+            caption="../report/fastp.rst",
+            category="Quality Controls",
+        ),
         json=temp("tmp/fastp/report_se/{sample}.json"),

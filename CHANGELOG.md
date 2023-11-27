@@ -1,8 +1,11 @@
-# Future
+# 2.2.0
 
 ## Features
 
 * fastp reports included in snakemake report
+* fair_genome_indexer pipeline version updated to 2.2.0
+* snakemake wrappers version updated to v3.0.0
+* Description of expected results with directoy architecture
 
 # 2.1.1
 

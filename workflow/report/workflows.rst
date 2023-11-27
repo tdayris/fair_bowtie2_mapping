@@ -8,7 +8,9 @@ controls were done using Picard_ [#picardpaper]_. Quality repord produced during
 trimming and mapping steps have been aggregated with MultiQC_ [#multiqcpaper]_. The 
 whole pipeline was powered by Snakemake_ [#snakemakepaper]_.
 
-This pipeline is freely available on Github_ 
+This pipeline is freely available on Github_, details about installation
+usage, and resutls can be found on the `Snakemake workflow`_ page.
+
 
 .. [#fastppaper] Chen, Shifu, et al. "fastp: an ultra-fast all-in-one FASTQ preprocessor." Bioinformatics 34.17 (2018): i884-i890.
 .. [#bowtie2paper] Langmead, Ben, and Steven L. Salzberg. "Fast gapped-read alignment with Bowtie 2." Nature methods 9.4 (2012): 357-359.
@@ -24,8 +26,10 @@ This pipeline is freely available on Github_
 .. _MultiQC: https://snakemake-wrappers.readthedocs.io/en/v2.13.0/wrappers/multiqc.html
 .. _Snakemake: https://snakemake.readthedocs.io
 .. _Github: https://github.com/tdayris/fair_bowtie2_mapping
+.. _`Snakemake workflow`: https://snakemake.github.io/snakemake-workflow-catalog?usage=tdayris/fair_bowtie2_mapping
+
 
 :Authors:
     Thibault Dayris
 
-:Version: 2.1.1 of 11/22/2023
+:Version: 2.2.0 of 11/27/2023

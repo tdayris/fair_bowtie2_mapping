@@ -5,21 +5,30 @@ Snakemake workflow used to align ungapped reads to the genome with Bowtie2.
 
 ## Usage
 
-The usage of this workflow is described in the [Snakemake workflow catalog](https://snakemake.github.io/snakemake-workflow-catalog?usage=tdayris/fair_bowtie2_mapping)
+The usage of this workflow is described in the [Snakemake workflow catalog](https://snakemake.github.io/snakemake-workflow-catalog?usage=tdayris/fair_bowtie2_mapping) it is also available [locally]() on a single page.
+ 
+## Results
 
-## Content
+A complete description of the results can be found here in [workflow reports]().
+
+## Material and Methods
+
+The tools used in this pipeline are described [here]() textually. Web-links are available below:
 
 ![workflow_rulegraph](dag.png)
 
-### Index and genome sequences
+### Index and genome sequences with [`fair_genome_indexer`](https://github.com/tdayris/fair_genome_indexer/tree/main)
 
-
-| Step                       | Pipeline                                               | Wrapper                                                                                                                              |
-| -------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| Download DNA Fasta         | [fair_genome_indexer](https://github.com/tdayris/fair_genome_indexer) | [ensembl-sequence](https://snakemake-wrappers.readthedocs.io/en/v2.13.0/wrappers/reference/ensembl-sequence.html)                    |
-| Download GTF annotation    | [fair_genome_indexer](https://github.com/tdayris/fair_genome_indexer) | [ensembl-sequence](https://snakemake-wrappers.readthedocs.io/en/v2.13.0/wrappers/reference/ensembl-sequence.html)                    |
-| Samtools fasta index       | [fair_genome_indexer](https://github.com/tdayris/fair_genome_indexer) | [ensembl-annotation](https://snakemake-wrappers.readthedocs.io/en/v2.13.0/wrappers/reference/ensembl-annotation.html)                |
-| Picard Sequence Dicitonary | [fair_genome_indexer](https://github.com/tdayris/fair_genome_indexer) | [picard-createsequencedictionary](https://snakemake-wrappers.readthedocs.io/en/v2.13.0/wrappers/picard/createsequencedictionary.html) |
+| Step                          | Wrapper - Script                                                                                                                              |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| Download DNA fasta            | [ensembl-sequence](https://snakemake-wrappers.readthedocs.io/en/v3.0.0/wrappers/reference/ensembl-sequence.html)                     |
+| Download cDNA fasta           | [ensembl-sequence](https://snakemake-wrappers.readthedocs.io/en/v3.0.0/wrappers/reference/ensembl-sequence.html)                     |
+| Download GTF annotation       | [ensembl-annotation](https://snakemake-wrappers.readthedocs.io/en/v3.0.0/wrappers/reference/ensembl-annotation.html)                 |
+| Samtools index fasta          | [samtools-faidx](https://snakemake-wrappers.readthedocs.io/en/v3.0.0/wrappers/samtools/faidx.html)                                   |
+| Picard sequence dictionary    | [picard-createsequencedictionary](https://snakemake-wrappers.readthedocs.io/en/v3.0.0/wrappers/picard/createsequencedictionary.html) |
+| Download VCF variation        | [ensembl-variation](https://snakemake-wrappers.readthedocs.io/en/v3.0.0/wrappers/reference/ensembl-variation.html)                   |
+| Fix Ensembl GTF common errors | [Agat](https://agat.readthedocs.io/en/latest/tools/agat_convert_sp_gff2gtf.html)                                                     |
+| Download known blacklist      | [Github source](https://github.com/Boyle-Lab/Blacklist/tree/master/lists) |
 
 ### Bowtie2 Mapping
 
@@ -37,3 +46,11 @@ The usage of this workflow is described in the [Snakemake workflow catalog](http
 | Sambamba-view    | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v2.13.0/meta-wrappers/bowtie2_sambamba.html) | [sambamba-view](https://snakemake-wrappers.readthedocs.io/en/v2.13.0/wrappers/sambamba/view.html)       |
 | Sambamba-markdup | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v2.13.0/meta-wrappers/bowtie2_sambamba.html) | [sambamba-markdup](https://snakemake-wrappers.readthedocs.io/en/v2.13.0/wrappers/sambamba/markdup.html) |
 | Sambamba-index   | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v2.13.0/meta-wrappers/bowtie2_sambamba.html) | [sambamba-index](https://snakemake-wrappers.readthedocs.io/en/v2.13.0/wrappers/sambamba/index.html)     |
+
+
+### QC
+
+| Step    | Wrapper                                                                                                                          |
+| ------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| Picard  | [picard-collectmultiplemetrics](https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/picard/collectmultiplemetrics.html) |
+| MultiQC | [multiqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/multiqc.html) |
