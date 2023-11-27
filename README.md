@@ -9,11 +9,11 @@ The usage of this workflow is described in the [Snakemake workflow catalog](http
  
 ## Results
 
-A complete description of the results can be found here in [workflow reports]().
+A complete description of the results can be found here in [workflow reports](https://github.com/tdayris/fair_bowtie2_mapping/blob/main/workflow/report/results.rst).
 
 ## Material and Methods
 
-The tools used in this pipeline are described [here]() textually. Web-links are available below:
+The tools used in this pipeline are described [here](https://github.com/tdayris/fair_bowtie2_mapping/blob/main/workflow/report/workflows.rst) textually. Web-links are available below:
 
 ![workflow_rulegraph](dag.png)
 

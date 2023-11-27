@@ -9,3 +9,5 @@
 .test/tmp
 .test/results
 .test/dag.png
+.test/report.txt
+.test/genomes.csv
