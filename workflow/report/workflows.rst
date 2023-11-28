@@ -16,21 +16,20 @@ whole pipeline was powered by Snakemake_ [#snakemakepaper]_.
 This pipeline is freely available on Github_, details about installation
 usage, and resutls can be found on the `Snakemake workflow`_ page.
 
-
+.. [#samtoolspaper] Li, Heng, et al. "The sequence alignment/map format and SAMtools." bioinformatics 25.16 (2009): 2078-2079.
+.. [#picardpaper] McKenna, Aaron, et al. "The Genome Analysis Toolkit: a MapReduce framework for analyzing next-generation DNA sequencing data." Genome research 20.9 (2010): 1297-1303.
+.. [#agatpaper] Dainat J. AGAT: Another Gff Analysis Toolkit to handle annotations in any GTF/GFF format.  (Version v0.7.0). Zenodo. https://www.doi.org/10.5281/zenodo.3552717
 .. [#fastppaper] Chen, Shifu, et al. "fastp: an ultra-fast all-in-one FASTQ preprocessor." Bioinformatics 34.17 (2018): i884-i890.
 .. [#bowtie2paper] Langmead, Ben, and Steven L. Salzberg. "Fast gapped-read alignment with Bowtie 2." Nature methods 9.4 (2012): 357-359.
 .. [#sambambapaper] Tarasov, Artem, et al. "Sambamba: fast processing of NGS alignment formats." Bioinformatics 31.12 (2015): 2032-2034.
-.. [#picardpaper] McKenna, Aaron, et al. "The Genome Analysis Toolkit: a MapReduce framework for analyzing next-generation DNA sequencing data." Genome research 20.9 (2010): 1297-1303.
 .. [#multiqcpaper] Ewels, Philip, et al. "MultiQC: summarize analysis results for multiple tools and samples in a single report." Bioinformatics 32.19 (2016): 3047-3048.
 .. [#snakemakepaper] Köster, Johannes, and Sven Rahmann. "Snakemake—a scalable bioinformatics workflow engine." Bioinformatics 28.19 (2012): 2520-2522.
-.. [#agatpaper] Dainat J. AGAT: Another Gff Analysis Toolkit to handle annotations in any GTF/GFF format.  (Version v0.7.0). Zenodo. https://www.doi.org/10.5281/zenodo.3552717
-.. [#samtoolspaper] Li, Heng, et al. "The sequence alignment/map format and SAMtools." bioinformatics 25.16 (2009): 2078-2079.
 
-.. _Sambamba: https://snakemake-wrappers.readthedocs.io/en/v2.13.0/wrappers/sambamba.html
-.. _Bowtie2: https://snakemake-wrappers.readthedocs.io/en/v2.13.0/wrappers/bowtie2.html
-.. _Fastp: https://snakemake-wrappers.readthedocs.io/en/v2.13.0/wrappers/fastp.html
-.. _Picard: https://snakemake-wrappers.readthedocs.io/en/v2.13.0/wrappers/picard/collectmultiplemetrics.html
-.. _MultiQC: https://snakemake-wrappers.readthedocs.io/en/v2.13.0/wrappers/multiqc.html
+.. _Sambamba: https://snakemake-wrappers.readthedocs.io/en/v3.0.0/wrappers/sambamba.html
+.. _Bowtie2: https://snakemake-wrappers.readthedocs.io/en/v3.0.0/wrappers/bowtie2.html
+.. _Fastp: https://snakemake-wrappers.readthedocs.io/en/v3.0.0/wrappers/fastp.html
+.. _Picard: https://snakemake-wrappers.readthedocs.io/en/v3.0.0/wrappers/picard/collectmultiplemetrics.html
+.. _MultiQC: https://snakemake-wrappers.readthedocs.io/en/v3.0.0/wrappers/multiqc.html
 .. _Snakemake: https://snakemake.readthedocs.io
 .. _Github: https://github.com/tdayris/fair_bowtie2_mapping
 .. _`Snakemake workflow`: https://snakemake.github.io/snakemake-workflow-catalog?usage=tdayris/fair_bowtie2_mapping
