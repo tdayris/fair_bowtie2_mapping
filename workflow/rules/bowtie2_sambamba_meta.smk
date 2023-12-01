@@ -7,7 +7,7 @@ module bowtie2_sambamba:
 
 use rule bowtie2_build from bowtie2_sambamba with:
     input:
-        ref="reference/{species}.{build}.{release}.{datatype}.fasta",
+        unpack(get_bowtie2_build_input),
     output:
         multiext(
             "reference/{species}.{build}.{release}.{datatype}",

@@ -22,6 +22,6 @@ rule picard_create_multiple_metrics:
     benchmark:
         "benchmark/picard/collectmultiplemetrics/{species}.{build}.{release}.{datatype}/{sample}.tsv"
     params:
-        extra=config.get("params", {}).get("picard", {}).get("", ""),
+        extra=config.get("params", {}).get("picard", {}).get("metrics", ""),
     wrapper:
         f"{snakemake_wrappers_version}/bio/picard/collectmultiplemetrics"

@@ -3,6 +3,7 @@ import pandas
 import snakemake
 import snakemake.utils
 
+from collections import defaultdict
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
 
@@ -33,6 +34,7 @@ samples: pandas.DataFrame = pandas.read_csv(
     comment="#",
     dtype=str,
 )
+samples = samples.where(samples.notnull(), None)
 snakemake.utils.validate(samples, "../schemas/samples.schema.yaml")
 
 # This is here for compatibility with
@@ -50,6 +52,7 @@ if genome_table_path:
         comment="#",
         dtype=str,
     )
+    genomes = genomes.where(genomes.notnull(), None)
 else:
     genomes: pandas.DataFrame = samples[
         ["species", "build", "release"]
@@ -77,6 +80,48 @@ wildcard_constraints:
     species=r"|".join(species_list),
 
 
+def get_reference_genome_data(
+    wildcards: snakemake.io.Wildcards, genomes: pandas.DataFrame
+) -> Dict[str, Optional[str]]:
+    """
+    Return genome information for a given set of {species, build, release} wildcards
+
+    Parameters:
+    wildcards (snakemake.io.Wildcards): Required for snakemake unpacking function
+    genomes   (pandas.DataFrame)      : Describe genomes and reference file(s)
+
+    Return (Dict[str, Optional[str]]):
+    Genome information
+    """
+    result: Optional[str] = genomes.loc[
+        (genomes["species"] == str(wildcards.species))
+        & (genomes["build"] == str(wildcards.build))
+        & (genomes["release"] == str(wildcards.release))
+    ]
+    if len(result) > 0:
+        return next(iter(result.to_dict(orient="index").values()))
+    return defaultdict(lambda: None)
+
+
+def get_sample_information(
+    wildcards: snakemake.io.Wildcards, samples: pandas.DataFrame
+) -> Dict[str, Optional[str]]:
+    """
+    Return sample information for a given {sample} wildcards
+
+    Parameters:
+    wildcards (snakemake.io.Wildcards): Required for snakemake unpacking function
+    samples   (pandas.DataFrame)      : Describe samples and their input files
+
+    Return (Dict[str, Optional[str]]):
+    Sample information
+    """
+    result: Optional[str] = samples.loc[(samples["sample_id"] == str(wildcards.sample))]
+    if len(result) > 0:
+        return next(iter(result.to_dict(orient="index").values()))
+    return defaultdict(lambda: None)
+
+
 def get_fastp_trimming_input(
     wildcards: snakemake.io.Wildcards,
     samples: pandas.DataFrame = samples,
@@ -94,24 +139,49 @@ def get_fastp_trimming_input(
     Return (Dict[str, List[str]]):
     Dictionnary of all input files as required by Fastp's snakemake-wrapper
     """
-    sample_data: Dict[str, str] = samples[
-        samples.sample_id == str(wildcards.sample)
-    ].to_dict(orient="index")[0]
+    sample_data: Dict[str, Optional[str]] = get_sample_information(wildcards, samples)
     downstream_file = sample_data.get("downstream_file")
-    if downstream_file:
+    if downstream_file or not pandas.isna(downstream_file):
         return {
             "sample": [sample_data["upstream_file"], downstream_file],
         }
+    
     return {
         "sample": [sample_data["upstream_file"]],
     }
+
+
+def get_bowtie2_build_input(
+    wildcards: snakemake.io.Wildcards, genomes: pandas.DataFrame = genomes
+):
+    """
+    Return expected input files for Bowtie2 indexing, according to user-input,
+    and snakemake-wrapper requirements
+
+    Parameters:
+    wildcards (snakemake.io.Wildcards): Required for snakemake unpacking function
+    genomes   (pandas.DataFrame)      : Describe genomes and reference file(s)
+
+    Return (Dict[str, str]):
+    Dictionnary of all input files as required by Bowtie2's snakemake-wrapper
+    """
+    species: str = str(wildcards["species"])
+    build: str = str(wildcards["build"])
+    release: str = str(wildcards["release"])
+    datatype: str = "dna"
+
+    idx = get_reference_genome_data(wildcards, genomes)
+    if idx.get("fasta"):
+        return {"ref": idx}
+    else:
+        return {"ref": f"reference/{species}.{build}.{release}.{datatype}.fasta"}
 
 
 def get_bowtie2_alignment_input(
     wildcards: snakemake.io.Wildcards,
     samples: pandas.DataFrame = samples,
     config: Dict[str, Any] = config,
-    genome: pandas.DataFrame = genomes,
+    genomes: pandas.DataFrame = genomes,
 ) -> Dict[str, Union[Dict[str, str], str]]:
     """
     Return expected input files for Bowtie2 mapping, according to user-input,
@@ -125,25 +195,21 @@ def get_bowtie2_alignment_input(
     Return (Dict[str, Union[Dict[str, str], str]]):
     Dictionnary of all input files as required by Bowtie2's snakemake-wrapper
     """
-    sample_data: Dict[str, str] = samples[
-        samples.sample_id == str(wildcards.sample)
-    ].to_dict(orient="index")[0]
+    sample_data: Dict[str, Optional[str]] = get_sample_information(wildcards, samples)
+    if not sample_data:
+        raise KeyError(
+            f"Could not find sample {str(wildcards.sample)} in the sample.csv file."
+        )
+
     species: str = str(sample_data["species"])
     build: str = str(sample_data["build"])
     release: str = str(sample_data["release"])
     datatype: str = "dna"
 
-    idx: Optional[str] = (
-        genomes.loc[
-            (genomes["species"] == species)
-            & (genomes["build"] == build)
-            & (genomes["release"] == release)
-        ]
-        .to_dict(orient="index")[0]
-        .get("bowtie2_index")
-    )
-
-    if idx is None or idx == "":
+    idx: Dict[str, Optional[str]] = get_reference_genome_data(wildcards, genomes)
+    if idx.get("bowtie2_index"):
+        idx = [str(file) for file in Path(idx) if str(file).endswith(".bt2")]
+    else:
         idx = multiext(
             f"reference/{species}.{build}.{release}.{datatype}",
             ".1.bt2",
@@ -153,8 +219,6 @@ def get_bowtie2_alignment_input(
             ".rev.1.bt2",
             ".rev.2.bt2",
         )
-    else:
-        idx = [str(file) for file in Path(idx) if str(file).endswith(".bt2")]
 
     results: Dict[str, List[str]] = {
         "idx": idx,
@@ -187,7 +251,7 @@ def get_multiqc_report_input(
     Return (Dict[str, List[str]]):
     Dictionnary of all input files as required by MultiQC's snakemake-wrapper
     """
-    results: Dict[str, List[str]] = {"picard_qc": [], "fastp": []}
+    results: Dict[str, List[str]] = {"picard_qc": [], "fastp": [], "bowtie2": []}
     datatype: str = "dna"
     sample_iterator = zip(
         samples.sample_id,
@@ -207,17 +271,22 @@ def get_multiqc_report_input(
             ".gc_bias.summary_metrics",
             ".gc_bias.pdf",
         )
-        downstream_file: Optional[str] = (
-            samples[samples.sample_id == sample]
-            .to_dict(orient="index")[0]
-            .get("downstream_file")
+        sample_data: Dict[str, Optional[str]] = get_sample_information(
+            snakemake.io.Wildcards(fromdict={"sample": sample}), samples
         )
-        if downstream_file:
+        if sample_data.get("downstream_file"):
             results["fastp"].append(f"tmp/fastp/report_pe/{sample}.json")
             results["fastp"].append(f"results/QC/report_pe/{sample}.html")
+            # results["fastp"].append(f"tmp/fastp/trimmed/{sample}.1.fastq")
+            # results["fastp"].append(f"tmp/fastp/trimmed/{sample}.2.fastq")
         else:
             results["fastp"].append(f"tmp/fastp/report_se/{sample}.json")
             results["fastp"].append(f"results/QC/report_se/{sample}.html")
+            # results["fastp"].append(f"tmp/fastp/trimmed/{sample}.fastq")
+
+        results[
+            "bowtie2"
+        ] = f"logs/bowtie2/align/{species}.{build}.{release}.{datatype}/{sample}.log"
 
     return results
 

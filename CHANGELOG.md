@@ -1,3 +1,17 @@
+# 2.2.4
+
+## Features:
+
+* reduce size of configuration provided to fair_genome_indexer
+* Include Bowtie2 metrics to MultiQC report
+
+## Fix:
+
+* Fix picard metrics extra parameter missing
+* `genomes` not found while importing workflow as module
+* Bowtie2-build now takes fasta, if fasta is provided and no bowtie2 index is provided
+* Single-end error when mixed single-ended/pair-ended samples were mixed in design
+
 # 2.2.3
 
 ## Features:
