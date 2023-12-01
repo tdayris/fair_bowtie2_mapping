@@ -145,7 +145,7 @@ def get_fastp_trimming_input(
         return {
             "sample": [sample_data["upstream_file"], downstream_file],
         }
-    
+
     return {
         "sample": [sample_data["upstream_file"]],
     }

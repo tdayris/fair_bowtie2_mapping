@@ -12,6 +12,10 @@ include: "rules/picard_metrics.smk"
 include: "rules/multiqc.smk"
 
 
-use rule target from fair_genome_indexer with:
+rule fair_bowtie2_mapping_target:
     input:
         unpack(get_targets),
+    log:
+        "logs/fair_bowtie2_mapping_target.log"
+    benchmark:
+        "benchmark/fair_bowtie2_mapping_target.tsv"
