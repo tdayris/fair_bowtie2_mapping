@@ -16,6 +16,6 @@ rule fair_bowtie2_mapping_target:
     input:
         unpack(get_targets),
     log:
-        "logs/fair_bowtie2_mapping_target.log"
+        "logs/fair_bowtie2_mapping_target.log",
     benchmark:
         "benchmark/fair_bowtie2_mapping_target.tsv"
