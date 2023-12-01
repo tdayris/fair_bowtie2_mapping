@@ -1,3 +1,10 @@
+# 2.2.3
+
+## Features:
+
+* Conditionally load fair_genome_indexer
+* Let user provide annotation files
+
 # 2.2.2
 
 ## Features:

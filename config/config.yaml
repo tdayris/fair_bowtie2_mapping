@@ -15,3 +15,11 @@ samples: config/samples.csv
 #   picard:
 #     # Mapping QC optional parameters
 #     metrics: ""
+
+# Optional path to a `genome.csv` file
+# genomes: genome.csv
+
+# Internal use only, not described in documentation.
+# deactivate import of fair_genome_indexer pipeline.
+# Requires the file `genome.csv` to be filled.
+# load_fair_genome_indexer: true

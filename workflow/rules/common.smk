@@ -3,6 +3,7 @@ import pandas
 import snakemake
 import snakemake.utils
 
+from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
 
 snakemake.utils.min_version("7.29.0")
@@ -110,6 +111,7 @@ def get_bowtie2_alignment_input(
     wildcards: snakemake.io.Wildcards,
     samples: pandas.DataFrame = samples,
     config: Dict[str, Any] = config,
+    genome: pandas.DataFrame = genomes,
 ) -> Dict[str, Union[Dict[str, str], str]]:
     """
     Return expected input files for Bowtie2 mapping, according to user-input,
@@ -131,8 +133,17 @@ def get_bowtie2_alignment_input(
     release: str = str(sample_data["release"])
     datatype: str = "dna"
 
-    idx: Optional[str] = config.get("resources", {}).get("bowtie2_index")
-    if not idx:
+    idx: Optional[str] = (
+        genomes.loc[
+            (genomes["species"] == species)
+            & (genomes["build"] == build)
+            & (genomes["release"] == release)
+        ]
+        .to_dict(orient="index")[0]
+        .get("bowtie2_index")
+    )
+
+    if idx is None or idx == "":
         idx = multiext(
             f"reference/{species}.{build}.{release}.{datatype}",
             ".1.bt2",
@@ -142,6 +153,8 @@ def get_bowtie2_alignment_input(
             ".rev.1.bt2",
             ".rev.2.bt2",
         )
+    else:
+        idx = [str(file) for file in Path(idx) if str(file).endswith(".bt2")]
 
     results: Dict[str, List[str]] = {
         "idx": idx,

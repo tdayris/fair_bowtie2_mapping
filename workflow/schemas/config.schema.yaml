@@ -10,6 +10,11 @@ genomes:
   description: Path to the CSV file defining genome properties
 
 
+load_fair_genome_indexer:
+  type: boolean
+  description: Load (or not) the fair_genome_indexer pipeline
+
+
 samples:
   type: string
   description: Path to the CSV file defining samples and their corresponding fastq paths

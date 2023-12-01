@@ -1,6 +1,12 @@
 include: "rules/common.smk"
 include: "rules/fastp.smk"
-include: "rules/fair_genome_indexer_pipeline.smk"
+
+
+if config.get("load_fair_genome_indexer", True):
+
+    include: "rules/fair_genome_indexer_pipeline.smk"
+
+
 include: "rules/bowtie2_sambamba_meta.smk"
 include: "rules/picard_metrics.smk"
 include: "rules/multiqc.smk"
