@@ -58,11 +58,12 @@ linter.txt:
 clean:
 	rm -rv linter.txt \
 		   format.txt \
-		   pipeline_pair_ended.txt \
-		   pipeline_single_ended.txt \
-		   pipeline_complex.txt \
 		   reference \
 		   results \
 		   tmp \
 		   logs \
-		   benchmark
+		   benchmark \
+		   report.html \
+		   report.txt \
+		   pipeline.txt \
+		   genomes.csv \

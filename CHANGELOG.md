@@ -3,6 +3,7 @@
 ## Features:
 
 * Documentation update
+* Rename loaded rules from fair_genome_indexer rule to indetify them
 
 # 2.2.1
 

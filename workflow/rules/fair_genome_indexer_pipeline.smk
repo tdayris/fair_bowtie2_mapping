@@ -5,4 +5,4 @@ module fair_genome_indexer:
         config
 
 
-use rule * from fair_genome_indexer
+use rule * from fair_genome_indexer as fair_genome_indexer_*
