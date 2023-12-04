@@ -3,5 +3,5 @@ directly on the pipeline github_ page.
 
 .. _guthub: https://snakemake.github.io/snakemake-workflow-catalog?usage=tdayris/fair_bowtie2_mapping
 
-.. _`Materiel and Methods`: https://github.com/tdayris/fair_bowtie2_mapping/blob/main/workflow/reports/material_methods.rst
-.. _`results description`: https://github.com/tdayris/fair_bowtie2_mapping/blob/main/workflow/reports/results.rst
+.. _`Materiel and Methods`: https://github.com/tdayris/fair_bowtie2_mapping/blob/main/workflow/report/material_methods.rst
+.. _`results description`: https://github.com/tdayris/fair_bowtie2_mapping/blob/main/workflow/report/results.rst
