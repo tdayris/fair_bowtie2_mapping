@@ -1,3 +1,9 @@
+# 2.2.5
+
+## Fix:
+
+* Report main page too large
+
 # 2.2.4
 
 ## Features:
