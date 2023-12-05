@@ -13,7 +13,7 @@ A complete description of the results can be found here in [workflow reports](ht
 
 ## Material and Methods
 
-The tools used in this pipeline are described [here](https://github.com/tdayris/fair_bowtie2_mapping/blob/main/workflow/report/workflows.rst) textually. Web-links are available below:
+The tools used in this pipeline are described [here](https://github.com/tdayris/fair_bowtie2_mapping/blob/main/workflow/report/material_methods.rst) textually. Web-links are available below:
 
 ![workflow_rulegraph](dag.png)
 
@@ -50,7 +50,8 @@ The tools used in this pipeline are described [here](https://github.com/tdayris/
 
 ### QC
 
-| Step    | Wrapper                                                                                                                          |
-| ------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| Picard  | [picard-collectmultiplemetrics](https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/picard/collectmultiplemetrics.html) |
-| MultiQC | [multiqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/multiqc.html) |
+| Step     | Wrapper                                                                                                                          |
+| -------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| Picard   | [picard-collectmultiplemetrics](https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/picard/collectmultiplemetrics.html) |
+| Samtools | [samtools-stats](https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/samtools/stats.html)                               |
+| MultiQC  | [multiqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/multiqc.html)                                     |

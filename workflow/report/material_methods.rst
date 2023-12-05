@@ -9,8 +9,9 @@ genome annotation files.
 Raw fastq files were trimmed using Fastp_ [#fastppaper]_ . Cleaned reads were aligned 
 over indexed Ensembl genome with Bowtie2_ [#bowtie2paper]_. Sambamba_ [#sambambapaper]_ 
 was used to sort, filter, mark duplicates, and compress aligned reads. Quality 
-controls were done using Picard_ [#picardpaper]_. Quality repord produced during both
-trimming and mapping steps have been aggregated with MultiQC_ [#multiqcpaper]_. The 
+controls were done on cleaned, sorted, deduplicated aligned reads using 
+Picard_ [#picardpaper]_ and Samtools_ [#samtoolspaper]_. Quality repord produced during 
+both trimming and mapping steps have been aggregated with MultiQC_ [#multiqcpaper]_. The 
 whole pipeline was powered by Snakemake_ [#snakemakepaper]_.
 
 This pipeline is freely available on Github_, details about installation
