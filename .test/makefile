@@ -12,6 +12,7 @@ snakefiles := \
 	"../workflow/rules/multiqc.smk" \
 	"../workflow/rules/fastp.smk" \
 	"../workflow/rules/picard_metrics.smk" \
+	"../workflow/rules/samtools_stats.smk" \
 	"../workflow/rules/fair_genome_indexer_pipeline.smk" \
 	"../workflow/rules/common.smk" \
 	"../workflow/Snakefile"

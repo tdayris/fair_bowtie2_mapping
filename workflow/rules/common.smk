@@ -251,7 +251,12 @@ def get_multiqc_report_input(
     Return (Dict[str, List[str]]):
     Dictionnary of all input files as required by MultiQC's snakemake-wrapper
     """
-    results: Dict[str, List[str]] = {"picard_qc": [], "fastp": [], "bowtie2": []}
+    results: Dict[str, List[str]] = {
+        "picard_qc": [],
+        "fastp": [],
+        "bowtie2": [],
+        "samtools": [],
+    }
     datatype: str = "dna"
     sample_iterator = zip(
         samples.sample_id,
@@ -275,18 +280,17 @@ def get_multiqc_report_input(
             snakemake.io.Wildcards(fromdict={"sample": sample}), samples
         )
         if sample_data.get("downstream_file"):
-            results["fastp"].append(f"tmp/fastp/report_pe/{sample}.json")
-            results["fastp"].append(f"results/QC/report_pe/{sample}.html")
-            # results["fastp"].append(f"tmp/fastp/trimmed/{sample}.1.fastq")
-            # results["fastp"].append(f"tmp/fastp/trimmed/{sample}.2.fastq")
+            results["fastp"].append(f"tmp/fastp/report_pe/{sample}.fastp.json")
         else:
-            results["fastp"].append(f"tmp/fastp/report_se/{sample}.json")
-            results["fastp"].append(f"results/QC/report_se/{sample}.html")
-            # results["fastp"].append(f"tmp/fastp/trimmed/{sample}.fastq")
+            results["fastp"].append(f"tmp/fastp/report_se/{sample}.fastp.json")
 
-        results[
-            "bowtie2"
-        ] = f"logs/bowtie2/align/{species}.{build}.{release}.{datatype}/{sample}.log"
+        results["bowtie2"].append(
+            f"logs/bowtie2/align/{species}.{build}.{release}.{datatype}/{sample}.log"
+        )
+
+        results["samtools"].append(
+            f"tmp/samtools/{species}.{build}.{release}.{datatype}/{sample}.txt"
+        )
 
     return results
 

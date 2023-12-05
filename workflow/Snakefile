@@ -9,6 +9,7 @@ if config.get("load_fair_genome_indexer", True):
 
 include: "rules/bowtie2_sambamba_meta.smk"
 include: "rules/picard_metrics.smk"
+include: "rules/samtools_stats.smk"
 include: "rules/multiqc.smk"
 
 

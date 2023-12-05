@@ -1,8 +1,15 @@
 # 2.2.5
 
+## Features:
+
+* Update fair_genome_indexer to version 2.3.0
+* Samtools stats added to report
+
 ## Fix:
 
 * Report main page too large
+* Fix error removing Bowtie2 QC from MultiQC report
+* Fix error making fastp reports non reachable in MultiQC
 
 # 2.2.4
 

@@ -14,7 +14,7 @@ rule fastp_trimming_pair_ended:
             caption="../report/fastp.rst",
             category="Quality Controls",
         ),
-        json=temp("tmp/fastp/report_pe/{sample}.json"),
+        json=temp("tmp/fastp/report_pe/{sample}.fastp.json"),
     log:
         "logs/fastp/{sample}.log",
     benchmark:
@@ -34,4 +34,4 @@ use rule fastp_trimming_pair_ended as fastp_trimming_single_ended with:
             caption="../report/fastp.rst",
             category="Quality Controls",
         ),
-        json=temp("tmp/fastp/report_se/{sample}.json"),
+        json=temp("tmp/fastp/report_se/{sample}.fastp.json"),
