@@ -15,6 +15,7 @@ snakefiles := \
 	"../workflow/rules/samtools_stats.smk" \
 	"../workflow/rules/fair_genome_indexer_pipeline.smk" \
 	"../workflow/rules/common.smk" \
+	"../workflow/rules/fastqc.smk" \
 	"../workflow/Snakefile"
 
 

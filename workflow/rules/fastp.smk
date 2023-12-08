@@ -13,6 +13,12 @@ rule fastp_trimming_pair_ended:
             "results/QC/report_pe/{sample}.html",
             caption="../report/fastp.rst",
             category="Quality Controls",
+            subcategory="Trimming",
+            labels={
+                "report": "html",
+                "sample": "{sample}",
+                "library": "pair_ended",
+            },
         ),
         json=temp("tmp/fastp/report_pe/{sample}.fastp.json"),
     log:
@@ -33,5 +39,11 @@ use rule fastp_trimming_pair_ended as fastp_trimming_single_ended with:
             "results/QC/report_se/{sample}.html",
             caption="../report/fastp.rst",
             category="Quality Controls",
+            subcategory="Trimming",
+            labels={
+                "report": "html",
+                "sample": "{sample}",
+                "library": "single_ended",
+            },
         ),
         json=temp("tmp/fastp/report_se/{sample}.fastp.json"),

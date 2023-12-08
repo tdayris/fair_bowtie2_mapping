@@ -58,7 +58,9 @@ the following files are present:
     └── QC
         ├── MultiQC_data.zip
         ├── MultiQC.html
-        └── report_pe
+        ├── report_pe
+        │   └── YYY.html
+        └── report_se
             └── YYY.html
 
 

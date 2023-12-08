@@ -1,8 +1,6 @@
 rule picard_create_multiple_metrics:
     input:
-        bam="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam",
-        bai="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam.bai",
-        ref="reference/{species}.{build}.{release}.{datatype}.fasta",
+        unpack(get_picard_create_multiple_metrics_input),
     output:
         temp(
             multiext(

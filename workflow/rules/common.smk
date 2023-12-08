@@ -151,6 +151,31 @@ def get_fastp_trimming_input(
     }
 
 
+def get_fastqc_input(
+    wildcards: snakemake.io.Wildcards, samples: pandas.DataFrame = samples
+) -> str:
+    """
+    Return expected input files for FastQC, according to user-input,
+    and snakemake-wrapper requirements
+
+    Parameters:
+    wildcards (snakemake.io.Wildcards): Required for snakemake unpacking function
+    samples   (pandas.DataFrame)      : Describe samples and their genome
+
+    Return (str):
+    Path to a fastq file, as required by FastQC's snakemake-wrapper
+    """
+    sample_data: Dict[str, Optional[str]] = get_sample_information(wildcards, samples)
+    downstream_file = sample_data.get("downstream_file")
+    if "stream" in wildcards.keys():
+        if wildcards.stream == "1":
+            return {"fastq": sample_data["upstream_file"]}
+        elif wildcards.stream == "2" and downstream_file:
+            return {"fastq": sample_data["downstream_file"]}
+        raise ValueError("Could not guess which fastq we're talking about")
+    return {"fastq": sample_data["upstream_file"]}
+
+
 def get_bowtie2_build_input(
     wildcards: snakemake.io.Wildcards, genomes: pandas.DataFrame = genomes
 ):
@@ -170,8 +195,8 @@ def get_bowtie2_build_input(
     release: str = str(wildcards["release"])
     datatype: str = "dna"
 
-    idx = get_reference_genome_data(wildcards, genomes)
-    if idx.get("fasta"):
+    idx = get_reference_genome_data(wildcards, genomes).get("fasta")
+    if idx:
         return {"ref": idx}
     else:
         return {"ref": f"reference/{species}.{build}.{release}.{datatype}.fasta"}
@@ -206,8 +231,10 @@ def get_bowtie2_alignment_input(
     release: str = str(sample_data["release"])
     datatype: str = "dna"
 
-    idx: Dict[str, Optional[str]] = get_reference_genome_data(wildcards, genomes)
-    if idx.get("bowtie2_index"):
+    idx: Dict[str, Optional[str]] = get_reference_genome_data(wildcards, genomes).get(
+        "bowtie2_index"
+    )
+    if idx:
         idx = [str(file) for file in Path(idx) if str(file).endswith(".bt2")]
     else:
         idx = multiext(
@@ -237,6 +264,37 @@ def get_bowtie2_alignment_input(
     return results
 
 
+def get_picard_create_multiple_metrics_input(
+    wildcards: snakemake.io.Wildcards, genomes: pandas.DataFrame = genomes
+) -> Dict[str, str]:
+    """
+    Return expected input files for Picard CreateMultipleMetrics, according to user-input,
+    and snakemake-wrapper requirements
+
+    Parameters:
+    wildcards (snakemake.io.Wildcards): Required for snakemake unpacking function
+    samples   (pandas.DataFrame)      : Describe sample names and related paths/genome
+    genomes   (pandas.DataFrame)      : Describe genome
+
+    Return (Dict[str, str]):
+    Dictionnary of all input files as required by Picard's snakemake-wrapper
+    """
+    species: str = str(wildcards.species)
+    build: str = str(wildcards.build)
+    release: str = str(wildcards.release)
+    datatype: str = "dna"
+    sample: str = str(wildcards.sample)
+    idx: Dict[str, Optional[str]] = get_reference_genome_data(wildcards, genomes).get(
+        "fasta"
+    )
+
+    return {
+        "bam": f"results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam",
+        "bai": f"results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam.bai",
+        "ref": idx or f"reference/{species}.{build}.{release}.{datatype}.fasta",
+    }
+
+
 def get_multiqc_report_input(
     wildcards: snakemake.io.Wildcards, samples: pandas.DataFrame = samples
 ) -> Dict[str, List[str]]:
@@ -254,6 +312,7 @@ def get_multiqc_report_input(
     results: Dict[str, List[str]] = {
         "picard_qc": [],
         "fastp": [],
+        "fastqc": [],
         "bowtie2": [],
         "samtools": [],
     }
@@ -281,8 +340,11 @@ def get_multiqc_report_input(
         )
         if sample_data.get("downstream_file"):
             results["fastp"].append(f"tmp/fastp/report_pe/{sample}.fastp.json")
+            results["fastqc"].append(f"results/QC/report_pe/{sample}.1_fastqc.zip")
+            results["fastqc"].append(f"results/QC/report_pe/{sample}.2_fastqc.zip")
         else:
             results["fastp"].append(f"tmp/fastp/report_se/{sample}.fastp.json")
+            results["fastqc"].append(f"results/QC/report_pe/{sample}_fastqc.zip")
 
         results["bowtie2"].append(
             f"logs/bowtie2/align/{species}.{build}.{release}.{datatype}/{sample}.log"
@@ -295,7 +357,7 @@ def get_multiqc_report_input(
     return results
 
 
-def get_targets(
+def get_fair_bowtie2_mapping_target(
     wildcards: snakemake.io.Wildcards,
     samples: pandas.DataFrame = samples,
     config: Dict[str, Any] = config,

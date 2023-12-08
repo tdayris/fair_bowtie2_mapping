@@ -1,5 +1,6 @@
 include: "rules/common.smk"
 include: "rules/fastp.smk"
+include: "rules/fastqc.smk"
 
 
 if config.get("load_fair_genome_indexer", True):
@@ -15,7 +16,10 @@ include: "rules/multiqc.smk"
 
 rule fair_bowtie2_mapping_target:
     input:
-        unpack(get_targets),
+        unpack(get_fair_bowtie2_mapping_target),
+    output:
+        touch("tmp/targets/fair_bowtie2_mapping_target.flag"),
+    localrule: True
     log:
         "logs/fair_bowtie2_mapping_target.log",
     benchmark:

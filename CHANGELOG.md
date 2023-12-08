@@ -1,3 +1,13 @@
+# 2.2.6
+
+## Features:
+
+* FastQC in addition to pre-trimming fastp
+
+## Fix:
+
+* Fix wrong reference linking in picard
+
 # 2.2.5
 
 ## Features:

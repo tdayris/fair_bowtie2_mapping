@@ -6,6 +6,10 @@ rule multiqc_report:
             "results/QC/MultiQC.html",
             caption="../report/multiqc.rst",
             category="Quality Controls",
+            subcategory="General",
+            labels={
+                "report": "html",
+            },
         ),
         "results/QC/MultiQC_data.zip",
     params:
