@@ -3,9 +3,9 @@
 usage:
   mandatory-flags:
     desc: Align ungapped reads to the genome with Bowtie2
-    flags: FAIR Bowtie2 Sambamba Snakemake Ensembl
+    flags:
   software-stack-deployment:
     conda: true
-    singularity: true
-    singularity+conda: true
+    singularity: false
+    singularity+conda: false
   report: true

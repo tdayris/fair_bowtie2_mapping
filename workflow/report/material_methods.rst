@@ -28,17 +28,17 @@ usage, and resutls can be found on the `Snakemake workflow`_ page.
 .. [#multiqcpaper] Ewels, Philip, et al. "MultiQC: summarize analysis results for multiple tools and samples in a single report." Bioinformatics 32.19 (2016): 3047-3048.
 .. [#snakemakepaper] Köster, Johannes, and Sven Rahmann. "Snakemake—a scalable bioinformatics workflow engine." Bioinformatics 28.19 (2012): 2520-2522.
 
-.. _Sambamba: https://snakemake-wrappers.readthedocs.io/en/v3.0.0/wrappers/sambamba.html
-.. _Bowtie2: https://snakemake-wrappers.readthedocs.io/en/v3.0.0/wrappers/bowtie2.html
-.. _Fastp: https://snakemake-wrappers.readthedocs.io/en/v3.0.0/wrappers/fastp.html
-.. _Picard: https://snakemake-wrappers.readthedocs.io/en/v3.0.0/wrappers/picard/collectmultiplemetrics.html
-.. _MultiQC: https://snakemake-wrappers.readthedocs.io/en/v3.0.0/wrappers/multiqc.html
+.. _Sambamba: https://snakemake-wrappers.readthedocs.io/en/v3.2.0/wrappers/sambamba.html
+.. _Bowtie2: https://snakemake-wrappers.readthedocs.io/en/v3.2.0/wrappers/bowtie2.html
+.. _Fastp: https://snakemake-wrappers.readthedocs.io/en/v3.2.0/wrappers/fastp.html
+.. _Picard: https://snakemake-wrappers.readthedocs.io/en/v3.2.0/wrappers/picard/collectmultiplemetrics.html
+.. _MultiQC: https://snakemake-wrappers.readthedocs.io/en/v3.2.0/wrappers/multiqc.html
 .. _Snakemake: https://snakemake.readthedocs.io
 .. _Github: https://github.com/tdayris/fair_bowtie2_mapping
 .. _`Snakemake workflow`: https://snakemake.github.io/snakemake-workflow-catalog?usage=tdayris/fair_bowtie2_mapping
 .. _Agat: https://agat.readthedocs.io/en/latest/index.html
-.. _Samtools: https://snakemake-wrappers.readthedocs.io/en/v3.0.0/wrappers/samtools/faidx.html
-.. _FastQC: https://snakemake-wrappers.readthedocs.io/en/v3.0.0/wrappers/fastqc.html
+.. _Samtools: https://snakemake-wrappers.readthedocs.io/en/v3.2.0/wrappers/samtools/faidx.html
+.. _FastQC: https://snakemake-wrappers.readthedocs.io/en/v3.2.0/wrappers/fastqc.html
 
 
 :Authors:

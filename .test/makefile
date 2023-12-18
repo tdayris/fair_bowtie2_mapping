@@ -58,7 +58,7 @@ linter.txt:
 
 .PHONY: clean
 clean:
-	rm -rv linter.txt \
+	rm -rvf linter.txt \
 		   format.txt \
 		   reference \
 		   results \
@@ -69,3 +69,4 @@ clean:
 		   report.txt \
 		   pipeline.txt \
 		   genomes.csv \
+		   dag.png

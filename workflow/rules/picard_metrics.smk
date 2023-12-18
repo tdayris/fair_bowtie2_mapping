@@ -22,4 +22,4 @@ rule picard_create_multiple_metrics:
     params:
         extra=config.get("params", {}).get("picard", {}).get("metrics", ""),
     wrapper:
-        f"{snakemake_wrappers_version}/bio/picard/collectmultiplemetrics"
+        "v3.2.0/bio/picard/collectmultiplemetrics"

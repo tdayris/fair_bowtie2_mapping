@@ -21,7 +21,7 @@ rule fastqc_pair_ended:
     params:
         extra=config.get("params", {}).get("fastqc", ""),
     wrapper:
-        f"{snakemake_wrappers_version}/bio/fastqc"
+        "v3.2.0/bio/fastqc"
 
 
 use rule fastqc_pair_ended as fastqc_single_ended with:

@@ -11,4 +11,4 @@ rule samtools_stats:
     params:
         extra="",
     wrapper:
-        f"{snakemake_wrappers_version}/bio/samtools/stats"
+        "v3.2.0/bio/samtools/stats"

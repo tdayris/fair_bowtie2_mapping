@@ -21,12 +21,12 @@ The tools used in this pipeline are described [here](https://github.com/tdayris/
 
 | Step                          | Wrapper - Script                                                                                                                              |
 | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| Download DNA fasta            | [ensembl-sequence](https://snakemake-wrappers.readthedocs.io/en/v3.0.0/wrappers/reference/ensembl-sequence.html)                     |
-| Download cDNA fasta           | [ensembl-sequence](https://snakemake-wrappers.readthedocs.io/en/v3.0.0/wrappers/reference/ensembl-sequence.html)                     |
-| Download GTF annotation       | [ensembl-annotation](https://snakemake-wrappers.readthedocs.io/en/v3.0.0/wrappers/reference/ensembl-annotation.html)                 |
-| Samtools index fasta          | [samtools-faidx](https://snakemake-wrappers.readthedocs.io/en/v3.0.0/wrappers/samtools/faidx.html)                                   |
-| Picard sequence dictionary    | [picard-createsequencedictionary](https://snakemake-wrappers.readthedocs.io/en/v3.0.0/wrappers/picard/createsequencedictionary.html) |
-| Download VCF variation        | [ensembl-variation](https://snakemake-wrappers.readthedocs.io/en/v3.0.0/wrappers/reference/ensembl-variation.html)                   |
+| Download DNA fasta            | [ensembl-sequence](https://snakemake-wrappers.readthedocs.io/en/v3.2.0/wrappers/reference/ensembl-sequence.html)                     |
+| Download cDNA fasta           | [ensembl-sequence](https://snakemake-wrappers.readthedocs.io/en/v3.2.0/wrappers/reference/ensembl-sequence.html)                     |
+| Download GTF annotation       | [ensembl-annotation](https://snakemake-wrappers.readthedocs.io/en/v3.2.0/wrappers/reference/ensembl-annotation.html)                 |
+| Samtools index fasta          | [samtools-faidx](https://snakemake-wrappers.readthedocs.io/en/v3.2.0/wrappers/samtools/faidx.html)                                   |
+| Picard sequence dictionary    | [picard-createsequencedictionary](https://snakemake-wrappers.readthedocs.io/en/v3.2.0/wrappers/picard/createsequencedictionary.html) |
+| Download VCF variation        | [ensembl-variation](https://snakemake-wrappers.readthedocs.io/en/v3.2.0/wrappers/reference/ensembl-variation.html)                   |
 | Fix Ensembl GTF common errors | [Agat](https://agat.readthedocs.io/en/latest/tools/agat_convert_sp_gff2gtf.html)                                                     |
 | Download known blacklist      | [Github source](https://github.com/Boyle-Lab/Blacklist/tree/master/lists) |
 
@@ -34,18 +34,18 @@ The tools used in this pipeline are described [here](https://github.com/tdayris/
 
 | Step          | Meta-Wrapper                                                                                                              | Wrapper                                                                                           |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| Bowtie2-build | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.0.0/meta-wrappers/bowtie2_sambamba.html) | [bowtie2-build](https://snakemake-wrappers.readthedocs.io/en/v3.0.0/wrappers/bowtie2/build.html) |
+| Bowtie2-build | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.2.0/meta-wrappers/bowtie2_sambamba.html) | [bowtie2-build](https://snakemake-wrappers.readthedocs.io/en/v3.2.0/wrappers/bowtie2/build.html) |
 | Fastp         |                                                                                                                           | [fastp](https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/fastp.html)                  |
-| Bowtie2-align | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.0.0/meta-wrappers/bowtie2_sambamba.html) | [bowtie2-align](https://snakemake-wrappers.readthedocs.io/en/v3.0.0/wrappers/bowtie2/align.html) |
-| Sambamba sort | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.0.0/meta-wrappers/bowtie2_sambamba.html) | [sambamba-sort](https://snakemake-wrappers.readthedocs.io/en/v3.0.0/wrappers/sambamba/sort.html) |
+| Bowtie2-align | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.2.0/meta-wrappers/bowtie2_sambamba.html) | [bowtie2-align](https://snakemake-wrappers.readthedocs.io/en/v3.2.0/wrappers/bowtie2/align.html) |
+| Sambamba sort | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.2.0/meta-wrappers/bowtie2_sambamba.html) | [sambamba-sort](https://snakemake-wrappers.readthedocs.io/en/v3.2.0/wrappers/sambamba/sort.html) |
 
 ### Filtering
 
 | Step             | Meta-Wrapper                                                                                                   | Wrapper                                                                                                 |
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| Sambamba-view    | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.0.0/meta-wrappers/bowtie2_sambamba.html) | [sambamba-view](https://snakemake-wrappers.readthedocs.io/en/v3.0.0/wrappers/sambamba/view.html)       |
-| Sambamba-markdup | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.0.0/meta-wrappers/bowtie2_sambamba.html) | [sambamba-markdup](https://snakemake-wrappers.readthedocs.io/en/v3.0.0/wrappers/sambamba/markdup.html) |
-| Sambamba-index   | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.0.0/meta-wrappers/bowtie2_sambamba.html) | [sambamba-index](https://snakemake-wrappers.readthedocs.io/en/v3.0.0/wrappers/sambamba/index.html)     |
+| Sambamba-view    | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.2.0/meta-wrappers/bowtie2_sambamba.html) | [sambamba-view](https://snakemake-wrappers.readthedocs.io/en/v3.2.0/wrappers/sambamba/view.html)       |
+| Sambamba-markdup | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.2.0/meta-wrappers/bowtie2_sambamba.html) | [sambamba-markdup](https://snakemake-wrappers.readthedocs.io/en/v3.2.0/wrappers/sambamba/markdup.html) |
+| Sambamba-index   | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.2.0/meta-wrappers/bowtie2_sambamba.html) | [sambamba-index](https://snakemake-wrappers.readthedocs.io/en/v3.2.0/wrappers/sambamba/index.html)     |
 
 
 ### QC
@@ -54,4 +54,5 @@ The tools used in this pipeline are described [here](https://github.com/tdayris/
 | -------- | -------------------------------------------------------------------------------------------------------------------------------- |
 | Picard   | [picard-collectmultiplemetrics](https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/picard/collectmultiplemetrics.html) |
 | Samtools | [samtools-stats](https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/samtools/stats.html)                               |
+| FastQC   | [fastqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/fastqc.html)                                       |
 | MultiQC  | [multiqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/multiqc.html)                                     |

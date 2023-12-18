@@ -1,3 +1,13 @@
+# 2.2.7
+
+## Features:
+
+* Snakemake-wrappers up to 3.2.0
+
+## Fix:
+
+* linter-error
+
 # 2.2.6
 
 ## Features:

@@ -1,6 +1,6 @@
 module bowtie2_sambamba:
     meta_wrapper:
-        f"{snakemake_wrappers_version}/meta/bio/bowtie2_sambamba"
+        "v3.2.0/meta/bio/bowtie2_sambamba"
     config:
         config
 
