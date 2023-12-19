@@ -233,9 +233,7 @@ def get_bowtie2_alignment_input(
     release: str = str(sample_data["release"])
     datatype: str = "dna"
 
-    idx: str | None = get_reference_genome_data(wildcards, genomes).get(
-        "bowtie2_index"
-    )
+    idx: str | None = get_reference_genome_data(wildcards, genomes).get("bowtie2_index")
     if idx:
         idx = [str(file) for file in Path(idx) if str(file).endswith(".bt2")]
     else:

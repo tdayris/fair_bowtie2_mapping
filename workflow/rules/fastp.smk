@@ -21,6 +21,11 @@ rule fastp_trimming_pair_ended:
             },
         ),
         json=temp("tmp/fastp/report_pe/{sample}.fastp.json"),
+    threads: 20
+    resources:
+        mem_mb=lambda wildcards, attempt: (12 * 1024) * attempt,
+        runtime=lambda wildcards, attempt: int(60 * 0.75) * attempt,
+        tmpdir="tmp",
     log:
         "logs/fastp/{sample}.log",
     benchmark:

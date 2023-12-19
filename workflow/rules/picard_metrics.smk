@@ -15,6 +15,11 @@ rule picard_create_multiple_metrics:
                 ".gc_bias.pdf",
             )
         ),
+    threads: 1
+    resources:
+        mem_mb=lambda wildcards, attempt: (9 * 1024) * attempt,
+        runtime=lambda wildcards, attempt: int(60 * 0.6) * attempt,
+        tmpdir="tmp",
     log:
         "logs/picard/collectmultiplemetrics/{species}.{build}.{release}.{datatype}/{sample}.log",
     benchmark:

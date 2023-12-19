@@ -12,6 +12,11 @@ rule multiqc_report:
             },
         ),
         "results/QC/MultiQC_data.zip",
+    threads: 1
+    resources:
+        mem_mb=lambda wildcards, attempt: (8 * 1024) * attempt,
+        runtime=lambda wildcards, attempt: int(60 * 0.75) * attempt,
+        tmpdir="tmp",
     params:
         extra="--zip-data-dir",
         use_input_files_only=True,

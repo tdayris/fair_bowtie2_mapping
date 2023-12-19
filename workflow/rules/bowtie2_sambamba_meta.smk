@@ -18,7 +18,11 @@ use rule bowtie2_build from bowtie2_sambamba with:
             ".rev.1.bt2",
             ".rev.2.bt2",
         ),
-    cache: True
+    threads: 20
+    resources:
+        mem_mb=lambda wildcards, attempt: (48 * 1024) * attempt,
+        runtime=lambda wildcards, attempt: int(60 * 1.5) * attempt,
+        tmpdir="tmp",
     log:
         "logs/bowtie2/build/{species}.{build}.{release}.{datatype}.log",
     benchmark:
@@ -32,6 +36,11 @@ use rule bowtie2_alignment from bowtie2_sambamba with:
         unpack(get_bowtie2_alignment_input),
     output:
         temp("tmp/bowtie2/{species}.{build}.{release}.{datatype}/{sample}_raw.bam"),
+    threads: 20
+    resources:
+        mem_mb=lambda wildcards, attempt: (48 * 1024) * attempt,
+        runtime=lambda wildcards, attempt: int(60 * 1.5) * attempt,
+        tmpdir="tmp",
     log:
         "logs/bowtie2/align/{species}.{build}.{release}.{datatype}/{sample}.log",
     benchmark:
@@ -50,6 +59,11 @@ use rule sambamba_sort from bowtie2_sambamba with:
         "tmp/bowtie2/{species}.{build}.{release}.{datatype}/{sample}_raw.bam",
     output:
         temp("tmp/sambamba/sort/{species}.{build}.{release}.{datatype}/{sample}.bam"),
+    threads: 6
+    resources:
+        mem_mb=lambda wildcards, attempt: (15 * 1024) * attempt,
+        runtime=lambda wildcards, attempt: int(60 * 0.75) * attempt,
+        tmpdir="tmp",
     log:
         "logs/sambamba/sort/{species}.{build}.{release}.{datatype}/{sample}.log",
     benchmark:
@@ -61,6 +75,11 @@ use rule sambamba_view from bowtie2_sambamba with:
         "tmp/sambamba/sort/{species}.{build}.{release}.{datatype}/{sample}.bam",
     output:
         temp("tmp/sambamba/view/{species}.{build}.{release}.{datatype}/{sample}.bam"),
+    threads: 6
+    resources:
+        mem_mb=lambda wildcards, attempt: (6 * 1024) * attempt,
+        runtime=lambda wildcards, attempt: int(60 * 0.75) * attempt,
+        tmpdir="tmp",
     log:
         "logs/sambamba/view/{species}.{build}.{release}.{datatype}/{sample}.log",
     benchmark:
@@ -79,6 +98,11 @@ use rule sambamba_markdup from bowtie2_sambamba with:
         "tmp/sambamba/view/{species}.{build}.{release}.{datatype}/{sample}.bam",
     output:
         protected("results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam"),
+    threads: 6
+    resources:
+        mem_mb=lambda wildcards, attempt: (6 * 1024) * attempt,
+        runtime=lambda wildcards, attempt: int(60 * 0.75) * attempt,
+        tmpdir="tmp",
     log:
         "logs/sambamba/markdup/{species}.{build}.{release}.{datatype}/{sample}.log",
     benchmark:
@@ -96,6 +120,11 @@ use rule sambamba_index from bowtie2_sambamba with:
         protected(
             "results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam.bai"
         ),
+    threads: 1
+    resources:
+        mem_mb=lambda wildcards, attempt: (4 * 1024) * attempt,
+        runtime=lambda wildcards, attempt: int(60 * 0.5) * attempt,
+        tmpdir="tmp",
     log:
         "logs/sambamba/index/{species}.{build}.{release}.{datatype}/{sample}.log",
     benchmark:

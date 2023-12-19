@@ -14,6 +14,11 @@ rule fastqc_pair_ended:
             },
         ),
         zip="results/QC/report_pe/{sample}.{stream}_fastqc.zip",
+    threads: 1
+    resources:
+        mem_mb=lambda wildcards, attempt: (6 * 1024) * attempt,
+        runtime=lambda wildcards, attempt: int(60 * 0.5) * attempt,
+        tmpdir="tmp",
     log:
         "logs/fastqc/{sample}.{stream}.log",
     benchmark:
