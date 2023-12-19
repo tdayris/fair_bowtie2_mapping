@@ -100,7 +100,7 @@ use rule sambamba_markdup from bowtie2_sambamba with:
         protected("results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam"),
     threads: 6
     resources:
-        mem_mb=lambda wildcards, attempt: (6 * 1024) * attempt,
+        mem_mb=lambda wildcards, attempt: (15 * 1024) * attempt,
         runtime=lambda wildcards, attempt: int(60 * 0.75) * attempt,
         tmpdir="tmp",
     log:
@@ -110,7 +110,7 @@ use rule sambamba_markdup from bowtie2_sambamba with:
     params:
         extra=config.get("params", {})
         .get("sambamba", {})
-        .get("markdup", "--remove-duplicates"),
+        .get("markdup", "--remove-duplicates --overflow-list-size=500000"),
 
 
 use rule sambamba_index from bowtie2_sambamba with:
