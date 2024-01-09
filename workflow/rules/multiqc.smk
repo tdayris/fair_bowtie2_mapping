@@ -14,8 +14,10 @@ rule multiqc_report:
         "results/QC/MultiQC_data.zip",
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: (8 * 1024) * attempt,
-        runtime=lambda wildcards, attempt: int(60 * 0.75) * attempt,
+        # Reserve 2Gb per attempt
+        mem_mb=lambda wildcards, attempt: (2 * 1024) * attempt,
+        # Reserve 30min per attempt
+        runtime=lambda wildcards, attempt: int(60 * 0.5) * attempt,
         tmpdir="tmp",
     params:
         extra="--zip-data-dir",
@@ -25,4 +27,4 @@ rule multiqc_report:
     benchmark:
         "benchmark/multiqc.tsv"
     wrapper:
-        "v3.2.0/bio/multiqc"
+        "v3.3.3/bio/multiqc"

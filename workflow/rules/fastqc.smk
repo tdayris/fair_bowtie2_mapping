@@ -16,7 +16,9 @@ rule fastqc_pair_ended:
         zip="results/QC/report_pe/{sample}.{stream}_fastqc.zip",
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: (6 * 1024) * attempt,
+        # Reserve 2Gb per attempt
+        mem_mb=lambda wildcards, attempt: (2 * 1024) * attempt,
+        # Reserve 30min per attempt
         runtime=lambda wildcards, attempt: int(60 * 0.5) * attempt,
         tmpdir="tmp",
     log:
@@ -26,7 +28,7 @@ rule fastqc_pair_ended:
     params:
         extra=config.get("params", {}).get("fastqc", ""),
     wrapper:
-        "v3.2.0/bio/fastqc"
+        "v3.3.3/bio/fastqc"
 
 
 use rule fastqc_pair_ended as fastqc_single_ended with:

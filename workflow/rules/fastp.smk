@@ -23,8 +23,10 @@ rule fastp_trimming_pair_ended:
         json=temp("tmp/fastp/report_pe/{sample}.fastp.json"),
     threads: 20
     resources:
-        mem_mb=lambda wildcards, attempt: (12 * 1024) * attempt,
-        runtime=lambda wildcards, attempt: int(60 * 0.75) * attempt,
+        # Reserve 4Gb per attempt
+        mem_mb=lambda wildcards, attempt: (4 * 1024) * attempt,
+        # Reserve 30min per attempt
+        runtime=lambda wildcards, attempt: int(60 * 0.5) * attempt,
         tmpdir="tmp",
     log:
         "logs/fastp/{sample}.log",
@@ -34,7 +36,7 @@ rule fastp_trimming_pair_ended:
         adapters=config.get("params", {}).get("fastp", {}).get("adapters", ""),
         extra=config.get("params", {}).get("fastp", {}).get("extra", ""),
     wrapper:
-        "v3.2.0/bio/fastp"
+        "v3.3.3/bio/fastp"
 
 
 use rule fastp_trimming_pair_ended as fastp_trimming_single_ended with:

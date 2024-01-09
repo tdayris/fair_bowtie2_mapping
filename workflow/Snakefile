@@ -20,6 +20,11 @@ rule fair_bowtie2_mapping_target:
     output:
         touch("tmp/targets/fair_bowtie2_mapping_target.flag"),
     localrule: True
+    threads: 1
+    resources:
+        mem_mb=128,
+        runtime=2,
+        tmpdir="tmp"
     log:
         "logs/fair_bowtie2_mapping_target.log",
     benchmark:

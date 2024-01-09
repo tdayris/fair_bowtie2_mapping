@@ -1,6 +1,6 @@
 module bowtie2_sambamba:
     meta_wrapper:
-        "v3.2.0/meta/bio/bowtie2_sambamba"
+        "v3.3.3/meta/bio/bowtie2_sambamba"
     config:
         config
 
@@ -20,7 +20,9 @@ use rule bowtie2_build from bowtie2_sambamba with:
         ),
     threads: 20
     resources:
-        mem_mb=lambda wildcards, attempt: (48 * 1024) * attempt,
+        # Reserve 15Gb per attempt
+        mem_mb=lambda wildcards, attempt: (15 * 1024) * attempt,
+        # Reserve 60min per attempt
         runtime=lambda wildcards, attempt: int(60 * 1.5) * attempt,
         tmpdir="tmp",
     log:
@@ -38,7 +40,9 @@ use rule bowtie2_alignment from bowtie2_sambamba with:
         temp("tmp/bowtie2/{species}.{build}.{release}.{datatype}/{sample}_raw.bam"),
     threads: 20
     resources:
-        mem_mb=lambda wildcards, attempt: (48 * 1024) * attempt,
+        # Reserve 15Gb per attempt
+        mem_mb=lambda wildcards, attempt: (15 * 1024) * attempt,
+        # Reserve 1h30 per attempt
         runtime=lambda wildcards, attempt: int(60 * 1.5) * attempt,
         tmpdir="tmp",
     log:
@@ -61,7 +65,9 @@ use rule sambamba_sort from bowtie2_sambamba with:
         temp("tmp/sambamba/sort/{species}.{build}.{release}.{datatype}/{sample}.bam"),
     threads: 6
     resources:
-        mem_mb=lambda wildcards, attempt: (15 * 1024) * attempt,
+        # Reserve 6Gb per attempt
+        mem_mb=lambda wildcards, attempt: (6 * 1024) * attempt,
+        # Reserve 45min per attempt
         runtime=lambda wildcards, attempt: int(60 * 0.75) * attempt,
         tmpdir="tmp",
     log:
@@ -77,7 +83,9 @@ use rule sambamba_view from bowtie2_sambamba with:
         temp("tmp/sambamba/view/{species}.{build}.{release}.{datatype}/{sample}.bam"),
     threads: 6
     resources:
-        mem_mb=lambda wildcards, attempt: (6 * 1024) * attempt,
+        # Reserve 2Gb per attempt
+        mem_mb=lambda wildcards, attempt: (2 * 1024) * attempt,
+        # Reserve 45min per attempt
         runtime=lambda wildcards, attempt: int(60 * 0.75) * attempt,
         tmpdir="tmp",
     log:
@@ -100,7 +108,9 @@ use rule sambamba_markdup from bowtie2_sambamba with:
         protected("results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam"),
     threads: 6
     resources:
-        mem_mb=lambda wildcards, attempt: (15 * 1024) * attempt,
+        # Reserve 6Gb per attempt
+        mem_mb=lambda wildcards, attempt: (6 * 1024) * attempt,
+        # Reserve 30min per attempt
         runtime=lambda wildcards, attempt: int(60 * 0.75) * attempt,
         tmpdir="tmp",
     log:
@@ -122,7 +132,9 @@ use rule sambamba_index from bowtie2_sambamba with:
         ),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: (4 * 1024) * attempt,
+        # Reserve 2Gb per attempt
+        mem_mb=lambda wildcards, attempt: (2 * 1024) * attempt,
+        # Reserve 30min per attempt
         runtime=lambda wildcards, attempt: int(60 * 0.5) * attempt,
         tmpdir="tmp",
     log:

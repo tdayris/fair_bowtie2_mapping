@@ -1,3 +1,11 @@
+# 2.2.8
+
+## Features:
+
+* Reduce time and memory reservations
+* Snakemake-wrappers up to 3.3.3
+* Snakemake 8+ compatibility
+
 # 2.2.7
 
 ## Features:

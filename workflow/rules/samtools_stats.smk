@@ -6,7 +6,9 @@ rule samtools_stats:
         temp("tmp/samtools/{species}.{build}.{release}.{datatype}/{sample}.txt"),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: (9 * 1024) * attempt,
+        # Reserve 2Gb per attempt
+        mem_mb=lambda wildcards, attempt: (2 * 1024) * attempt,
+        # Reserve 35min per attempt
         runtime=lambda wildcards, attempt: int(60 * 0.6) * attempt,
         tmpdir="tmp",
     log:
@@ -16,4 +18,4 @@ rule samtools_stats:
     params:
         extra="",
     wrapper:
-        "v3.2.0/bio/samtools/stats"
+        "v3.3.3/bio/samtools/stats"
