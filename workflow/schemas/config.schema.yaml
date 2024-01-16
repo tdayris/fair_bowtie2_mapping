@@ -42,5 +42,35 @@ params:
       type: string
       description: Optional parameters for sambamba markdup
 
+  fastqc:
+    type: string
+    description: Optional parameters for FastQC
+  multiqc:
+    type: string
+    description: Optional parameters for MultiQC
+
+  picard:
+    type: object
+    metrics:
+      type: string
+      description: Optional parameters for Picard CollectMultipleMetrics
+
+  samtools:
+    type: string
+    description: Optional parameters for Samtools stats
+
+  fastp:
+    type: object
+    adapters:
+      type: string
+      description: Optional adapter given through command line
+    extra:
+      type: string
+      description: Optional command line parameters
+
+  multiqc:
+    typre: string
+    description: Optional MultiQC command line parameters
+
 required:
   - samples

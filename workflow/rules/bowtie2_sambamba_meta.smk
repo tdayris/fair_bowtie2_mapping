@@ -1,11 +1,11 @@
-module bowtie2_sambamba:
+module bowtie2_sambamba_metawrapper:
     meta_wrapper:
         "v3.3.3/meta/bio/bowtie2_sambamba"
     config:
         config
 
 
-use rule bowtie2_build from bowtie2_sambamba with:
+use rule bowtie2_build from bowtie2_sambamba_metawrapper with:
     input:
         unpack(get_bowtie2_build_input),
     output:
@@ -33,7 +33,7 @@ use rule bowtie2_build from bowtie2_sambamba with:
         extra=config.get("params", {}).get("bowtie2", {}).get("build", ""),
 
 
-use rule bowtie2_alignment from bowtie2_sambamba with:
+use rule bowtie2_alignment from bowtie2_sambamba_metawrapper with:
     input:
         unpack(get_bowtie2_alignment_input),
     output:
@@ -58,7 +58,7 @@ use rule bowtie2_alignment from bowtie2_sambamba with:
         ),
 
 
-use rule sambamba_sort from bowtie2_sambamba with:
+use rule sambamba_sort from bowtie2_sambamba_metawrapper with:
     input:
         "tmp/bowtie2/{species}.{build}.{release}.{datatype}/{sample}_raw.bam",
     output:
@@ -76,7 +76,7 @@ use rule sambamba_sort from bowtie2_sambamba with:
         "benchmark/sambamba/sort/{species}.{build}.{release}.{datatype}/{sample}.tsv"
 
 
-use rule sambamba_view from bowtie2_sambamba with:
+use rule sambamba_view from bowtie2_sambamba_metawrapper with:
     input:
         "tmp/sambamba/sort/{species}.{build}.{release}.{datatype}/{sample}.bam",
     output:
@@ -101,7 +101,7 @@ use rule sambamba_view from bowtie2_sambamba with:
         ),
 
 
-use rule sambamba_markdup from bowtie2_sambamba with:
+use rule sambamba_markdup from bowtie2_sambamba_metawrapper with:
     input:
         "tmp/sambamba/view/{species}.{build}.{release}.{datatype}/{sample}.bam",
     output:
@@ -123,7 +123,7 @@ use rule sambamba_markdup from bowtie2_sambamba with:
         .get("markdup", "--remove-duplicates --overflow-list-size=500000"),
 
 
-use rule sambamba_index from bowtie2_sambamba with:
+use rule sambamba_index from bowtie2_sambamba_metawrapper with:
     input:
         "results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam",
     output:

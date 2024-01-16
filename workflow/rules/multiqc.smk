@@ -1,17 +1,18 @@
-rule multiqc_report:
+rule mapping_multiqc_report:
     input:
         unpack(get_multiqc_report_input),
     output:
         report(
-            "results/QC/MultiQC.html",
+            "results/QC/MultiQC_Mapping.html",
             caption="../report/multiqc.rst",
             category="Quality Controls",
             subcategory="General",
             labels={
                 "report": "html",
+                "step": "Mapping",
             },
         ),
-        "results/QC/MultiQC_data.zip",
+        "results/QC/MultiQC_Mapping_data.zip",
     threads: 1
     resources:
         # Reserve 2Gb per attempt

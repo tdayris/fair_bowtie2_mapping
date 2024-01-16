@@ -14,8 +14,8 @@ snakefiles := \
 	"../workflow/rules/picard_metrics.smk" \
 	"../workflow/rules/samtools_stats.smk" \
 	"../workflow/rules/fair_genome_indexer_pipeline.smk" \
+	"../workflow/rules/fair_fastqc_multiqc_pipeline.smk" \
 	"../workflow/rules/common.smk" \
-	"../workflow/rules/fastqc.smk" \
 	"../workflow/Snakefile"
 
 
@@ -41,7 +41,7 @@ pipeline.txt: format.txt linter.txt
 	snakemake -s ../workflow/Snakefile \
 		--cores 2 \
 		--software-deployment-method conda \
-		--workflow-profile ../profiles 2>&1 | tee pipeline.txt
+		2>&1 | tee pipeline.txt
 
 
 format.txt:

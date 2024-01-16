@@ -56,26 +56,32 @@ the following files are present:
     │       ├── YYY.bam
     │       └── YYY.bam.bai
     └── QC
-        ├── MultiQC_data.zip
-        ├── MultiQC.html
+        ├── MultiQC_FastQC_data.zip
+        ├── MultiQC_FastQC.html
+        ├── MultiQC_Mapping_data.zip
+        ├── MultiQC_Mapping.html
         ├── report_pe
         │   └── YYY.html
         └── report_se
             └── YYY.html
 
 
-+---------------+---------------------+-----------------------------------------------+
-| Directory     | File Extension      | Content                                       |
-+===============+=====================+===============================================+
-| XXX/Mapping   | `YYY.bam`           | Aligned reads                                 |
++---------------+-----------------------------+-----------------------------------------------+
+| Directory     | File Extension              | Content                                       |
++===============+=============================+===============================================+
+| XXX/Mapping   | `YYY.bam`                   | Aligned reads                                 |
++               +-----------------------------+-----------------------------------------------+
+|               | `YYY.bam.bai`               | Aligned reads index                           |
++---------------+-----------------------------+-----------------------------------------------+
+| QC            | `MultiQC_FastQC_data.zip`   | Zipped figures and tables                     |
++               +----------------------------+-----------------------------------------------+
+|               | `MultiQC_FastQC.html`       | Complete quality report, includes all samples |
++---------------+-----------------------------+-----------------------------------------------+
+| QC            | `MultiQC_Mapping_data.zip`  | Zipped figures and tables                     |
 +               +---------------------+-----------------------------------------------+
-|               | `YYY.bam.bai`       | Aligned reads index                           |
-+---------------+---------------------+-----------------------------------------------+
-| QC            | `MultiQC_data.zip`  | Zipped figures and tables                     |
-+               +---------------------+-----------------------------------------------+
-|               | `MultiQC.html`      | Complete quality report, includes all samples |
-+---------------+---------------------+-----------------------------------------------+
-| QC/report_pe  | `YYY.html`          | Sequence quality report for PE sample `YYY`   |
-+---------------+---------------------+-----------------------------------------------+
-| QC/report_se  | `YYY.html`          | Sequence quality report for SE sample `YYY`   |
-+---------------+---------------------+-----------------------------------------------+
+|               | `MultiQC_Mapping.html`      | Complete quality report, includes all samples |
++---------------+-----------------------------+-----------------------------------------------+
+| QC/report_pe  | `YYY.html`                  | Sequence quality report for PE sample `YYY`   |
++---------------+-----------------------------+-----------------------------------------------+
+| QC/report_se  | `YYY.html`                  | Sequence quality report for SE sample `YYY`   |
++---------------+-----------------------------+-----------------------------------------------+

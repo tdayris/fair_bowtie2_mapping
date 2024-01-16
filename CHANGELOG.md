@@ -1,3 +1,19 @@
+# 2.3.0
+
+## Features:
+
+* Include fastqc/multiqc as a module
+* Rename meta-wrapper rules to indetify them
+* Define generic genomes
+* Add configuration keys
+* Add MultiQC report label
+
+## Fix:
+
+* Mat&Met typos
+* Multiqc report missing tools
+* test Makefile update for Snakemake 8+
+
 # 2.2.8
 
 ## Features:

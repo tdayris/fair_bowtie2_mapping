@@ -1,25 +1,41 @@
 samples: config/samples.csv
 
-# # Optional parameters
-# params:
-#   bowtie2:
-#     # Optional parameters for bowtie2-build
-#     build: ""
-#     # Optional parameters for bowtie2-align
-#     align: ""
-#   sambamba:
-#     # Optional parameters for sambamba view
-#     view: "--format 'bam' --filter 'mapping_quality >= 30 and not (unmapped or mate_is_unmapped)' "
-#     # Optional parameters for sambamba markdup
-#     markdup: "--remove-duplicates --overflow-list-size=500000"
-#   picard:
-#     # Mapping QC optional parameters
-#     metrics: ""
+# Optional parameters
+params:
+  # Optional parameters for fastp
+  fastp:
+    # Optional adapters to remove
+    adapters: ""
+    # Optional command line arguments for fastp
+    extra: ""
+  # Optional parameters for fastqc
+  fastqc: ""
+  # Optional parameters for bowtie2
+  bowtie2:
+    # Optional parameters for bowtie2-build
+    build: ""
+    # Optional parameters for bowtie2-align
+    align: ""
+  sambamba:
+    # Optional parameters for sambamba view
+    view: "--format 'bam' --filter 'mapping_quality >= 30 and not (unmapped or mate_is_unmapped)' "
+    # Optional parameters for sambamba markdup
+    markdup: "--remove-duplicates --overflow-list-size=500000"
+  picard:
+    # Mapping QC optional parameters
+    metrics: ""
+  # Optional parameters for samtools stats
+  samtools: ""
+  # Optional parameters for multiqc
+  multiqc: "--module picard --module fastqc --module fastp --module samtools --module bowtie2 --module sambamba --zip-data-dir --verbose --no-megaqc-upload --no-ansi --force"
 
 # Optional path to a `genome.csv` file
-# genomes: genome.csv
+genomes: config/genomes.csv
 
 # Internal use only, not described in documentation.
 # deactivate import of fair_genome_indexer pipeline.
 # Requires the file `genome.csv` to be filled.
 # load_fair_genome_indexer: true
+# Deactivate the import of fair_fastqc_multiqc pipeline.
+# Requires to redefine fastqc and multiqc rules.
+# load_fair_fastqc_multiqc: true

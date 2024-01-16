@@ -44,4 +44,4 @@ usage, and resutls can be found on the `Snakemake workflow`_ page.
 :Authors:
     Thibault Dayris
 
-:Version: 2.2.8 of 01/09/2024
+:Version: 2.3.0 of 01/16/2024

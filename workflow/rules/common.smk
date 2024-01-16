@@ -374,8 +374,10 @@ def get_fair_bowtie2_mapping_target(
     """
     results: dict[str, list[str]] = {
         "multiqc": [
-            "results/QC/MultiQC.html",
-            "results/QC/MultiQC_data.zip",
+            "results/QC/MultiQC_FastQC.html",
+            "results/QC/MultiQC_FastQC_data.zip",
+            "results/QC/MultiQC_Mapping.html",
+            "results/QC/MultiQC_Mapping_data.zip",
         ],
         "bams": [],
         "bais": [],

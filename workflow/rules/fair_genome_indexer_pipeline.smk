@@ -2,7 +2,7 @@ module fair_genome_indexer:
     snakefile:
         github("tdayris/fair_genome_indexer", path="workflow/Snakefile", tag="2.3.2")
     config:
-        {"genomes": config["genomes"]}
+        {"genomes": config.get("genomes", "config/genomes.csv")}
 
 
-use rule * from fair_genome_indexer as fair_genome_indexer_*
+use rule * from fair_genome_indexer
