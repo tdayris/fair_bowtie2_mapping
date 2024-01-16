@@ -6,6 +6,10 @@
 * Snakemake-wrappers up to 3.3.3
 * Snakemake 8+ compatibility
 
+## Fix:
+
+* csv.Sniffer getting too much data
+
 # 2.2.7
 
 ## Features:
