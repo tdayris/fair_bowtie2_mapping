@@ -19,6 +19,10 @@ snakefiles := \
 	"../workflow/Snakefile"
 
 
+pythonfiles := \
+	"../workflow/scripts/regenerate_genome.py"
+
+
 .PHONY: all
 all: report.txt
 
@@ -36,7 +40,7 @@ report.txt: pipeline.txt
 		--report report.html 2>&1 | tee report.txt
 
 
-pipeline.txt: format.txt linter.txt
+pipeline.txt: linter.txt black.txt
 	mamba activate test-snakemake-wrappers && \
 	snakemake -s ../workflow/Snakefile \
 		--cores 2 \
@@ -49,10 +53,16 @@ format.txt:
 	snakefmt $(snakefiles) 2>&1 | tee format.txt
 
 
-linter.txt:
+linter.txt: format.txt
 	mamba activate test-snakemake-wrappers && \
 	snakemake -s ../workflow/Snakefile \
 		--lint 2>&1 | tee linter.txt
+
+
+black.txt:
+	mamba activate test-snakemake-wrappers && \
+	black $(pythonfiles) 2>&1 | tee black.txt
+
 
 
 .PHONY: clean
@@ -68,4 +78,5 @@ clean:
 		   report.txt \
 		   pipeline.txt \
 		   genomes.csv \
-		   dag.png
+		   dag.png \
+		   black.txt
