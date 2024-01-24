@@ -22,14 +22,17 @@ rule fair_bowtie2_mapping_target:
     input:
         unpack(get_fair_bowtie2_mapping_target),
     output:
-        touch("tmp/targets/fair_bowtie2_mapping_target.flag"),
-    localrule: True
+        genomes="reference/genomes/fair_bowtie2_mapping.csv",
     threads: 1
     resources:
-        mem_mb=128,
-        runtime=2,
+        mem_mb=lambda wildcards, attempt: 512 * attempt,
+        runtime=lambda wildcards, attempt: 10 * attempt,
         tmpdir="tmp",
     log:
         "logs/fair_bowtie2_mapping_target.log",
     benchmark:
         "benchmark/fair_bowtie2_mapping_target.tsv"
+    conda:
+        "envs/python.yaml"
+    script:
+        "scripts/regenerate_genome.py"

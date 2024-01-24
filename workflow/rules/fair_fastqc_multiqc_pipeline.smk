@@ -7,7 +7,7 @@ module fair_fastqc_multiqc:
             "genomes": config.get("genomes", "config/genomes.csv"),
             "params": {
                 "fastqc": config.get("params", {}).get("fastqc", ""),
-                "multiqc": config.get("params", {}).get("multiqc", {}),
+                "multiqc": config.get("params", {}).get("multiqc", "--zip-data-dir"),
             },
         }
 

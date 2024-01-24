@@ -62,8 +62,6 @@ else:
 
 snakemake.utils.validate(genomes, "../schemas/genomes.schema.yaml")
 
-snakemake_wrappers_version: str = "v3.0.0"
-
 
 report: "../report/workflows.rst"
 
@@ -71,6 +69,7 @@ report: "../report/workflows.rst"
 release_list: list[str] = list(set(genomes.release.tolist()))
 build_list: list[str] = list(set(genomes.build.tolist()))
 species_list: list[str] = list(set(genomes.species.tolist()))
+datatype_list: list[str] = ["dna", "cdna", "transcripts"]
 stream_list: list[str] = ["1", "2"]
 
 
@@ -79,6 +78,7 @@ wildcard_constraints:
     release=r"|".join(release_list),
     build=r"|".join(build_list),
     species=r"|".join(species_list),
+    datatype=r"|".join(datatype_list),
     stream=r"|".join(stream_list),
 
 
@@ -197,11 +197,12 @@ def get_bowtie2_build_input(
     release: str = str(wildcards["release"])
     datatype: str = "dna"
 
-    idx: str | None = get_reference_genome_data(wildcards, genomes).get("fasta")
-    if idx:
-        return {"ref": idx}
-    else:
-        return {"ref": f"reference/{species}.{build}.{release}.{datatype}.fasta"}
+    fasta_path: str | None = get_reference_genome_data(wildcards, genomes).get(
+        f"{datatype}_fasta",
+        f"reference/sequences/{species}.{build}.{release}.{datatype}.fasta",
+    )
+
+    return {"ref": fasta_path}
 
 
 def get_bowtie2_alignment_input(
@@ -233,12 +234,19 @@ def get_bowtie2_alignment_input(
     release: str = str(sample_data["release"])
     datatype: str = "dna"
 
+    bowtie2_alignment_input: dict[str, list[str]] = {
+        "idx": [],
+        "sample": [],
+    }
+
     idx: str | None = get_reference_genome_data(wildcards, genomes).get("bowtie2_index")
     if idx:
-        idx = [str(file) for file in Path(idx) if str(file).endswith(".bt2")]
+        bowtie2_alignment_input["idx"]: list[str] = [
+            str(file) for file in Path(idx).iterdir() if str(file).endswith(".bt2")
+        ]
     else:
-        idx = multiext(
-            f"reference/{species}.{build}.{release}.{datatype}",
+        bowtie2_alignment_input["idx"]: list[str] = multiext(
+            f"reference/bowtie2_index/{species}.{build}.{release}.{datatype}",
             ".1.bt2",
             ".2.bt2",
             ".3.bt2",
@@ -247,21 +255,17 @@ def get_bowtie2_alignment_input(
             ".rev.2.bt2",
         )
 
-    results: dict[str, list[str]] = {
-        "idx": idx,
-        "sample": [],
-    }
     downstream_file: str | None = sample_data.get("downstream_file")
     if downstream_file:
-        results["sample"] = expand(
+        bowtie2_alignment_input["sample"] = expand(
             "tmp/fastp/trimmed/{sample}.{stream}.fastq",
             stream=["1", "2"],
             sample=[str(wildcards.sample)],
         )
     else:
-        results["sample"] = ["tmp/fastp/trimmed/{sample}.fastq"]
+        bowtie2_alignment_input["sample"] = ["tmp/fastp/trimmed/{sample}.fastq"]
 
-    return results
+    return bowtie2_alignment_input
 
 
 def get_picard_create_multiple_metrics_input(
@@ -285,7 +289,7 @@ def get_picard_create_multiple_metrics_input(
     datatype: str = "dna"
     sample: str = str(wildcards.sample)
     idx: str = get_reference_genome_data(wildcards, genomes).get(
-        "fasta", f"reference/{species}.{build}.{release}.{datatype}.fasta"
+        "fasta", f"reference/sequences/{species}.{build}.{release}.{datatype}.fasta"
     )
     return {
         "bam": f"results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam",
@@ -381,6 +385,7 @@ def get_fair_bowtie2_mapping_target(
         ],
         "bams": [],
         "bais": [],
+        "genomes": "reference/genomes/fair_genome_indexer.csv",
     }
     sample_iterator = zip(
         samples.sample_id,

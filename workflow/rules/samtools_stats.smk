@@ -16,6 +16,6 @@ rule samtools_stats:
     benchmark:
         "benchmark/samtools/{species}.{build}.{release}.{datatype}/{sample}.tsv"
     params:
-        extra=config.get("params", {}).get("samtools", ""),
+        extra=config.get("params", {}).get("samtools", {}).get("stats", ""),
     wrapper:
         "v3.3.3/bio/samtools/stats"

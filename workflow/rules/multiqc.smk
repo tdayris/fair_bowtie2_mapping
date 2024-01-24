@@ -21,7 +21,12 @@ rule mapping_multiqc_report:
         runtime=lambda wildcards, attempt: int(60 * 0.5) * attempt,
         tmpdir="tmp",
     params:
-        extra="--zip-data-dir",
+        extra=config.get("params", {}).get(
+            "multiqc",
+            "--module picard --module fastqc --module fastp --module samtools "
+            "--module bowtie2 --module sambamba --zip-data-dir --verbose "
+            "--no-megaqc-upload --no-ansi --force",
+        ),
         use_input_files_only=True,
     log:
         "logs/multiqc.log",

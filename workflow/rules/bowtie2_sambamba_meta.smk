@@ -10,7 +10,7 @@ use rule bowtie2_build from bowtie2_sambamba_metawrapper with:
         unpack(get_bowtie2_build_input),
     output:
         multiext(
-            "reference/{species}.{build}.{release}.{datatype}",
+            "reference/bowtie2_index/{species}.{build}.{release}.{datatype}",
             ".1.bt2",
             ".2.bt2",
             ".3.bt2",
