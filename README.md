@@ -17,18 +17,22 @@ The tools used in this pipeline are described [here](https://github.com/tdayris/
 
 ![workflow_rulegraph](dag.png)
 
-### Index and genome sequences with [`fair_genome_indexer`](https://github.com/tdayris/fair_genome_indexer/tree/main)
+### Index and genome sequences with [`fair_genome_indexer`](https://github.com/tdayris/fair_genome_indexer/)
 
-| Step                          | Wrapper - Script                                                                                                                              |
+| Step                          | Wrapper - Script                                                                                                                     |
 | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | Download DNA fasta            | [ensembl-sequence](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/wrappers/reference/ensembl-sequence.html)                     |
 | Download cDNA fasta           | [ensembl-sequence](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/wrappers/reference/ensembl-sequence.html)                     |
-| Download GTF annotation       | [ensembl-annotation](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/wrappers/reference/ensembl-annotation.html)                 |
 | Samtools index fasta          | [samtools-faidx](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/wrappers/samtools/faidx.html)                                   |
 | Picard sequence dictionary    | [picard-createsequencedictionary](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/wrappers/picard/createsequencedictionary.html) |
-| Download VCF variation        | [ensembl-variation](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/wrappers/reference/ensembl-variation.html)                   |
-| Fix Ensembl GTF common errors | [Agat](https://agat.readthedocs.io/en/latest/tools/agat_convert_sp_gff2gtf.html)                                                     |
-| Download known blacklist      | [Github source](https://github.com/Boyle-Lab/Blacklist/tree/master/lists) |
+| pyfaidx                       | [pyfaidx](https://github.com/mdshw5/pyfaidx)                                                                                         |
+
+### Raw-sequences QC with [`fair_fastqc_multiqc`](https://github.com/tdayris/fair_fastqc_multiqc/)
+
+| Step    | Wrapper                                                                                      |
+| ------- | -------------------------------------------------------------------------------------------- |
+| FastQC  | [fastqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/wrappers/fastqc.html)   |
+| MultiQC | [multiqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/wrappers/multiqc.html) |
 
 ### Bowtie2 Mapping
 
@@ -54,5 +58,4 @@ The tools used in this pipeline are described [here](https://github.com/tdayris/
 | -------- | -------------------------------------------------------------------------------------------------------------------------------- |
 | Picard   | [picard-collectmultiplemetrics](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/wrappers/picard/collectmultiplemetrics.html) |
 | Samtools | [samtools-stats](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/wrappers/samtools/stats.html)                               |
-| FastQC   | [fastqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/wrappers/fastqc.html)                                       |
 | MultiQC  | [multiqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/wrappers/multiqc.html)                                     |

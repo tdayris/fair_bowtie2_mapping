@@ -5,37 +5,58 @@ Results
 Alongside with the report, you may find directories called `reference`,
 and `results`.
 
+
+Results
+=======
+
+
 Reference
 ---------
 
-You shall find all genome-related files in it. Considering a genome named `XXX`,
-the following files are present:
+
+Alongside with this report, you may find a directory called `reference`.
+You shall find all requested files in it. By default, the following
+files are present:
 
 ::
 
     reference/
-    ├── XXX.all.vcf
-    ├── XXX.cdna.fasta
-    ├── XXX.cdna.fasta.fai
-    ├── XXX.dna.dict
-    ├── XXX.dna.fasta
-    ├── XXX.dna.fasta.fai
-    └── XXX.gtf
+    ├── blacklist
+    |   └── XXX.merged.bed
+    ├── variants
+    |   ├── XXX.all.vcf.gz
+    |   └── XXX.all.vcf.gz.tbi
+    ├── sequences
+    |   ├── XXX.cdna.fasta
+    |   ├── XXX.cdna.fasta.fai
+    |   ├── XXX.dna.dict
+    |   ├── XXX.dna.fasta
+    |   └── XXX.dna.fasta.fai
+    └── annotation
+        ├── XXX.id_to_gene.tsv
+        ├── XXX.t2g.tsv
+        └── XXX.gtf
 
 
-+---------------+-----------------------------+
-| Extension     | Content                     |
-+===============+=============================+
-| `.gtf`        | Genome annotation           |
-+---------------+-----------------------------+
-| `.fasta`      | Genome sequences            |
-+---------------+-----------------------------+
-| `.fasta.fai`  | Genome sequences index      |
-+---------------+-----------------------------+
-| `.dict`       | Genome sequences dictionary |
-+---------------+-----------------------------+
-| `.vcf`        | Genome known variations     |
-+---------------+-----------------------------+
++-------------------+-----------------------------+
+| Extension         | Content                     |
++===================+=============================+
+| `.bed`            | Genome blacklisted regions  |
++-------------------+-----------------------------+
+| `.gtf`            | Genome annotation           |
++-------------------+-----------------------------+
+| `.id_to_gene.tsv` | Genome id-to-name           |
++-------------------+-----------------------------+
+| `.t2g.tsv`        | Transcript id-to-name       |
++-------------------+-----------------------------+
+| `.fasta`          | Genome sequences            |
++-------------------+-----------------------------+
+| `.fasta.fai`      | Genome sequences index      |
++-------------------+-----------------------------+
+| `.dict`           | Genome sequences dictionary |
++-------------------+-----------------------------+
+| `.vcf.gz`         | Genome known variations     |
++-------------------+-----------------------------+
 
 These files are quite volumous and are not embeded in this HTML page. Please
 find them directly on file system.
@@ -44,7 +65,7 @@ find them directly on file system.
 Results
 -------
 
-Given an samples called `YYY` and a genome called `XXX`,
+Given a samples called `YYY` and a genome called `XXX`,
 the following files are present:
 
 
@@ -64,6 +85,7 @@ the following files are present:
         │   └── YYY.html
         └── report_se
             └── YYY.html
+
 
 
 +---------------+-----------------------------+-----------------------------------------------+

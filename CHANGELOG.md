@@ -1,3 +1,25 @@
+# 3.0.0
+
+Breaking change: Non canonical chromosomes removed by default
+
+## Features:
+
+* fair_genome_indexer update to [3.0.0](https://github.com/tdayris/fair_genome_indexer/releases/tag/3.0.0)
+* snakemake-wrappers updated to [v3.3.3](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/index.html)
+* snakemake github action updated to [1.25.1](https://github.com/snakemake/snakemake-github-action/releases/tag/v1.25.1)
+* Documentation update
+
+## Fix:
+
+* Wrong parameters passed to MultiQC when importing pipeline with no parameters
+
+## Documentation:
+
+* Pipeline description updated
+* Usage generalized
+* Gustave Roussy users have a dedicated usage section
+
+
 # 2.3.0
 
 ## Features:
