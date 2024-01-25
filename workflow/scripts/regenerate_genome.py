@@ -63,9 +63,7 @@ def replace_col(df: pandas.DataFrame, column: str, default: str) -> pandas.DataF
 
 
 # Main programm
-genomes: pandas.DataFrame = pandas.read_csv(
-    filepath_or_buffer=snakemake.input.genomes, sep=",", header=0, index_col=None
-)
+genomes: pandas.DataFrame = snakemake.params.genomes
 
 # Bowtie2 index
 genomes = replace_col(

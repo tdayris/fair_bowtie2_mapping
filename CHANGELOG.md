@@ -1,3 +1,14 @@
+# 3.0.1
+
+## Features:
+
+* Genome schema validation update
+
+## Fixes:
+
+* Report testing removed as long as TBD issue is opened
+* Do not download un-necessary reference files anymore
+
 # 3.0.0
 
 Breaking change: Non canonical chromosomes removed by default

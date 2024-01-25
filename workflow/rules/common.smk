@@ -385,7 +385,6 @@ def get_fair_bowtie2_mapping_target(
         ],
         "bams": [],
         "bais": [],
-        "genomes": "reference/genomes/fair_genome_indexer.csv",
     }
     sample_iterator = zip(
         samples.sample_id,

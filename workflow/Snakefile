@@ -32,6 +32,8 @@ rule fair_bowtie2_mapping_target:
         "logs/fair_bowtie2_mapping_target.log",
     benchmark:
         "benchmark/fair_bowtie2_mapping_target.tsv"
+    params:
+        genomes=genomes.copy(),
     conda:
         "envs/python.yaml"
     script:
