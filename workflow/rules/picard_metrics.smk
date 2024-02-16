@@ -1,10 +1,19 @@
-rule picard_create_multiple_metrics:
+rule fair_bowtie2_mapping_picard_create_multiple_metrics:
     input:
-        unpack(get_picard_create_multiple_metrics_input),
+        bam="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam",
+        bai="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam.bai",
+        ref=getattr(
+            lookup(
+                query="species == '{species}' & build == '{build}' & release == '{release}'",
+                within=genomes,
+            ),
+            "dna_fasta",
+            "reference/sequences/{species}.{build}.{release}.{datatype}.fasta",
+        ),
     output:
         temp(
             multiext(
-                "tmp/picard/{species}.{build}.{release}.{datatype}/stats/{sample}",
+                "tmp/fair_bowtie2_mapping/picard_create_multiple_metrics/{species}.{build}.{release}.{datatype}/stats/{sample}",
                 ".alignment_summary_metrics",
                 ".insert_size_metrics",
                 ".insert_size_histogram.pdf",
@@ -17,16 +26,14 @@ rule picard_create_multiple_metrics:
         ),
     threads: 1
     resources:
-        # Reserve 3Gb per attempt
         mem_mb=lambda wildcards, attempt: (3 * 1024) * attempt,
-        # Reserve 35min per attempt
         runtime=lambda wildcards, attempt: int(60 * 0.6) * attempt,
         tmpdir="tmp",
     log:
-        "logs/picard/collectmultiplemetrics/{species}.{build}.{release}.{datatype}/{sample}.log",
+        "logs/fair_bowtie2_mapping/picard_create_multiple_metrics/{species}.{build}.{release}.{datatype}/{sample}.log",
     benchmark:
-        "benchmark/picard/collectmultiplemetrics/{species}.{build}.{release}.{datatype}/{sample}.tsv"
+        "benchmark/fair_bowtie2_mapping/picard_create_multiple_metrics/{species}.{build}.{release}.{datatype}/{sample}.tsv"
     params:
-        extra=config.get("params", {}).get("picard", {}).get("metrics", ""),
+        extra=lookup(dpath="params/picard/collectmultiplemetrics", within=config),
     wrapper:
-        "v3.3.3/bio/picard/collectmultiplemetrics"
+        "v3.3.6/bio/picard/collectmultiplemetrics"

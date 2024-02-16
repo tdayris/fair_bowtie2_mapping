@@ -15,7 +15,49 @@ A complete description of the results can be found here in [workflow reports](ht
 
 The tools used in this pipeline are described [here](https://github.com/tdayris/fair_bowtie2_mapping/blob/main/workflow/report/material_methods.rst) textually. Web-links are available below:
 
-![workflow_rulegraph](dag.png)
+```
+┌─────────────────────────────────┐                     ┌───────────────────────────────┐
+│  fair_genome_indexer_pipeline   │                     │  fair_fastqc_multiqc_pipeline │
+└───────────┬─────────────────────┘                     └───────────────────────────┬───┘
+            │                                                                       │
+            │                                                                       │
+            │                                                                       │
+            │                                                                       │
+            │                                                                       │
+  ┌─────────▼───────────┐           ┌────────────────────────┐                      │
+  │    Bowtie2          │           │      Fastp             │                      │
+  │ Index DNA sequence  │           │ Trimm and check reads  │                      │
+  └──────────────────┬──┘           │ qualittiy              ├─────────────────┐    │
+                     │              └────────────────────────┘                 │    │
+                     │                                                         │    │
+                     │                                                         │    │
+                     │                                                         │    │
+                     │                                                         │    │
+                     │                                                         │    │
+             ┌───────▼──────────────┐                                          │    │
+             │     Bowtie2          │                                        ┌─▼────▼──────────┐
+             │  Align trimmed reads ├────────────────────────────────────────►                 │
+             └───────┬──────────────┘                                        │     MultiQC     │
+                     │                                                       │  Quality report │
+                     │                                                       │                 │
+             ┌───────▼──────────────────────────┐                            └──▲──▲───────────┘
+             │    Sambamba                      │                               │  │
+             │  Quality filters + sorting +     │                               │  │
+             │  duplicated reads identification │                               │  │
+             └────────────────┬───────────┬─────┘                               │  │
+                              │           │                                     │  │
+                              │     ┌─────▼─────────────┐                       │  │
+                              │     │     Samtools      ├───────────────────────┘  │
+                              │     │  Quality controls │                          │
+                              │     └───────────────────┘                          │
+                              │                                                    │
+                              │                                                    │
+                              │        ┌──────────────────┐                        │
+                              │        │   Picard         ├────────────────────────┘
+                              └────────► Quality controls │
+                                       └──────────────────┘
+
+```
 
 ### Index and genome sequences with [`fair_genome_indexer`](https://github.com/tdayris/fair_genome_indexer/)
 

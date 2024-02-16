@@ -7,7 +7,7 @@ and ignore the rest of this documentation.
 ::
 
     # Activate conda environment
-    conda activate /mnt/beegfs/pipelines/unofficial-snakemake-wrappers/shared_install/bigr_epicure_pipeline/
+    conda activate /mnt/beegfs/pipelines/unofficial-snakemake-wrappers/shared_install/snakemake_v8.4.8
 
     # Deploy workflow with the version of your choice
     snakedeploy deploy-workflow \
@@ -15,7 +15,7 @@ and ignore the rest of this documentation.
         --tag <version>
 
     # Run snakemake command
-    snakemake --profile '/mnt/beegfs/pipelines/unofficial-snakemake-wrappers/profiles/slurm-web/'
+    snakemake --profile '/mnt/beegfs/pipelines/unofficial-snakemake-wrappers/profiles/slurm-web-8/'
 
 With `version` being the latest available version of this pipeline. Select your `version here`_
 

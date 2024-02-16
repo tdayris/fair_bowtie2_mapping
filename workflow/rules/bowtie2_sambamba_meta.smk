@@ -1,13 +1,20 @@
 module bowtie2_sambamba_metawrapper:
     meta_wrapper:
-        "v3.3.3/meta/bio/bowtie2_sambamba"
+        "v3.3.6/meta/bio/bowtie2_sambamba"
     config:
         config
 
 
-use rule bowtie2_build from bowtie2_sambamba_metawrapper with:
+use rule bowtie2_build from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping_bowtie2_build with:
     input:
-        unpack(get_bowtie2_build_input),
+        ref=getattr(
+            lookup(
+                query="species == '{species}' & build == '{build}' & release == '{release}'",
+                within=genomes,
+            ),
+            "dna_fasta",
+            "reference/sequences/{species}.{build}.{release}.{datatype}.fasta",
+        ),
     output:
         multiext(
             "reference/bowtie2_index/{species}.{build}.{release}.{datatype}",
@@ -20,35 +27,63 @@ use rule bowtie2_build from bowtie2_sambamba_metawrapper with:
         ),
     threads: 20
     resources:
-        # Reserve 15Gb per attempt
         mem_mb=lambda wildcards, attempt: (15 * 1024) * attempt,
-        # Reserve 60min per attempt
         runtime=lambda wildcards, attempt: int(60 * 1.5) * attempt,
         tmpdir="tmp",
     log:
-        "logs/bowtie2/build/{species}.{build}.{release}.{datatype}.log",
+        "logs/fair_bowtie2_mapping/bowtie2_build/{species}.{build}.{release}.{datatype}.log",
     benchmark:
-        "benchmark/bowtie2/build/{species}.{build}.{release}.{datatype}.tsv"
+        "benchmark/fair_bowtie2_mapping/bowtie2_build/{species}.{build}.{release}.{datatype}.tsv"
     params:
-        extra=config.get("params", {}).get("bowtie2", {}).get("build", ""),
+        extra=lookup(dpath="params/bowtie2/build", within=config),
 
 
-use rule bowtie2_alignment from bowtie2_sambamba_metawrapper with:
+use rule bowtie2_alignment from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping_bowtie2_alignment with:
     input:
-        unpack(get_bowtie2_alignment_input),
+        sample=branch(
+            lookup(
+                query="sample_id == '{sample}' & species == '{species}' & build == '{build}' & release == '{release}' & downstream_file == downstream_file",
+                within=samples,
+            ),
+            then=expand(
+                "tmp/fair_bowtie2_mapping/fastp_trimming_pair_ended/{sample}.{stream}.fastq",
+                sample="{sample}",
+                stream=stream_list,
+            ),
+            otherwise=expand(
+                "tmp/fair_bowtie2_mapping/fastp_trimming_single_ended/{sample}.fastq",
+                sample="{sample}",
+            ),
+        ),
+        idx=getattr(
+            lookup(
+                query="species == '{species}' & build == '{build}' & release == '{release}'",
+                within=genomes,
+            ),
+            "bowtie2_index",
+            multiext(
+                "reference/bowtie2_index/{species}.{build}.{release}.{datatype}",
+                ".1.bt2",
+                ".2.bt2",
+                ".3.bt2",
+                ".4.bt2",
+                ".rev.1.bt2",
+                ".rev.2.bt2",
+            ),
+        ),
     output:
-        temp("tmp/bowtie2/{species}.{build}.{release}.{datatype}/{sample}_raw.bam"),
+        temp(
+            "tmp/fair_bowtie2_mapping/bowtie2_alignment/{species}.{build}.{release}.{datatype}/{sample}.bam"
+        ),
     threads: 20
     resources:
-        # Reserve 15Gb per attempt
         mem_mb=lambda wildcards, attempt: (15 * 1024) * attempt,
-        # Reserve 1h30 per attempt
         runtime=lambda wildcards, attempt: int(60 * 1.5) * attempt,
         tmpdir="tmp",
     log:
-        "logs/bowtie2/align/{species}.{build}.{release}.{datatype}/{sample}.log",
+        "logs/fair_bowtie2_mapping/bowtie2_alignment/{species}.{build}.{release}.{datatype}/{sample}.log",
     benchmark:
-        "benchmark/bowtie2/align/{species}.{build}.{release}.{datatype}/{sample}.tsv"
+        "benchmark/fair_bowtie2_mapping/bowtie2_alignment/{species}.{build}.{release}.{datatype}/{sample}.tsv"
     params:
         extra=config.get("params", {})
         .get("bowtie2", {})
@@ -58,72 +93,63 @@ use rule bowtie2_alignment from bowtie2_sambamba_metawrapper with:
         ),
 
 
-use rule sambamba_sort from bowtie2_sambamba_metawrapper with:
+use rule sambamba_sort from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping_sambamba_sort with:
     input:
-        "tmp/bowtie2/{species}.{build}.{release}.{datatype}/{sample}_raw.bam",
+        "tmp/fair_bowtie2_mapping/bowtie2_alignment/{species}.{build}.{release}.{datatype}/{sample}.bam",
     output:
-        temp("tmp/sambamba/sort/{species}.{build}.{release}.{datatype}/{sample}.bam"),
-    threads: 6
-    resources:
-        # Reserve 6Gb per attempt
-        mem_mb=lambda wildcards, attempt: (6 * 1024) * attempt,
-        # Reserve 45min per attempt
-        runtime=lambda wildcards, attempt: int(60 * 0.75) * attempt,
-        tmpdir="tmp",
-    log:
-        "logs/sambamba/sort/{species}.{build}.{release}.{datatype}/{sample}.log",
-    benchmark:
-        "benchmark/sambamba/sort/{species}.{build}.{release}.{datatype}/{sample}.tsv"
-
-
-use rule sambamba_view from bowtie2_sambamba_metawrapper with:
-    input:
-        "tmp/sambamba/sort/{species}.{build}.{release}.{datatype}/{sample}.bam",
-    output:
-        temp("tmp/sambamba/view/{species}.{build}.{release}.{datatype}/{sample}.bam"),
-    threads: 6
-    resources:
-        # Reserve 2Gb per attempt
-        mem_mb=lambda wildcards, attempt: (2 * 1024) * attempt,
-        # Reserve 45min per attempt
-        runtime=lambda wildcards, attempt: int(60 * 0.75) * attempt,
-        tmpdir="tmp",
-    log:
-        "logs/sambamba/view/{species}.{build}.{release}.{datatype}/{sample}.log",
-    benchmark:
-        "benchmark/sambamba/view/{species}.{build}.{release}.{datatype}/{sample}.tsv"
-    params:
-        extra=config.get("params", {})
-        .get("sambamba", {})
-        .get(
-            "view",
-            "--format 'bam' --filter 'mapping_quality >= 30 and not (unmapped or mate_is_unmapped)'",
+        temp(
+            "tmp/fair_bowtie2_mapping/sambamba_sort/{species}.{build}.{release}.{datatype}/{sample}.bam"
         ),
+    threads: 6
+    resources:
+        mem_mb=lambda wildcards, attempt: (6 * 1024) * attempt,
+        runtime=lambda wildcards, attempt: int(60 * 0.75) * attempt,
+        tmpdir="tmp",
+    log:
+        "logs/fair_bowtie2_mapping/sambamba_sort/{species}.{build}.{release}.{datatype}/{sample}.log",
+    benchmark:
+        "benchmark/fair_bowtie2_mapping/sambamba_sort/{species}.{build}.{release}.{datatype}/{sample}.tsv"
 
 
-use rule sambamba_markdup from bowtie2_sambamba_metawrapper with:
+use rule sambamba_view from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping_sambamba_view with:
     input:
-        "tmp/sambamba/view/{species}.{build}.{release}.{datatype}/{sample}.bam",
+        "tmp/fair_bowtie2_mapping/sambamba_sort/{species}.{build}.{release}.{datatype}/{sample}.bam",
+    output:
+        temp(
+            "tmp/fair_bowtie2_mapping/sambamba_view/{species}.{build}.{release}.{datatype}/{sample}.bam"
+        ),
+    threads: 6
+    resources:
+        mem_mb=lambda wildcards, attempt: (2 * 1024) * attempt,
+        runtime=lambda wildcards, attempt: int(60 * 0.75) * attempt,
+        tmpdir="tmp",
+    log:
+        "logs/fair_bowtie2_mapping/sambamba_view/{species}.{build}.{release}.{datatype}/{sample}.log",
+    benchmark:
+        "benchmark/fair_bowtie2_mapping/sambamba_view/{species}.{build}.{release}.{datatype}/{sample}.tsv"
+    params:
+        extra=lookup(dpath="params/sambamba/view", within=config),
+
+
+use rule sambamba_markdup from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping_sambamba_markdup with:
+    input:
+        "tmp/fair_bowtie2_mapping/sambamba_view/{species}.{build}.{release}.{datatype}/{sample}.bam",
     output:
         protected("results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam"),
     threads: 6
     resources:
-        # Reserve 6Gb per attempt
         mem_mb=lambda wildcards, attempt: (6 * 1024) * attempt,
-        # Reserve 30min per attempt
         runtime=lambda wildcards, attempt: int(60 * 0.75) * attempt,
         tmpdir="tmp",
     log:
-        "logs/sambamba/markdup/{species}.{build}.{release}.{datatype}/{sample}.log",
+        "logs/fair_bowtie2_mapping/sambamba_markdup/{species}.{build}.{release}.{datatype}/{sample}.log",
     benchmark:
-        "benchmark/sambamba/markdup/{species}.{build}.{release}.{datatype}/{sample}.tsv"
+        "benchmark/fair_bowtie2_mapping/sambamba_markdup/{species}.{build}.{release}.{datatype}/{sample}.tsv"
     params:
-        extra=config.get("params", {})
-        .get("sambamba", {})
-        .get("markdup", "--remove-duplicates --overflow-list-size=500000"),
+        extra=lookup(dpath="params/sambamba/markdup", within=config),
 
 
-use rule sambamba_index from bowtie2_sambamba_metawrapper with:
+use rule sambamba_index from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping_sambamba_index with:
     input:
         "results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam",
     output:
@@ -132,12 +158,10 @@ use rule sambamba_index from bowtie2_sambamba_metawrapper with:
         ),
     threads: 1
     resources:
-        # Reserve 2Gb per attempt
         mem_mb=lambda wildcards, attempt: (2 * 1024) * attempt,
-        # Reserve 30min per attempt
         runtime=lambda wildcards, attempt: int(60 * 0.5) * attempt,
         tmpdir="tmp",
     log:
-        "logs/sambamba/index/{species}.{build}.{release}.{datatype}/{sample}.log",
+        "logs/fair_bowtie2_mapping/sambamba_index/{species}.{build}.{release}.{datatype}/{sample}.log",
     benchmark:
-        "benchmark/sambamba/index/{species}.{build}.{release}.{datatype}/{sample}.tsv"
+        "benchmark/fair_bowtie2_mapping/sambamba_index/{species}.{build}.{release}.{datatype}/{sample}.tsv"

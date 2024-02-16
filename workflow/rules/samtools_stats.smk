@@ -1,21 +1,21 @@
-rule samtools_stats:
+rule fair_bowtie2_mapping_samtools_stats:
     input:
         bam="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam",
         bai="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam.bai",
     output:
-        temp("tmp/samtools/{species}.{build}.{release}.{datatype}/{sample}.txt"),
+        temp(
+            "tmp/fair_bowtie2_mapping/samtools_stats/{species}.{build}.{release}.{datatype}/{sample}.txt"
+        ),
     threads: 1
     resources:
-        # Reserve 2Gb per attempt
         mem_mb=lambda wildcards, attempt: (2 * 1024) * attempt,
-        # Reserve 35min per attempt
         runtime=lambda wildcards, attempt: int(60 * 0.6) * attempt,
         tmpdir="tmp",
     log:
-        "logs/samtools/{species}.{build}.{release}.{datatype}/{sample}.log",
+        "logs/fair_bowtie2_mapping/samtools_stats/{species}.{build}.{release}.{datatype}/{sample}.log",
     benchmark:
-        "benchmark/samtools/{species}.{build}.{release}.{datatype}/{sample}.tsv"
+        "benchmark/fair_bowtie2_mapping/samtools_stats/{species}.{build}.{release}.{datatype}/{sample}.tsv"
     params:
-        extra=config.get("params", {}).get("samtools", {}).get("stats", ""),
+        extra=lookup(dpath="params/samtools/stats", within=config),
     wrapper:
         "v3.3.3/bio/samtools/stats"

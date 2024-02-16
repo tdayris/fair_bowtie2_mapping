@@ -12,6 +12,17 @@ params:
   agat:
     # Optional parameters for agat_convert_sp_gff2gtf.pl
     gff2gtf: ""
+    # Optional paraasamples: config/samples.csv
+  # Optional parameters for pyfaidx (filter/correct fasta format)
+  pyfaidx:
+    # Filter-out non canonical chromosomes
+    dna: '--regex "^[[0-9]+|X|Y|MT]"'
+    # Keep all cdna sequences
+    cdna: ""
+  # Optional parameters for agat (filter/correct GTF format)
+  agat:
+    # Optional parameters for agat_convert_sp_gff2gtf.pl
+    gff2gtf: ""
     # Optional parameters for agat_sq_filter_feature_from_fasta.pl
     filter_features: ""
     # Optional parameters for agat_sq_select_feature_by_attribute_value.pl
@@ -24,6 +35,8 @@ params:
   bedtools:
     # Optional parameters for filtering non-canonical chromosomes over dbSNP
     filter_non_canonical_chrom: ""
+    # Optional parameters for bedtools merge, when merging blacklisted regions
+    merge: ""
   # Optional parameters for tabix index VCF
   tabix: "-p vcf"
   # Optional parameters for fastp
@@ -32,6 +45,14 @@ params:
     adapters: ""
     # Optional command line arguments for fastp
     extra: ""
+  # Optional parameters for FastQ Screen
+  fastq_screen:
+    # Number of reads processed
+    subset: 100000
+    # Aligner used to index dna sequences
+    aligner: bowtie2
+    # Path to configuration file
+    fastq_screen_config: ""
   # Optional parameters for fastqc
   fastqc: ""
   # Optional parameters for bowtie2
@@ -50,6 +71,8 @@ params:
     metrics: ""
     # Optional parameters for picard create sequence dictionary
     createsequencedictionary: ""
+    # Optional parameters for collect multiple metrics
+    collectmultiplemetrics: ""
   # Optional parameters for samtools stats
   samtools:
     # Optional parameters for samtools fasta index
@@ -58,6 +81,14 @@ params:
     stats: ""
   # Optional parameters for multiqc
   multiqc: "--module picard --module fastqc --module fastp --module samtools --module bowtie2 --module sambamba --zip-data-dir --verbose --no-megaqc-upload --no-ansi --force"
+  # Optional parameters for wget
+  wget: "--verbose"
+  # Optional parameters for rsync
+  rsync: "--verbose --checksum --force --human-readable --progress"
+  # Optional parameters for pyroe
+  pyroe:
+    # Optional parameters for ID 2 name
+    idtoname: ""
 
 # Optional path to a `genome.csv` file
 genomes: config/genomes.csv

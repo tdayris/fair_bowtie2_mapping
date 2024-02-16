@@ -1,3 +1,18 @@
+# 3.1.0
+
+Update to Snakemake v8+
+
+## Features:
+
+* Usage updated
+* DAG as ascii art
+* tempfiles, logs and benchmarks paths reorganized: 
+    * `tmp/fair_fastqc_multiqc/{rule_name}/{wildcards}.{extension}`
+    * `log/fair_fastqc_multiqc/{rule_name}/{wildcards}.log`
+    * `benchmark/fair_fastqc_multiqc/{rule_name}/{wildcards}.tsv`
+* use of `lookup` and `collect` rather than hand made functions
+* All keys in configuration must be present in configuration file
+
 # 3.0.1
 
 ## Features:

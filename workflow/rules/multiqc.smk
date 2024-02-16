@@ -1,36 +1,30 @@
-rule mapping_multiqc_report:
+rule fair_bowtie2_mapping_multiqc_report:
     input:
         unpack(get_multiqc_report_input),
     output:
         report(
-            "results/QC/MultiQC_Mapping.html",
+            "results/{species}.{build}.{release}.{datatype}/QC/MultiQC_Mapping.html",
             caption="../report/multiqc.rst",
             category="Quality Controls",
             subcategory="General",
             labels={
                 "report": "html",
                 "step": "Mapping",
+                "organism": "{species}.{build}.{release}.{datatype}",
             },
         ),
-        "results/QC/MultiQC_Mapping_data.zip",
+        "results/{species}.{build}.{release}.{datatype}/QC/MultiQC_Mapping_data.zip",
     threads: 1
     resources:
-        # Reserve 2Gb per attempt
         mem_mb=lambda wildcards, attempt: (2 * 1024) * attempt,
-        # Reserve 30min per attempt
         runtime=lambda wildcards, attempt: int(60 * 0.5) * attempt,
         tmpdir="tmp",
     params:
-        extra=config.get("params", {}).get(
-            "multiqc",
-            "--module picard --module fastqc --module fastp --module samtools "
-            "--module bowtie2 --module sambamba --zip-data-dir --verbose "
-            "--no-megaqc-upload --no-ansi --force",
-        ),
+        extra=lookup(dpath="params/multiqc", within=config),
         use_input_files_only=True,
     log:
-        "logs/multiqc.log",
+        "logs/fair_bowtie2_mapping/multiqc_report/{species}.{build}.{release}.{datatype}.log",
     benchmark:
-        "benchmark/multiqc.tsv"
+        "benchmark/fair_bowtie2_mapping/multiqc_report/{species}.{build}.{release}.{datatype}.tsv"
     wrapper:
-        "v3.3.3/bio/multiqc"
+        "v3.3.6/bio/multiqc"

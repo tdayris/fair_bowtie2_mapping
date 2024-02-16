@@ -1,2 +1,2 @@
-species,build,release
-saccharomyces_cerevisiae,R64-1-1,111
+species,build,release,dna_fasta
+saccharomyces_cerevisiae,R64-1-1,111,test

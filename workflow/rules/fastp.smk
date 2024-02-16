@@ -1,11 +1,15 @@
-rule fastp_trimming_pair_ended:
+rule fair_bowtie2_mapping_fastp_trimming_pair_ended:
     input:
-        unpack(get_fastp_trimming_input),
+        sample=expand(
+            "tmp/fair_fastqc_multiqc/link_or_concat_pair_ended_input/{sample}.{stream}.fastq.gz",
+            stream=stream_list,
+            allow_missing=True,
+        ),
     output:
         trimmed=temp(
             expand(
-                "tmp/fastp/trimmed/{sample}.{stream}.fastq",
-                stream=["1", "2"],
+                "tmp/fair_bowtie2_mapping/fastp_trimming_pair_ended/{sample}.{stream}.fastq",
+                stream=stream_list,
                 allow_missing=True,
             )
         ),
@@ -20,28 +24,34 @@ rule fastp_trimming_pair_ended:
                 "library": "pair_ended",
             },
         ),
-        json=temp("tmp/fastp/report_pe/{sample}.fastp.json"),
+        json=temp(
+            "tmp/fair_bowtie2_mapping/fastp_trimming_pair_ended/{sample}.fastp.json"
+        ),
     threads: 20
     resources:
-        # Reserve 4Gb per attempt
         mem_mb=lambda wildcards, attempt: (4 * 1024) * attempt,
-        # Reserve 30min per attempt
         runtime=lambda wildcards, attempt: int(60 * 0.5) * attempt,
         tmpdir="tmp",
     log:
-        "logs/fastp/{sample}.log",
+        "logs/fair_bowtie2_mapping/fastp_trimming_pair_ended/{sample}.log",
     benchmark:
-        "benchmark/fastp/{sample}.tsv"
+        "benchmark/fair_bowtie2_mapping/fastp_trimming_pair_ended/{sample}.tsv"
     params:
-        adapters=config.get("params", {}).get("fastp", {}).get("adapters", ""),
-        extra=config.get("params", {}).get("fastp", {}).get("extra", ""),
+        adapters=lookup(dpath="params/fastp/adapters", within=config),
+        extra=lookup(dpath="params/fastp/extra", within=config),
     wrapper:
-        "v3.3.3/bio/fastp"
+        "v3.3.6/bio/fastp"
 
 
-use rule fastp_trimming_pair_ended as fastp_trimming_single_ended with:
+use rule fair_bowtie2_mapping_fastp_trimming_pair_ended as fair_bowtie2_mapping_fastp_trimming_single_ended with:
+    input:
+        sample=[
+            "tmp/fair_fastqc_multiqc/link_or_concat_single_ended_input/{sample}.fastq.gz"
+        ],
     output:
-        trimmed=temp("tmp/fastp/trimmed/{sample}.fastq"),
+        trimmed=temp(
+            "tmp/fair_bowtie2_mapping/fastp_trimming_single_ended/{sample}.fastq"
+        ),
         html=report(
             "results/QC/report_se/{sample}.html",
             caption="../report/fastp.rst",
@@ -53,4 +63,10 @@ use rule fastp_trimming_pair_ended as fastp_trimming_single_ended with:
                 "library": "single_ended",
             },
         ),
-        json=temp("tmp/fastp/report_se/{sample}.fastp.json"),
+        json=temp(
+            "tmp/fair_bowtie2_mapping/fastp_trimming_single_ended/{sample}.fastp.json"
+        ),
+    log:
+        "logs/fair_bowtie2_mapping/fastp_trimming_single_ended/{sample}.log",
+    benchmark:
+        "benchmark/fair_bowtie2_mapping/fastp_trimming_single_ended/{sample}.tsv"
