@@ -12,3 +12,5 @@
 .test/report.txt
 .test/genomes.csv
 .test/black.txt
+.test/report.html
+.test/report.zip

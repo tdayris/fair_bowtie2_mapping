@@ -96,27 +96,39 @@ def get_multiqc_report_input(
     Return (dict[str, list[str]]):
     Dictionnary of all input files as required by MultiQC's snakemake-wrapper
     """
+    species: str = str(wildcards.species)
+    build: str = str(wildcards.build)
+    release: str = str(wildcards.release)
     datatype: str = str(wildcards.datatype)
     results: dict[str, list[str]] = {
         "fastp_pair_ended": collect(
             "tmp/fair_bowtie2_mapping/fastp_trimming_pair_ended/{sample.sample_id}.fastp.json",
-            sample=lookup(query="downstream_file == downstream_file", within=samples),
+            sample=lookup(
+                query=f"downstream_file == downstream_file & species == '{species}' & build == '{build}' & release == '{release}'",
+                within=samples,
+            ),
         ),
         "fastp_single_ended": collect(
             "tmp/fair_bowtie2_mapping/fastp_trimming_single_ended/{sample.sample_id}.fastp.json",
-            sample=lookup(query="downstream_file != downstream_file", within=samples),
+            sample=lookup(
+                query=f"downstream_file != downstream_file & species == '{species}' & build == '{build}' & release == '{release}'",
+                within=samples,
+            ),
         ),
         "fastqc_pair_ended": collect(
             "results/QC/report_pe/{sample.sample_id}.{stream}_fastqc.zip",
             sample=lookup(
-                query="downstream_file == downstream_file",
+                query=f"downstream_file == downstream_file & species == '{species}' & build == '{build}' & release == '{release}'",
                 within=samples,
             ),
             stream=stream_list,
         ),
         "fastqc_single_ended": collect(
             "results/QC/report_pe/{sample.sample_id}_fastqc.zip",
-            sample=lookup(query="downstream_file != downstream_file", within=samples),
+            sample=lookup(
+                query=f"downstream_file != downstream_file & species == '{species}' & build == '{build}' & release == '{release}'",
+                within=samples,
+            ),
         ),
         "bowtie2": [],
         "samtools": [],

@@ -63,40 +63,41 @@ The tools used in this pipeline are described [here](https://github.com/tdayris/
 
 | Step                             | Commands                                                                                                         |
 | -------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| Download DNA Fasta from Ensembl  | [ensembl-sequence](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/wrappers/reference/ensembl-sequence.html) |
+| Download DNA Fasta from Ensembl  | [ensembl-sequence](https://snakemake-wrappers.readthedocs.io/en/v3.3.6/wrappers/reference/ensembl-sequence.html) |
 | Remove non-canonical chromosomes | [pyfaidx](https://github.com/mdshw5/pyfaidx)                                                                     |
-| Index DNA sequence               | [samtools](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/wrappers/samtools/faidx.html)                     |
-| Creatse sequence Dictionary      | [picard](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/wrappers/picard/createsequencedictionary.html)      |
+| Index DNA sequence               | [samtools](https://snakemake-wrappers.readthedocs.io/en/v3.3.6/wrappers/samtools/faidx.html)                     |
+| Creatse sequence Dictionary      | [picard](https://snakemake-wrappers.readthedocs.io/en/v3.3.6/wrappers/picard/createsequencedictionary.html)      |
 
 ### Raw-sequences QC with [`fair_fastqc_multiqc`](https://github.com/tdayris/fair_fastqc_multiqc/)
 
-| Step    | Wrapper                                                                                      |
-| ------- | -------------------------------------------------------------------------------------------- |
-| FastQC  | [fastqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/wrappers/fastqc.html)   |
-| MultiQC | [multiqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/wrappers/multiqc.html) |
+| Step       | Wrapper                                                                                        |
+| ---------- | ---------------------------------------------------------------------------------------------- |
+| FastQC     | [fastqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.3.6/wrappers/fastqc.html)     |
+| FastScreen | [fastq-screen](https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/fastq_screen.html) |
+| MultiQC    | [multiqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.3.6/wrappers/multiqc.html)   |
 
 ### Bowtie2 Mapping
 
 | Step          | Meta-Wrapper                                                                                                              | Wrapper                                                                                           |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| Bowtie2-build | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/meta-wrappers/bowtie2_sambamba.html) | [bowtie2-build](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/wrappers/bowtie2/build.html) |
-| Fastp         |                                                                                                                           | [fastp](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/wrappers/fastp.html)                  |
-| Bowtie2-align | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/meta-wrappers/bowtie2_sambamba.html) | [bowtie2-align](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/wrappers/bowtie2/align.html) |
-| Sambamba sort | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/meta-wrappers/bowtie2_sambamba.html) | [sambamba-sort](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/wrappers/sambamba/sort.html) |
+| Bowtie2-build | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.3.6/meta-wrappers/bowtie2_sambamba.html) | [bowtie2-build](https://snakemake-wrappers.readthedocs.io/en/v3.3.6/wrappers/bowtie2/build.html) |
+| Fastp         |                                                                                                                           | [fastp](https://snakemake-wrappers.readthedocs.io/en/v3.3.6/wrappers/fastp.html)                  |
+| Bowtie2-align | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.3.6/meta-wrappers/bowtie2_sambamba.html) | [bowtie2-align](https://snakemake-wrappers.readthedocs.io/en/v3.3.6/wrappers/bowtie2/align.html) |
+| Sambamba sort | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.3.6/meta-wrappers/bowtie2_sambamba.html) | [sambamba-sort](https://snakemake-wrappers.readthedocs.io/en/v3.3.6/wrappers/sambamba/sort.html) |
 
 ### Filtering
 
 | Step             | Meta-Wrapper                                                                                                   | Wrapper                                                                                                 |
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| Sambamba-view    | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/meta-wrappers/bowtie2_sambamba.html) | [sambamba-view](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/wrappers/sambamba/view.html)       |
-| Sambamba-markdup | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/meta-wrappers/bowtie2_sambamba.html) | [sambamba-markdup](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/wrappers/sambamba/markdup.html) |
-| Sambamba-index   | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/meta-wrappers/bowtie2_sambamba.html) | [sambamba-index](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/wrappers/sambamba/index.html)     |
+| Sambamba-view    | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.3.6/meta-wrappers/bowtie2_sambamba.html) | [sambamba-view](https://snakemake-wrappers.readthedocs.io/en/v3.3.6/wrappers/sambamba/view.html)       |
+| Sambamba-markdup | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.3.6/meta-wrappers/bowtie2_sambamba.html) | [sambamba-markdup](https://snakemake-wrappers.readthedocs.io/en/v3.3.6/wrappers/sambamba/markdup.html) |
+| Sambamba-index   | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.3.6/meta-wrappers/bowtie2_sambamba.html) | [sambamba-index](https://snakemake-wrappers.readthedocs.io/en/v3.3.6/wrappers/sambamba/index.html)     |
 
 
 ### QC
 
 | Step     | Wrapper                                                                                                                          |
 | -------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| Picard   | [picard-collectmultiplemetrics](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/wrappers/picard/collectmultiplemetrics.html) |
-| Samtools | [samtools-stats](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/wrappers/samtools/stats.html)                               |
-| MultiQC  | [multiqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.3.3/wrappers/multiqc.html)                                     |
+| Picard   | [picard-collectmultiplemetrics](https://snakemake-wrappers.readthedocs.io/en/v3.3.6/wrappers/picard/collectmultiplemetrics.html) |
+| Samtools | [samtools-stats](https://snakemake-wrappers.readthedocs.io/en/v3.3.6/wrappers/samtools/stats.html)                               |
+| MultiQC  | [multiqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.3.6/wrappers/multiqc.html)                                     |

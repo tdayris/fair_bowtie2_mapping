@@ -1,3 +1,10 @@
+# 3.1.1
+
+## Fix:
+
+* MultiQC mapping report now holds only the samples belonging to a common `{species}.{build}.{release}`
+* Readme points to the right snakemake version
+
 # 3.1.0
 
 Update to Snakemake v8+
