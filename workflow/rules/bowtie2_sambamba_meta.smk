@@ -1,6 +1,6 @@
 module bowtie2_sambamba_metawrapper:
     meta_wrapper:
-        "v3.3.6/meta/bio/bowtie2_sambamba"
+        "v3.5.0/meta/bio/bowtie2_sambamba"
     config:
         config
 
@@ -29,13 +29,13 @@ use rule bowtie2_build from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping
     resources:
         mem_mb=lambda wildcards, attempt: (15 * 1024) * attempt,
         runtime=lambda wildcards, attempt: int(60 * 1.5) * attempt,
-        tmpdir="tmp",
+        tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping/bowtie2_build/{species}.{build}.{release}.{datatype}.log",
     benchmark:
         "benchmark/fair_bowtie2_mapping/bowtie2_build/{species}.{build}.{release}.{datatype}.tsv"
     params:
-        extra=lookup(dpath="params/bowtie2/build", within=config),
+        extra=lookup(dpath="params/fair_bowtie2_mapping/bowtie2/build", within=config),
 
 
 use rule bowtie2_alignment from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping_bowtie2_alignment with:
@@ -79,7 +79,7 @@ use rule bowtie2_alignment from bowtie2_sambamba_metawrapper as fair_bowtie2_map
     resources:
         mem_mb=lambda wildcards, attempt: (15 * 1024) * attempt,
         runtime=lambda wildcards, attempt: int(60 * 1.5) * attempt,
-        tmpdir="tmp",
+        tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping/bowtie2_alignment/{species}.{build}.{release}.{datatype}/{sample}.log",
     benchmark:
@@ -104,7 +104,7 @@ use rule sambamba_sort from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping
     resources:
         mem_mb=lambda wildcards, attempt: (6 * 1024) * attempt,
         runtime=lambda wildcards, attempt: int(60 * 0.75) * attempt,
-        tmpdir="tmp",
+        tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping/sambamba_sort/{species}.{build}.{release}.{datatype}/{sample}.log",
     benchmark:
@@ -122,13 +122,13 @@ use rule sambamba_view from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping
     resources:
         mem_mb=lambda wildcards, attempt: (2 * 1024) * attempt,
         runtime=lambda wildcards, attempt: int(60 * 0.75) * attempt,
-        tmpdir="tmp",
+        tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping/sambamba_view/{species}.{build}.{release}.{datatype}/{sample}.log",
     benchmark:
         "benchmark/fair_bowtie2_mapping/sambamba_view/{species}.{build}.{release}.{datatype}/{sample}.tsv"
     params:
-        extra=lookup(dpath="params/sambamba/view", within=config),
+        extra=lookup(dpath="params/fair_bowtie2_mapping/sambamba/view", within=config),
 
 
 use rule sambamba_markdup from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping_sambamba_markdup with:
@@ -140,13 +140,15 @@ use rule sambamba_markdup from bowtie2_sambamba_metawrapper as fair_bowtie2_mapp
     resources:
         mem_mb=lambda wildcards, attempt: (6 * 1024) * attempt,
         runtime=lambda wildcards, attempt: int(60 * 0.75) * attempt,
-        tmpdir="tmp",
+        tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping/sambamba_markdup/{species}.{build}.{release}.{datatype}/{sample}.log",
     benchmark:
         "benchmark/fair_bowtie2_mapping/sambamba_markdup/{species}.{build}.{release}.{datatype}/{sample}.tsv"
     params:
-        extra=lookup(dpath="params/sambamba/markdup", within=config),
+        extra=lookup(
+            dpath="params/fair_bowtie2_mapping/sambamba/markdup", within=config
+        ),
 
 
 use rule sambamba_index from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping_sambamba_index with:
@@ -160,7 +162,7 @@ use rule sambamba_index from bowtie2_sambamba_metawrapper as fair_bowtie2_mappin
     resources:
         mem_mb=lambda wildcards, attempt: (2 * 1024) * attempt,
         runtime=lambda wildcards, attempt: int(60 * 0.5) * attempt,
-        tmpdir="tmp",
+        tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping/sambamba_index/{species}.{build}.{release}.{datatype}/{sample}.log",
     benchmark:

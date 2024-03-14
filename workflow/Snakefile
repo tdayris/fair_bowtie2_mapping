@@ -1,5 +1,4 @@
 include: "rules/common.smk"
-include: "rules/fastp.smk"
 
 
 if config.get("load_fair_genome_indexer", True):
@@ -13,9 +12,14 @@ if config.get("load_fair_fastqc_multiqc", True):
 
 
 include: "rules/bowtie2_sambamba_meta.smk"
-include: "rules/picard_metrics.smk"
-include: "rules/samtools_stats.smk"
+include: "rules/fastp.smk"
+include: "rules/goleft.smk"
 include: "rules/multiqc.smk"
+include: "rules/ngsderive.smk"
+include: "rules/picard_metrics.smk"
+include: "rules/rseqc.smk"
+include: "rules/samtools_stats.smk"
+include: "rules/ucsc.smk"
 
 
 rule fair_bowtie2_mapping_target:

@@ -1,4 +1,5 @@
 import csv
+import os
 import pandas
 import snakemake
 import snakemake.utils
@@ -9,9 +10,8 @@ from typing import Any, NamedTuple
 
 snakemake.utils.min_version("8.1.0")
 
-# containerized: "docker://snakemake/snakemake:v7.32.4"
-# containerized: "docker://mambaorg/micromamba:git-8440cec-jammy-cuda-12.2.0"
-# containerized: "docker://condaforge/mambaforge:23.3.1-1"
+
+container: "docker://snakemake/snakemake:v8.5.3"
 
 
 # Load and check configuration file
@@ -71,6 +71,7 @@ build_list: list[str] = list(set(genomes.build.tolist()))
 species_list: list[str] = list(set(genomes.species.tolist()))
 datatype_list: list[str] = ["dna", "cdna", "transcripts"]
 stream_list: list[str] = ["1", "2"]
+tmp: str = f"{os.getcwd()}/tmp"
 
 
 wildcard_constraints:
@@ -101,6 +102,8 @@ def get_multiqc_report_input(
     release: str = str(wildcards.release)
     datatype: str = str(wildcards.datatype)
     results: dict[str, list[str]] = {
+        "config": "tmp/fair_bowtie2_mapping/multiqc_config.yaml",
+        "logo": "tmp/fair_fastqc_multiqc/bigr_logo.png",
         "fastp_pair_ended": collect(
             "tmp/fair_bowtie2_mapping/fastp_trimming_pair_ended/{sample.sample_id}.fastp.json",
             sample=lookup(
@@ -133,6 +136,47 @@ def get_multiqc_report_input(
         "bowtie2": [],
         "samtools": [],
         "picard_qc": [],
+        "ngsderive_readlen": [],
+        "ngsderive_instrument": [],
+        "ngsderive_encoding": [],
+        "ngsderive_strandedness": [],
+        "ngsderive_endedness": [],
+        "goleft": [],
+        "rseqc_infer_experiment": collect(
+            "tmp/fair_bowtie2_mapping/rseqc_infer_experiment/{sample.species}.{sample.build}.{sample.release}.dna/{sample.sample_id}.infer_experiment.txt",
+            sample=lookup(
+                query=f"species == '{species}' & release == '{release}' & build == '{build}'",
+                within=samples,
+            ),
+        ),
+        "rseqc_bamstat": collect(
+            "tmp/fair_bowtie2_mapping/rseqc_bamstat/{sample.species}.{sample.build}.{sample.release}.dna/{sample.sample_id}.bamstat.txt",
+            sample=lookup(
+                query=f"species == '{species}' & release == '{release}' & build == '{build}'",
+                within=samples,
+            ),
+        ),
+        "rseqc_read_gc": collect(
+            "tmp/fair_bowtie2_mapping/rseqc_read_gc/{sample.species}.{sample.build}.{sample.release}.dna/{sample.sample_id}.GC.xls",
+            sample=lookup(
+                query=f"species == '{species}' & release == '{release}' & build == '{build}'",
+                within=samples,
+            ),
+        ),
+        "rseqc_read_distribution": collect(
+            "tmp/fair_bowtie2_mapping/rseqc_read_distribution/{sample.species}.{sample.build}.{sample.release}.dna/{sample.sample_id}.txt",
+            sample=lookup(
+                query=f"species == '{species}' & release == '{release}' & build == '{build}'",
+                within=samples,
+            ),
+        ),
+        "rseqc_inner_distance": collect(
+            "tmp/fair_bowtie2_mapping/rseqc_inner_distance/{sample.species}.{sample.build}.{sample.release}.dna/{sample.sample_id}.inner_distance_freq.txt",
+            sample=lookup(
+                query=f"species == '{species}' & release == '{release}' & build == '{build}'",
+                within=samples,
+            ),
+        ),
     }
     sample_iterator = zip(
         samples.sample_id,
@@ -157,6 +201,29 @@ def get_multiqc_report_input(
             ".gc_bias.detail_metrics",
             ".gc_bias.summary_metrics",
             ".gc_bias.pdf",
+        )
+
+        results["ngsderive_readlen"].append(
+            f"tmp/fair_bowtie2_mapping/ngsderive/readlen/{species}.{build}/{release}.{datatype}/{sample}.readlen.tsv"
+        )
+
+        results["ngsderive_instrument"].append(
+            f"tmp/fair_bowtie2_mapping/ngsderive/instrument/{species}.{build}/{release}.{datatype}/{sample}.instrument.tsv"
+        )
+
+        results["ngsderive_encoding"].append(
+            f"tmp/fair_bowtie2_mapping/ngsderive/encoding/{species}.{build}/{release}.{datatype}/{sample}.encoding.tsv"
+        )
+
+        # results["ngsderive_strandedness"].append(
+        #     f"tmp/fair_bowtie2_mapping/ngsderive/strandedness/{species}.{build}/{release}.{datatype}/{sample}.strandedness.tsv"
+        # )
+
+        results["goleft"].append(
+            f"tmp/fair_bowtie2_mapping/goleft/indexcov/{species}.{release}.{build}/{sample}-indexcov.ped"
+        )
+        results["goleft"].append(
+            f"tmp/fair_bowtie2_mapping/goleft/indexcov/{species}.{release}.{build}/{sample}-indexcov.roc"
         )
 
     return results

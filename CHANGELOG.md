@@ -1,3 +1,12 @@
+# 3.2.0
+
+* Snakemake-wrappers update to 3.5.0
+* MultiQC configurations
+* RSeQC: bamstat, read_distribution, read_gc, infer_experiment, and read_duplication
+* Goleft: indexcov
+* ngsderive: strandedness, instrument, readlen, and encoding
+
+
 # 3.1.1
 
 ## Fix:

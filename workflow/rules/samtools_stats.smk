@@ -10,12 +10,12 @@ rule fair_bowtie2_mapping_samtools_stats:
     resources:
         mem_mb=lambda wildcards, attempt: (2 * 1024) * attempt,
         runtime=lambda wildcards, attempt: int(60 * 0.6) * attempt,
-        tmpdir="tmp",
+        tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping/samtools_stats/{species}.{build}.{release}.{datatype}/{sample}.log",
     benchmark:
         "benchmark/fair_bowtie2_mapping/samtools_stats/{species}.{build}.{release}.{datatype}/{sample}.tsv"
     params:
-        extra=lookup(dpath="params/samtools/stats", within=config),
+        extra=lookup(dpath="params/fair_bowtie2_mapping/samtools/stats", within=config),
     wrapper:
-        "v3.3.3/bio/samtools/stats"
+        "v3.5.0/bio/samtools/stats"

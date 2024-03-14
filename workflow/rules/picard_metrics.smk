@@ -28,12 +28,15 @@ rule fair_bowtie2_mapping_picard_create_multiple_metrics:
     resources:
         mem_mb=lambda wildcards, attempt: (3 * 1024) * attempt,
         runtime=lambda wildcards, attempt: int(60 * 0.6) * attempt,
-        tmpdir="tmp",
+        tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping/picard_create_multiple_metrics/{species}.{build}.{release}.{datatype}/{sample}.log",
     benchmark:
         "benchmark/fair_bowtie2_mapping/picard_create_multiple_metrics/{species}.{build}.{release}.{datatype}/{sample}.tsv"
     params:
-        extra=lookup(dpath="params/picard/collectmultiplemetrics", within=config),
+        extra=lookup(
+            dpath="params/fair_bowtie2_mapping/picard/collectmultiplemetrics",
+            within=config,
+        ),
     wrapper:
-        "v3.3.6/bio/picard/collectmultiplemetrics"
+        "v3.5.0/bio/picard/collectmultiplemetrics"

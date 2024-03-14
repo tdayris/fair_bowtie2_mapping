@@ -31,16 +31,18 @@ rule fair_bowtie2_mapping_fastp_trimming_pair_ended:
     resources:
         mem_mb=lambda wildcards, attempt: (4 * 1024) * attempt,
         runtime=lambda wildcards, attempt: int(60 * 0.5) * attempt,
-        tmpdir="tmp",
+        tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping/fastp_trimming_pair_ended/{sample}.log",
     benchmark:
         "benchmark/fair_bowtie2_mapping/fastp_trimming_pair_ended/{sample}.tsv"
     params:
-        adapters=lookup(dpath="params/fastp/adapters", within=config),
-        extra=lookup(dpath="params/fastp/extra", within=config),
+        adapters=lookup(
+            dpath="params/fair_bowtie2_mapping/fastp/adapters", within=config
+        ),
+        extra=lookup(dpath="params/fair_bowtie2_mapping/fastp/extra", within=config),
     wrapper:
-        "v3.3.6/bio/fastp"
+        "v3.5.0/bio/fastp"
 
 
 use rule fair_bowtie2_mapping_fastp_trimming_pair_ended as fair_bowtie2_mapping_fastp_trimming_single_ended with:

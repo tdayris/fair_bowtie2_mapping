@@ -15,7 +15,9 @@ reads were aligned over indexed Ensembl genome with Bowtie2_
 [#bowtie2paper]_. Sambamba_ [#sambambapaper]_ was used to sort, 
 filter, mark duplicates, and compress aligned reads. Quality 
 controls were done on cleaned, sorted, deduplicated aligned reads 
-using Picard_ [#picardpaper]_ and Samtools_ [#samtoolspaper]_. 
+using Picard_ [#picardpaper]_ and Samtools_ [#samtoolspaper]_.
+Additonal quality assessments are done with RSeQC_ [#rseqcpaper]_,
+NGSderive_ [#ngsderivepaper]_, and GOleft_ [#goleftpaper]_.
 Quality repord produced during both trimming and mapping steps 
 have been aggregated with MultiQC_ [#multiqcpaper]_. 
 
@@ -32,24 +34,27 @@ installation usage, and resutls can be found on the
 .. [#fastppaper] Chen, Shifu, et al. "fastp: an ultra-fast all-in-one FASTQ preprocessor." Bioinformatics 34.17 (2018): i884-i890.
 .. [#bowtie2paper] Langmead, Ben, and Steven L. Salzberg. "Fast gapped-read alignment with Bowtie 2." Nature methods 9.4 (2012): 357-359.
 .. [#sambambapaper] Tarasov, Artem, et al. "Sambamba: fast processing of NGS alignment formats." Bioinformatics 31.12 (2015): 2032-2034.
+.. [#rseqcpaper] Wang, Liguo, Shengqin Wang, and Wei Li. "RSeQC: quality control of RNA-seq experiments." Bioinformatics 28.16 (2012): 2184-2185.
+.. [#ngsderivepaper] McLeod, Clay, et al. "St. Jude Cloud: a pediatric cancer genomic data-sharing ecosystem." Cancer discovery 11.5 (2021): 1082-1099.
+.. [#goleftpaper] Pedersen, Brent S., et al. "Indexcov: fast coverage quality control for whole-genome sequencing." Gigascience 6.11 (2017): gix090.
 .. [#multiqcpaper] Ewels, Philip, et al. "MultiQC: summarize analysis results for multiple tools and samples in a single report." Bioinformatics 32.19 (2016): 3047-3048.
 .. [#snakemakepaper] Köster, Johannes, and Sven Rahmann. "Snakemake—a scalable bioinformatics workflow engine." Bioinformatics 28.19 (2012): 2520-2522.
 
-.. _Sambamba: https://snakemake-wrappers.readthedocs.io/en/v3.3.6/wrappers/sambamba.html
-.. _Bowtie2: https://snakemake-wrappers.readthedocs.io/en/v3.3.6/wrappers/bowtie2.html
-.. _Fastp: https://snakemake-wrappers.readthedocs.io/en/v3.3.6/wrappers/fastp.html
-.. _Picard: https://snakemake-wrappers.readthedocs.io/en/v3.3.6/wrappers/picard/collectmultiplemetrics.html
-.. _MultiQC: https://snakemake-wrappers.readthedocs.io/en/v3.3.6/wrappers/multiqc.html
+.. _Sambamba: https://snakemake-wrappers.readthedocs.io/en/v3.5.0/wrappers/sambamba.html
+.. _Bowtie2: https://snakemake-wrappers.readthedocs.io/en/v3.5.0/wrappers/bowtie2.html
+.. _Fastp: https://snakemake-wrappers.readthedocs.io/en/v3.5.0/wrappers/fastp.html
+.. _Picard: https://snakemake-wrappers.readthedocs.io/en/v3.5.0/wrappers/picard/collectmultiplemetrics.html
+.. _MultiQC: https://snakemake-wrappers.readthedocs.io/en/v3.5.0/wrappers/multiqc.html
 .. _Snakemake: https://snakemake.readthedocs.io
 .. _Github: https://github.com/tdayris/fair_bowtie2_mapping
 .. _`Snakemake workflow`: https://snakemake.github.io/snakemake-workflow-catalog?usage=tdayris/fair_bowtie2_mapping
 .. _Agat: https://agat.readthedocs.io/en/latest/index.html
-.. _Samtools: https://snakemake-wrappers.readthedocs.io/en/v3.3.6/wrappers/samtools/faidx.html
-.. _FastQC: https://snakemake-wrappers.readthedocs.io/en/v3.3.6/wrappers/fastqc.html
+.. _Samtools: https://snakemake-wrappers.readthedocs.io/en/v3.5.0/wrappers/samtools/faidx.html
+.. _FastQC: https://snakemake-wrappers.readthedocs.io/en/v3.5.0/wrappers/fastqc.html
 .. _Pyfaidx: https://github.com/mdshw5/pyfaidx
 
 
 :Authors:
     Thibault Dayris
 
-:Version: 3.1.1 of 01/17/2024
+:Version: 3.2.0 of 03/04/2024
