@@ -57,10 +57,6 @@ rule fair_bowtie2_mapping_rseqc_read_gc:
         xls=temp(
             "tmp/fair_bowtie2_mapping/rseqc_read_gc/{species}.{build}.{release}.{datatype}/{sample}.GC.xls"
         ),
-        # plot_r=temp(
-        #     "tmp/fair_bowtie2_mapping/rseqc_read_gc/{species}.{build}.{release}.{datatype}/{sample}.GC_plot.r"
-        # ),
-        # plot_pdf="results/{species}.{build}.{release}.{datatype}/RSeQC/{sample}.GC_plot.pdf",
     threads: 1
     resources:
         mem_mb=lambda wildcards, attempt: attempt * 1024,

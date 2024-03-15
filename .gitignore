@@ -14,3 +14,5 @@
 .test/black.txt
 .test/report.html
 .test/report.zip
+.test/.java/
+.test/.w*

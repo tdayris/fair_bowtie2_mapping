@@ -1,9 +1,11 @@
 
 rule ngsderive_grep_out_gtf_comments:
     input:
-        "reference/annotation/{species}.{build}.{release}.gtf"
+        "reference/annotation/{species}.{build}.{release}.gtf",
     output:
-        pipe("tmp/fair_bowtie2_mapping/ngsderive/{species}.{build}.{release}.no_comment.gtf")
+        pipe(
+            "tmp/fair_bowtie2_mapping/ngsderive/{species}.{build}.{release}.no_comment.gtf"
+        ),
     threads: 1
     resources:
         mem_mb=lambda wildcards, attempt: attempt * 1024,
@@ -19,11 +21,14 @@ rule ngsderive_grep_out_gtf_comments:
     shell:
         "grep {params.extra} {input} > {output} 2> {log}"
 
+
 rule ngsderive_sort_gtf:
     input:
-        "tmp/fair_bowtie2_mapping/ngsderive/{species}.{build}.{release}.no_comment.gtf"
+        "tmp/fair_bowtie2_mapping/ngsderive/{species}.{build}.{release}.no_comment.gtf",
     output:
-        temp("tmp/fair_bowtie2_mapping/ngsderive/{species}.{build}.{release}.sorted.gtf")
+        temp(
+            "tmp/fair_bowtie2_mapping/ngsderive/{species}.{build}.{release}.sorted.gtf"
+        ),
     threads: 1
     resources:
         mem_mb=lambda wildcards, attempt: attempt * 1024,
@@ -33,17 +38,20 @@ rule ngsderive_sort_gtf:
     benchmark:
         "benchmark/fair_bowtie2_mapping/ngsderive/sort_gtf/{species}.{build}.{release}.tsv"
     params:
-        extra="-k1,1 -k3,3"
+        extra="-k1,1 -k3,3",
     conda:
         "../envs/bash.yaml"
     shell:
         "sort {params.extra} {input} > {output} 2> {log}"
 
+
 rule ngsderive_zip_sorted_gtf:
     input:
-        "tmp/fair_bowtie2_mapping/ngsderive/{species}.{build}.{release}.sorted.gtf"
+        "tmp/fair_bowtie2_mapping/ngsderive/{species}.{build}.{release}.sorted.gtf",
     output:
-        temp("tmp/fair_bowtie2_mapping/ngsderive/{species}.{build}.{release}.sorted.gtf.gz")
+        temp(
+            "tmp/fair_bowtie2_mapping/ngsderive/{species}.{build}.{release}.sorted.gtf.gz"
+        ),
     threads: 1
     resources:
         mem_mb=lambda wildcards, attempt: attempt * 1024,
@@ -53,7 +61,7 @@ rule ngsderive_zip_sorted_gtf:
     benchmark:
         "benchmark/fair_bowtie2_mapping/ngsderive/gzip/{species}.{build}.{release}.tsv"
     params:
-        extra="-c"
+        extra="-c",
     conda:
         "../envs/bash.yaml"
     shell:
@@ -62,9 +70,11 @@ rule ngsderive_zip_sorted_gtf:
 
 rule tabix_gzipped_gtf:
     input:
-        "tmp/fair_bowtie2_mapping/ngsderive/{species}.{build}.{release}.sorted.gtf.gz"
+        "tmp/fair_bowtie2_mapping/ngsderive/{species}.{build}.{release}.sorted.gtf.gz",
     output:
-        temp("tmp/fair_bowtie2_mapping/ngsderive/{species}.{build}.{release}.sorted.gtf.gz.tbi")
+        temp(
+            "tmp/fair_bowtie2_mapping/ngsderive/{species}.{build}.{release}.sorted.gtf.gz.tbi"
+        ),
     threads: 1
     resources:
         mem_mb=lambda wildcards, attempt: attempt * 1024,
@@ -74,9 +84,10 @@ rule tabix_gzipped_gtf:
     benchmark:
         "benchmark/fair_bowtie2_mapping/ngsderive/tabix/{species}.{build}.{release}.tsv"
     params:
-        extra="-p gff"
+        extra="-p gff",
     wrapper:
         "v3.5.0/bio/tabix/index"
+
 
 rule fair_bowtie2_mapping_ngsderive_strandedness:
     input:
