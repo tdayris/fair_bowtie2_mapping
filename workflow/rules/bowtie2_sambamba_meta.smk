@@ -1,6 +1,6 @@
 module bowtie2_sambamba_metawrapper:
     meta_wrapper:
-        "v3.5.0/meta/bio/bowtie2_sambamba"
+        f"{snakemake_wrappers_prefix}/meta/bio/bowtie2_sambamba"
     config:
         config
 
@@ -35,7 +35,11 @@ use rule bowtie2_build from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping
     benchmark:
         "benchmark/fair_bowtie2_mapping/bowtie2_build/{species}.{build}.{release}.{datatype}.tsv"
     params:
-        extra=lookup(dpath="params/fair_bowtie2_mapping/bowtie2/build", within=config),
+        extra=dlookup(
+            dpath="params/fair_bowtie2_mapping/bowtie2/build",
+            within=config,
+            default="",
+        ),
 
 
 use rule bowtie2_alignment from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping_bowtie2_alignment with:
@@ -85,11 +89,10 @@ use rule bowtie2_alignment from bowtie2_sambamba_metawrapper as fair_bowtie2_map
     benchmark:
         "benchmark/fair_bowtie2_mapping/bowtie2_alignment/{species}.{build}.{release}.{datatype}/{sample}.tsv"
     params:
-        extra=config.get("params", {})
-        .get("bowtie2", {})
-        .get(
-            "align",
-            " --rg-id {sample} --rg 'SM:{sample} LB:{sample} PU:{species}.{build}.{release}.{datatype}.{sample} PL:ILLUMINA'",
+        extra=dlookup(
+            dpath="params/fair_bowtie2_mapping/bowtie2/align",
+            within=config,
+            default=" --rg-id {sample} --rg 'SM:{sample} LB:{sample} PU:{species}.{build}.{release}.{datatype}.{sample} PL:ILLUMINA'",
         ),
 
 
@@ -128,7 +131,11 @@ use rule sambamba_view from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping
     benchmark:
         "benchmark/fair_bowtie2_mapping/sambamba_view/{species}.{build}.{release}.{datatype}/{sample}.tsv"
     params:
-        extra=lookup(dpath="params/fair_bowtie2_mapping/sambamba/view", within=config),
+        extra=dlookup(
+            dpath="params/fair_bowtie2_mapping/sambamba/view",
+            within=config,
+            default="--format 'bam' --filter 'mapping_quality >= 30 and not (unmapped or mate_is_unmapped)' ",
+        ),
 
 
 use rule sambamba_markdup from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping_sambamba_markdup with:
@@ -146,8 +153,10 @@ use rule sambamba_markdup from bowtie2_sambamba_metawrapper as fair_bowtie2_mapp
     benchmark:
         "benchmark/fair_bowtie2_mapping/sambamba_markdup/{species}.{build}.{release}.{datatype}/{sample}.tsv"
     params:
-        extra=lookup(
-            dpath="params/fair_bowtie2_mapping/sambamba/markdup", within=config
+        extra=dlookup(
+            dpath="params/fair_bowtie2_mapping/sambamba/markdup",
+            within=config,
+            default="--remove-duplicates --overflow-list-size=500000",
         ),
 
 

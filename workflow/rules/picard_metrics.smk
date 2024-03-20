@@ -34,9 +34,10 @@ rule fair_bowtie2_mapping_picard_create_multiple_metrics:
     benchmark:
         "benchmark/fair_bowtie2_mapping/picard_create_multiple_metrics/{species}.{build}.{release}.{datatype}/{sample}.tsv"
     params:
-        extra=lookup(
+        extra=dlookup(
             dpath="params/fair_bowtie2_mapping/picard/collectmultiplemetrics",
             within=config,
+            default="",
         ),
     wrapper:
-        "v3.5.0/bio/picard/collectmultiplemetrics"
+        f"{snakemake_wrappers_prefix}/bio/picard/collectmultiplemetrics"

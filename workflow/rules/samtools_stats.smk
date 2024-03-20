@@ -16,6 +16,10 @@ rule fair_bowtie2_mapping_samtools_stats:
     benchmark:
         "benchmark/fair_bowtie2_mapping/samtools_stats/{species}.{build}.{release}.{datatype}/{sample}.tsv"
     params:
-        extra=lookup(dpath="params/fair_bowtie2_mapping/samtools/stats", within=config),
+        extra=dlookup(
+            dpath="params/fair_bowtie2_mapping/samtools/stats",
+            within=config,
+            default="",
+        ),
     wrapper:
-        "v3.5.0/bio/samtools/stats"
+        f"{snakemake_wrappers_prefix}/bio/samtools/stats"

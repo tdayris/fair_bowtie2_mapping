@@ -66,6 +66,7 @@ snakemake.utils.validate(genomes, "../schemas/genomes.schema.yaml")
 report: "../report/workflows.rst"
 
 
+snakemake_wrappers_prefix: str = "v3.5.2"
 release_list: list[str] = list(set(genomes.release.tolist()))
 build_list: list[str] = list(set(genomes.build.tolist()))
 species_list: list[str] = list(set(genomes.species.tolist()))
@@ -81,6 +82,37 @@ wildcard_constraints:
     species=r"|".join(species_list),
     datatype=r"|".join(datatype_list),
     stream=r"|".join(stream_list),
+
+
+def dlookup(
+    dpath: str | None = None,
+    query: str | None = None,
+    cols: list[str] | None = None,
+    within=None,
+    default: str | dict[str, Any] | None = None,
+) -> str:
+    """
+    Return lookup() results or defaults
+
+    dpath   (str | Callable | None): Passed to dpath library
+    query   (str | Callable | None): Passed to DataFrame.query()
+    cols    (list[str] | None):      The columns to operate on
+    within  (object):                The dataframe or mappable object
+    default (str):                   The default value to return
+    """
+    value = None
+    try:
+        value = lookup(dpath=dpath, query=query, cols=cols, within=within)
+    except LookupError:
+        value = default
+    except WorkflowError:
+        value = default
+    except KeyError:
+        value = default
+    except AttributeError:
+        value = default
+
+    return value
 
 
 def get_multiqc_report_input(

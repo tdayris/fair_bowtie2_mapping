@@ -15,7 +15,11 @@ rule ngsderive_grep_out_gtf_comments:
     benchmark:
         "benchmark/fair_bowtie2_mapping/ngsderive/grep_out/{species}.{build}.{release}.tsv"
     params:
-        extra="-P '^#'",
+        extra=dlookup(
+            dpath="params/fair_bowtie2_mapping/ngsderive/grep_out_gtf_comments",
+            within=config,
+            default="-P '^#'",
+        ),
     conda:
         "../envs/bash.yaml"
     shell:
@@ -38,7 +42,11 @@ rule ngsderive_sort_gtf:
     benchmark:
         "benchmark/fair_bowtie2_mapping/ngsderive/sort_gtf/{species}.{build}.{release}.tsv"
     params:
-        extra="-k1,1 -k3,3",
+        extra=dlookup(
+            dpath="params/fair_bowtie2_mapping/ngsderive/sort_gtf",
+            within=config,
+            default="-k1,1 -k3,3",
+        ),
     conda:
         "../envs/bash.yaml"
     shell:
@@ -61,7 +69,11 @@ rule ngsderive_zip_sorted_gtf:
     benchmark:
         "benchmark/fair_bowtie2_mapping/ngsderive/gzip/{species}.{build}.{release}.tsv"
     params:
-        extra="-c",
+        extra=dlookup(
+            dpath="params/fair_bowtie2_mapping/ngsderive/compress_sorted_gtf",
+            within=config,
+            default="-c",
+        ),
     conda:
         "../envs/bash.yaml"
     shell:
@@ -84,9 +96,13 @@ rule tabix_gzipped_gtf:
     benchmark:
         "benchmark/fair_bowtie2_mapping/ngsderive/tabix/{species}.{build}.{release}.tsv"
     params:
-        extra="-p gff",
+        extra=dlookup(
+            dpath="params/fair_bowtie2_mapping/ngsderive/tabix_gtf",
+            within=config,
+            default="-p gff",
+        ),
     wrapper:
-        "v3.5.0/bio/tabix/index"
+        f"{snakemake_wrappers_prefix}/bio/tabix/index"
 
 
 rule fair_bowtie2_mapping_ngsderive_strandedness:
@@ -110,11 +126,13 @@ rule fair_bowtie2_mapping_ngsderive_strandedness:
         "benchmark/fair_bowtie2_mapping/ngsderive/strandedness/{species}.{build}.{release}.{datatype}/{sample}.strandedness.tsv"
     params:
         command="strandedness",
-        extra=lookup(
-            dpath="params/fair_bowtie2_mapping/ngsderive/strandedness", within=config
+        extra=dlookup(
+            dpath="params/fair_bowtie2_mapping/ngsderive/strandedness",
+            within=config,
+            default="",
         ),
     # wrapper:
-    #     "v3.5.0/bio/ngsderive"
+    #     f"{snakemake_wrappers_prefix}/bio/ngsderive"
     conda:
         "../envs/ngsderive.yaml"
     script:
@@ -140,11 +158,13 @@ rule fair_bowtie2_mapping_ngsderive_encoding:
         "benchmark/fair_bowtie2_mapping/ngsderive/encoding/{species}.{build}.{release}.{datatype}/{sample}.encoding.tsv"
     params:
         command="encoding",
-        extra=lookup(
-            dpath="params/fair_bowtie2_mapping/ngsderive/encoding", within=config
+        extra=dlookup(
+            dpath="params/fair_bowtie2_mapping/ngsderive/encoding",
+            within=config,
+            default="",
         ),
     # wrapper:
-    #     "v3.5.0/bio/ngsderive"
+    #     f"{snakemake_wrappers_prefix}/bio/ngsderive"
     conda:
         "../envs/ngsderive.yaml"
     script:
@@ -170,11 +190,13 @@ rule fair_bowtie2_mapping_ngsderive_instrument:
         "benchmark/fair_bowtie2_mapping/ngsderive/instrument/{species}.{build}.{release}.{datatype}/{sample}.instrument.tsv"
     params:
         command="instrument",
-        extra=lookup(
-            dpath="params/fair_bowtie2_mapping/ngsderive/instrument", within=config
+        extra=dlookup(
+            dpath="params/fair_bowtie2_mapping/ngsderive/instrument",
+            within=config,
+            default="",
         ),
     # wrapper:
-    #     "v3.5.0/bio/ngsderive"
+    #     f"{snakemake_wrappers_prefix}/bio/ngsderive"
     conda:
         "../envs/ngsderive.yaml"
     script:
@@ -200,11 +222,13 @@ rule fair_bowtie2_mapping_ngsderive_readlen:
         "benchmark/fair_bowtie2_mapping/ngsderive/readlen/{species}.{build}.{release}.{datatype}/{sample}.readlen.tsv"
     params:
         command="readlen",
-        extra=lookup(
-            dpath="params/fair_bowtie2_mapping/ngsderive/readlen", within=config
+        extra=dlookup(
+            dpath="params/fair_bowtie2_mapping/ngsderive/readlen",
+            within=config,
+            default="",
         ),
     # wrapper:
-    #     "v3.5.0/bio/ngsderive"
+    #     f"{snakemake_wrappers_prefix}/bio/ngsderive"
     conda:
         "../envs/ngsderive.yaml"
     script:

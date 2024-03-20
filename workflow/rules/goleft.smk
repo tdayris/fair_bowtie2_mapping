@@ -35,9 +35,13 @@ rule fair_bowtie2_mapping_goleft_indexcov:
     benchmark:
         "benchmark/fair_bowtie2_mapping/goleft/indexcov/{sample}.{species}.{build}.{release}.tsv"
     params:
-        extra=lookup(dpath="params/fair_bowtie2_mapping/goleft/indexcov", within=config),
+        extra=dlookup(
+            dpath="params/fair_bowtie2_mapping/goleft/indexcov",
+            within=config,
+            default="",
+        ),
     # wrapper:
-    #     "v3.5.0/bio/goleft/indexcov"
+    #     f"{snakemake_wrappers_prefix}/bio/goleft/indexcov"
     conda:
         "../envs/goleft.yaml"
     script:
