@@ -123,5 +123,3 @@ params:
     typre: string
     description: Optional MultiQC command line parameters
 
-required:
-  - samples
