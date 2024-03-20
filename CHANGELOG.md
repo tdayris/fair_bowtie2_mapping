@@ -1,6 +1,19 @@
+# 3.3.0
+
+## Featues: 
+
+* All keys in configuration are now optional
+* Snakemake wrappers up to version 3.5.0
+
+## Documentation:
+
+* Pipeline display update
+
 # 3.2.0
 
-* Snakemake-wrappers update to 3.5.2
+# Features:
+
+* Snakemake-wrappers update to 3.5.0
 * MultiQC configurations
 * RSeQC: bamstat, read_distribution, read_gc, infer_experiment, and read_duplication
 * Goleft: indexcov
