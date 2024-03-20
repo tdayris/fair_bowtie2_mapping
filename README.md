@@ -15,66 +15,14 @@ A complete description of the results can be found here in [workflow reports](ht
 
 The tools used in this pipeline are described [here](https://github.com/tdayris/fair_bowtie2_mapping/blob/main/workflow/report/material_methods.rst) textually. Web-links are available below:
 
-```
-┌─────────────────────────────────┐                     ┌───────────────────────────────┐
-│  fair_genome_indexer_pipeline   │                     │  fair_fastqc_multiqc_pipeline │
-└───────────┬─────────────────────┘                     └───────────────────────────┬───┘
-            │                                                                       │
-            │                                                                       │
-            │                                                                       │
-            │                                                                       │
-            │                                                                       │
-  ┌─────────▼───────────┐           ┌────────────────────────┐                      │
-  │    Bowtie2          │           │      Fastp             │                      │
-  │ Index DNA sequence  │           │ Trimm and check reads  │                      │
-  └──────────────────┬──┘           │ qualittiy              ├─────────────────┐    │
-                     │              └────────────────────────┘                 │    │
-                     │                                                         │    │
-                     │                                                         │    │
-                     │                                                         │    │
-                     │                                                         │    │
-                     │                                                         │    │
-             ┌───────▼──────────────┐                                          │    │
-             │     Bowtie2          │                                        ┌─▼────▼──────────┐
-             │  Align trimmed reads ├────────────────────────────────────────►                 │
-             └───────┬──────────────┘                                        │     MultiQC     │
-                     │                                                       │  Quality report │
-                     │                                                       │                 │
-             ┌───────▼──────────────────────────┐                            └──▲──▲───────────┘
-             │    Sambamba                      │                               │  │
-             │  Quality filters + sorting +     │                               │  │
-             │  duplicated reads identification │                               │  │
-             └────────────────┬───────────┬─────┘                               │  │
-                              │           │                                     │  │
-                              │     ┌─────▼─────────────┐                       │  │
-                              │     │     Samtools      ├───────────────────────┘  │
-                              │     │  Quality controls │                          │
-                              │     └───────────────────┘                          │
-                              │                                                    │
-                              │                                                    │
-                              │        ┌──────────────────┐                        │
-                              │        │   Picard         ├────────────────────────┘
-                              └────────► Quality controls │
-                                       └──────────────────┘
-
-```
 
 ### Index and genome sequences with [`fair_genome_indexer`](https://github.com/tdayris/fair_genome_indexer/)
 
-| Step                             | Commands                                                                                                         |
-| -------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| Download DNA Fasta from Ensembl  | [ensembl-sequence](https://snakemake-wrappers.readthedocs.io/en/v3.4.1/wrappers/reference/ensembl-sequence.html) |
-| Remove non-canonical chromosomes | [pyfaidx](https://github.com/mdshw5/pyfaidx)                                                                     |
-| Index DNA sequence               | [samtools](https://snakemake-wrappers.readthedocs.io/en/v3.4.1/wrappers/samtools/faidx.html)                     |
-| Creatse sequence Dictionary      | [picard](https://snakemake-wrappers.readthedocs.io/en/v3.4.1/wrappers/picard/createsequencedictionary.html)      |
+See [`fair_genome_indexer`](https://github.com/tdayris/fair_genome_indexer/) documentation about DNA sequence preparation
 
 ### Raw-sequences QC with [`fair_fastqc_multiqc`](https://github.com/tdayris/fair_fastqc_multiqc/)
 
-| Step       | Wrapper                                                                                        |
-| ---------- | ---------------------------------------------------------------------------------------------- |
-| FastQC     | [fastqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.4.1/wrappers/fastqc.html)     |
-| FastScreen | [fastq-screen](https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/fastq_screen.html) |
-| MultiQC    | [multiqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.4.1/wrappers/multiqc.html)   |
+See  [`fair_fastqc_multiqc`](https://github.com/tdayris/fair_fastqc_multiqc/) documentation about ranw sequences quality controls
 
 ### Bowtie2 Mapping
 
@@ -85,6 +33,23 @@ The tools used in this pipeline are described [here](https://github.com/tdayris/
 | Bowtie2-align | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.4.1/meta-wrappers/bowtie2_sambamba.html) | [bowtie2-align](https://snakemake-wrappers.readthedocs.io/en/v3.4.1/wrappers/bowtie2/align.html) |
 | Sambamba sort | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.4.1/meta-wrappers/bowtie2_sambamba.html) | [sambamba-sort](https://snakemake-wrappers.readthedocs.io/en/v3.4.1/wrappers/sambamba/sort.html) |
 
+```
+┌───────────────────────────┐   ┌─────────────────────────┐
+│Genome indexation (Bowtie2)│   │Sequence cleaning (fastp)│
+└──────────────┬────────────┘   └────────┬────────────────┘
+               │                         │                 
+               │                         │                 
+┌──────────────▼───────────────┐         │                 
+│Short read alignment (Bowtie2)◄─────────┘                 
+└──────────────┬───────────────┘                           
+               │                                           
+               │                                           
+┌──────────────▼───────────────────────────┐               
+│Sort and compress aligned reads (sambamba)│               
+└──────────────────────────────────────────┘               
+```
+
+
 ### Filtering
 
 | Step             | Meta-Wrapper                                                                                                   | Wrapper                                                                                                 |
@@ -93,6 +58,26 @@ The tools used in this pipeline are described [here](https://github.com/tdayris/
 | Sambamba-markdup | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.4.1/meta-wrappers/bowtie2_sambamba.html) | [sambamba-markdup](https://snakemake-wrappers.readthedocs.io/en/v3.4.1/wrappers/sambamba/markdup.html) |
 | Sambamba-index   | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.4.1/meta-wrappers/bowtie2_sambamba.html) | [sambamba-index](https://snakemake-wrappers.readthedocs.io/en/v3.4.1/wrappers/sambamba/index.html)     |
 
+```
+┌──────────────────────────┐        
+│Aligned reads (see above) │        
+└──────────────┬───────────┘        
+               │                    
+               │                    
+┌──────────────▼──────────────┐     
+│Filter low quality (sambamba)│     
+└──────────────┬──────────────┘     
+               │                    
+               │                    
+┌──────────────▼───────────┐        
+│Mark duplicates (sambamba)│        
+└──────────────┬───────────┘        
+               │                    
+               │                    
+┌──────────────▼───────────────────┐
+│Index aligned sequences (sambamba)│
+└──────────────────────────────────┘
+```
 
 ### QC
 
@@ -101,3 +86,34 @@ The tools used in this pipeline are described [here](https://github.com/tdayris/
 | Picard   | [picard-collectmultiplemetrics](https://snakemake-wrappers.readthedocs.io/en/v3.4.1/wrappers/picard/collectmultiplemetrics.html) |
 | Samtools | [samtools-stats](https://snakemake-wrappers.readthedocs.io/en/v3.4.1/wrappers/samtools/stats.html)                               |
 | MultiQC  | [multiqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.4.1/wrappers/multiqc.html)                                     |
+
+```
+┌──────────────────────┐        ┌─────────────────────┐                ┌─────────────────────────┐
+│ Cleaned reads (fastp)│    ┌───┤Duplicates (sambamba)◄────────────────┤Aligned reads (see above)│
+└─────────────────────┬┘    │   └─────────────────────┘                └────┬────────────────────┘
+                      │     │                                               │                     
+                      ├─────┘                                               │                     
+                      │         ┌──────────────────────────┐                │                     
+                      ├─────────┤Alignment metrics (picard)◄────────────────┤                     
+                      │         └──────────────────────────┘                │                     
+                      │                                                     │                     
+                      │                                                     │                     
+                      │         ┌────────────────────────────┐              │                     
+                      ├─────────┤Alignment metrics (samtools)◄──────────────┤                     
+                      │         └────────────────────────────┘              │                     
+                      │                                                     │                     
+┌────────────────┐    │                                                     │                     
+│ Quality report │    │         ┌─────────────────────────┐                 │                     
+│   (multiqc)    ◄────┼─────────┤Alignment metrics (rseqc)◄─────────────────┤                     
+└────────────────┘    │         └─────────────────────────┘                 │                     
+                      │                                                     │                     
+                      │                                                     │                     
+                      │         ┌───────────────────────────┐               │                     
+                      ├─────────┤Library metrics (ngsderive)◄───────────────┤                     
+                      │         └───────────────────────────┘               │                     
+                      │                                                     │                     
+                      │                                                     │                     
+                      │         ┌─────────────────────────┐                 │                     
+                      └─────────┤Coverage metrics (goleft)◄─────────────────┘                     
+                                └─────────────────────────┘                                       
+```

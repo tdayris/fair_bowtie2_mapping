@@ -1,6 +1,6 @@
 # 3.2.0
 
-* Snakemake-wrappers update to 3.5.0
+* Snakemake-wrappers update to 3.5.2
 * MultiQC configurations
 * RSeQC: bamstat, read_distribution, read_gc, infer_experiment, and read_duplication
 * Goleft: indexcov
