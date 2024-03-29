@@ -1,3 +1,11 @@
+# 3.3.1
+
+## Features:
+
+* fair_genome_indexer update to 3.4.0
+* fair_fastqc_multiqc update to 2.2.3
+* snakemake-wrappers update to 3.7.0
+
 # 3.3.0
 
 ## Featues: 
