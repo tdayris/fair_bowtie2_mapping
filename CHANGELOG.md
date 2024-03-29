@@ -1,3 +1,9 @@
+# 3.3.2
+
+## Features:
+
+* Use human readable functions to replace raw lookups
+
 # 3.3.1
 
 ## Features:
