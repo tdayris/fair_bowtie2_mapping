@@ -15,9 +15,8 @@ rule fair_bowtie2_mapping_ucsc_genepred_to_bed:
     benchmark:
         "benchmark/fair_bowtie2_mapping/ucsc_genepred_to_bed/{species}.{build}.{release}.tsv"
     params:
-        extra=dlookup(
+        extra=lookup_config(
             dpath="params/fair_bowtie2_mapping/ucsc/genepred2bed",
-            within=config,
             default="-tab",
         ),
     wrapper:

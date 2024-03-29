@@ -2,14 +2,7 @@ rule fair_bowtie2_mapping_picard_create_multiple_metrics:
     input:
         bam="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam",
         bai="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam.bai",
-        ref=getattr(
-            lookup(
-                query="species == '{species}' & build == '{build}' & release == '{release}'",
-                within=genomes,
-            ),
-            "dna_fasta",
-            "reference/sequences/{species}.{build}.{release}.{datatype}.fasta",
-        ),
+        ref=lambda wildcards: select_fasta(wildcards),
     output:
         temp(
             multiext(
@@ -34,9 +27,8 @@ rule fair_bowtie2_mapping_picard_create_multiple_metrics:
     benchmark:
         "benchmark/fair_bowtie2_mapping/picard_create_multiple_metrics/{species}.{build}.{release}.{datatype}/{sample}.tsv"
     params:
-        extra=dlookup(
+        extra=lookup_config(
             dpath="params/fair_bowtie2_mapping/picard/collectmultiplemetrics",
-            within=config,
             default="",
         ),
     wrapper:

@@ -17,9 +17,8 @@ rule fair_bowtie2_mapping_rseqc_infer_experiment:
     benchmark:
         "benchmark/fair_bowtie2_mapping/rseqc_infer_experiment/{species}.{build}.{release}.{datatype}/{sample}.tsv"
     params:
-        extra=dlookup(
+        extra=lookup_config(
             dpath="params/fair_bowtie2_mapping/rseqc/infer_experiment",
-            within=config,
             default="",
         ),
     wrapper:
@@ -44,9 +43,8 @@ rule fair_bowtie2_mapping_rseqc_bamstat:
     benchmark:
         "benchmark/fair_bowtie2_mapping/rseqc_bamstat/{species}.{build}.{release}/{sample}.{datatype}.tsv"
     params:
-        extra=dlookup(
+        extra=lookup_config(
             dpath="params/fair_bowtie2_mapping/rseqc/bamstat",
-            within=config,
             default="",
         ),
     conda:
@@ -73,9 +71,8 @@ rule fair_bowtie2_mapping_rseqc_read_gc:
     benchmark:
         "benchmark/fair_bowtie2_mapping/rseqc_bamstat/{species}.{build}.{release}.{datatype}/{sample}.tsv"
     params:
-        extra=dlookup(
+        extra=lookup_config(
             dpath="params/fair_bowtie2_mapping/rseqc/read_gc",
-            within=config,
             default="",
         ),
     wrapper:
@@ -101,9 +98,8 @@ rule fair_bowtie2_mapping_rseqc_read_distribution:
     benchmark:
         "benchmark/fair_bowtie2_mapping/rseqc_read_distribution/{species}.{build}.{release}.{datatype}/{sample}.tsv"
     params:
-        extra=dlookup(
+        extra=lookup_config(
             dpath="params/fair_bowtie2_mapping/rseqc/read_distribution",
-            within=config,
             default="",
         ),
     wrapper:
@@ -135,9 +131,8 @@ rule fair_bowtie2_mapping_rseqc_inner_distance:
     benchmark:
         "benchmark/fair_bowtie2_mapping/rseqc_inner_distance/{species}.{build}.{release}.{datatype}/{sample}.tsv"
     params:
-        extra=dlookup(
+        extra=lookup_config(
             dpath="params/fair_bowtie2_mapping/rseqc/inner_distance",
-            within=config,
             default="",
         ),
     conda:

@@ -1,4 +1,4 @@
-rule fair_fastqc fair_bowtie2_mapping_multiqc_config:
+rule fair_bowtie2_mapping_multiqc_config:
     input:
         "tmp/fair_fastqc_multiqc/bigr_logo.png",
     output:
@@ -18,12 +18,12 @@ rule fair_fastqc fair_bowtie2_mapping_multiqc_config:
             "title": "Mapping quality control report",
             "subtitle": "Produced on raw fastq recieved from sequencer",
             "intro_text": (
-                "This pipeline building this report has "
+            "This pipeline building this report has "
                 "no information about sequencing protocol, "
                 "wet-lab experimental design, nor sample organisms."
             ),
             "report_comment": (
-                "This report was generated using: "
+            "This report was generated using: "
                 "https://github.com/tdayris/fair_bowtie2_mapping"
             ),
             "show_analysis_paths": False,
@@ -189,14 +189,14 @@ rule fair_bowtie2_mapping_multiqc_report:
             ),
         ),
         goleft_indexcov_ped=collect(
-            "tmp/fair_bowtie2_mapping/goleft/indexcov/{sample.species}.{sample.release}.{sample.build}/{sample.sample_id}-indexcov.ped",
+            "tmp/fair_bowtie2_mapping/goleft/indexcov/{sample.species}.{sample.release}.{sample.build}.dna/{sample.sample_id}-indexcov.ped",
             sample=lookup(
                 query="species == '{species}' & release == '{release}' & build == '{build}'",
                 within=samples,
             ),
         ),
         goleft_indexcov_roc=collect(
-            "tmp/fair_bowtie2_mapping/goleft/indexcov/{sample.species}.{sample.release}.{sample.build}/{sample.sample_id}-indexcov.roc",
+            "tmp/fair_bowtie2_mapping/goleft/indexcov/{sample.species}.{sample.release}.{sample.build}.dna/{sample.sample_id}-indexcov.roc",
             sample=lookup(
                 query="species == '{species}' & release == '{release}' & build == '{build}'",
                 within=samples,
@@ -242,9 +242,8 @@ rule fair_bowtie2_mapping_multiqc_report:
         runtime=lambda wildcards, attempt: int(60 * 0.5) * attempt,
         tmpdir=tmp,
     params:
-        extra=dlookup(
+        extra=lookup_config(
             dpath="params/fair_bowtie2_mapping/multiqc",
-            within=config,
             default="--verbose --no-megaqc-upload --no-ansi --force",
         ),
         use_input_files_only=True,

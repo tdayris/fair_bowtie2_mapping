@@ -84,181 +84,223 @@ wildcard_constraints:
     stream=r"|".join(stream_list),
 
 
-def dlookup(
-    dpath: str | None = None,
-    query: str | None = None,
-    cols: list[str] | None = None,
-    within=None,
-    default: str | dict[str, Any] | None = None,
+def lookup_config(
+    dpath: str, default: str | None = None, config: dict[str, Any] = config
 ) -> str:
     """
-    Return lookup() results or defaults
-
-    dpath   (str | Callable | None): Passed to dpath library
-    query   (str | Callable | None): Passed to DataFrame.query()
-    cols    (list[str] | None):      The columns to operate on
-    within  (object):                The dataframe or mappable object
-    default (str):                   The default value to return
+    Run lookup function with default parameters in order to search a key in configuration and return a default value
     """
-    value = None
+    value: str | None = default
+
     try:
-        value = lookup(dpath=dpath, query=query, cols=cols, within=within)
+        value = lookup(dpath=dpath, within=config)
     except LookupError:
         value = default
     except WorkflowError:
-        value = default
-    except KeyError:
-        value = default
-    except AttributeError:
         value = default
 
     return value
 
 
-def get_multiqc_report_input(
-    wildcards: snakemake.io.Wildcards, samples: pandas.DataFrame = samples
-) -> dict[str, list[str]]:
+def lookup_genomes(
+    wildcards: snakemake.io.Wildcards,
+    key: str,
+    default: str | list[str] | None = None,
+    genomes: pandas.DataFrame = genomes,
+) -> str:
     """
-    Return expected input files for MultiQC report, according to user-input,
-    and snakemake-wrapper requirements
-
-    Parameters:
-    wildcards (snakemake.io.Wildcards): Required for snakemake unpacking function
-    samples   (pandas.DataFrame)      : Describe sample names and related paths/genome
-
-    Return (dict[str, list[str]]):
-    Dictionnary of all input files as required by MultiQC's snakemake-wrapper
+    Run lookup function with default parameters in order to search user-provided sequence/annotation files
     """
-    species: str = str(wildcards.species)
-    build: str = str(wildcards.build)
-    release: str = str(wildcards.release)
-    datatype: str = str(wildcards.datatype)
-    results: dict[str, list[str]] = {
-        "config": "tmp/fair_bowtie2_mapping/multiqc_config.yaml",
-        "logo": "tmp/fair_fastqc_multiqc/bigr_logo.png",
-        "fastp_pair_ended": collect(
-            "tmp/fair_bowtie2_mapping/fastp_trimming_pair_ended/{sample.sample_id}.fastp.json",
-            sample=lookup(
-                query=f"downstream_file == downstream_file & species == '{species}' & build == '{build}' & release == '{release}'",
-                within=samples,
-            ),
-        ),
-        "fastp_single_ended": collect(
-            "tmp/fair_bowtie2_mapping/fastp_trimming_single_ended/{sample.sample_id}.fastp.json",
-            sample=lookup(
-                query=f"downstream_file != downstream_file & species == '{species}' & build == '{build}' & release == '{release}'",
-                within=samples,
-            ),
-        ),
-        "fastqc_pair_ended": collect(
-            "results/QC/report_pe/{sample.sample_id}.{stream}_fastqc.zip",
-            sample=lookup(
-                query=f"downstream_file == downstream_file & species == '{species}' & build == '{build}' & release == '{release}'",
-                within=samples,
-            ),
-            stream=stream_list,
-        ),
-        "fastqc_single_ended": collect(
-            "results/QC/report_pe/{sample.sample_id}_fastqc.zip",
-            sample=lookup(
-                query=f"downstream_file != downstream_file & species == '{species}' & build == '{build}' & release == '{release}'",
-                within=samples,
-            ),
-        ),
-        "bowtie2": [],
-        "samtools": [],
-        "picard_qc": [],
-        "ngsderive_readlen": [],
-        "ngsderive_instrument": [],
-        "ngsderive_encoding": [],
-        "ngsderive_strandedness": [],
-        "ngsderive_endedness": [],
-        "goleft": [],
-        "rseqc_infer_experiment": collect(
-            "tmp/fair_bowtie2_mapping/rseqc_infer_experiment/{sample.species}.{sample.build}.{sample.release}.dna/{sample.sample_id}.infer_experiment.txt",
-            sample=lookup(
-                query=f"species == '{species}' & release == '{release}' & build == '{build}'",
-                within=samples,
-            ),
-        ),
-        "rseqc_bamstat": collect(
-            "tmp/fair_bowtie2_mapping/rseqc_bamstat/{sample.species}.{sample.build}.{sample.release}.dna/{sample.sample_id}.bamstat.txt",
-            sample=lookup(
-                query=f"species == '{species}' & release == '{release}' & build == '{build}'",
-                within=samples,
-            ),
-        ),
-        "rseqc_read_gc": collect(
-            "tmp/fair_bowtie2_mapping/rseqc_read_gc/{sample.species}.{sample.build}.{sample.release}.dna/{sample.sample_id}.GC.xls",
-            sample=lookup(
-                query=f"species == '{species}' & release == '{release}' & build == '{build}'",
-                within=samples,
-            ),
-        ),
-        "rseqc_read_distribution": collect(
-            "tmp/fair_bowtie2_mapping/rseqc_read_distribution/{sample.species}.{sample.build}.{sample.release}.dna/{sample.sample_id}.txt",
-            sample=lookup(
-                query=f"species == '{species}' & release == '{release}' & build == '{build}'",
-                within=samples,
-            ),
-        ),
-        "rseqc_inner_distance": collect(
-            "tmp/fair_bowtie2_mapping/rseqc_inner_distance/{sample.species}.{sample.build}.{sample.release}.dna/{sample.sample_id}.inner_distance_freq.txt",
-            sample=lookup(
-                query=f"species == '{species}' & release == '{release}' & build == '{build}'",
-                within=samples,
-            ),
-        ),
-    }
-    sample_iterator = zip(
-        samples.sample_id,
-        samples.species,
-        samples.build,
-        samples.release,
+    query: str = "species == '{wildcards.species}' & build == '{wildcards.build}' & release == '{wildcards.release}'".format(
+        wildcards=wildcards
     )
-    for sample, species, build, release in sample_iterator:
-        results["bowtie2"].append(
-            f"logs/fair_bowtie2_mapping/bowtie2_alignment/{species}.{build}.{release}.{datatype}/{sample}.log"
-        )
-        results["samtools"].append(
-            f"tmp/fair_bowtie2_mapping/samtools_stats/{species}.{build}.{release}.{datatype}/{sample}.txt"
-        )
-        results["picard_qc"] += multiext(
-            f"tmp/fair_bowtie2_mapping/picard_create_multiple_metrics/{species}.{build}.{release}.{datatype}/stats/{sample}",
-            ".alignment_summary_metrics",
-            ".insert_size_metrics",
-            ".insert_size_histogram.pdf",
-            ".base_distribution_by_cycle_metrics",
-            ".base_distribution_by_cycle.pdf",
-            ".gc_bias.detail_metrics",
-            ".gc_bias.summary_metrics",
-            ".gc_bias.pdf",
-        )
+    return getattr(lookup(query=query, within=genomes), key, default)
 
-        results["ngsderive_readlen"].append(
-            f"tmp/fair_bowtie2_mapping/ngsderive/readlen/{species}.{build}/{release}.{datatype}/{sample}.readlen.tsv"
-        )
 
-        results["ngsderive_instrument"].append(
-            f"tmp/fair_bowtie2_mapping/ngsderive/instrument/{species}.{build}/{release}.{datatype}/{sample}.instrument.tsv"
-        )
+def get_dna_fasta(
+    wildcards: snakemake.io.Wildcards, genomes: pandas.DataFrame = genomes
+) -> str:
+    """
+    Return path to the final DNA fasta sequences
+    """
+    default: str = "reference/sequences/{wildcards.species}.{wildcards.build}.{wildcards.release}.dna.fasta".format(
+        wildcards=wildcards
+    )
+    return lookup_genomes(wildcards, key="dna_fasta", default=default, genomes=genomes)
 
-        results["ngsderive_encoding"].append(
-            f"tmp/fair_bowtie2_mapping/ngsderive/encoding/{species}.{build}/{release}.{datatype}/{sample}.encoding.tsv"
-        )
 
-        # results["ngsderive_strandedness"].append(
-        #     f"tmp/fair_bowtie2_mapping/ngsderive/strandedness/{species}.{build}/{release}.{datatype}/{sample}.strandedness.tsv"
-        # )
+def get_cdna_fasta(
+    wildcards: snakemake.io.Wildcards, genomes: pandas.DataFrame = genomes
+) -> str:
+    """
+    Return path to the final cDNA fasta sequences
+    """
+    default: str = "reference/sequences/{wildcards.species}.{wildcards.build}.{wildcards.release}.cdna.fasta".format(
+        wildcards=wildcards
+    )
+    return lookup_genomes(wildcards, key="cdna_fasta", default=default, genomes=genomes)
 
-        results["goleft"].append(
-            f"tmp/fair_bowtie2_mapping/goleft/indexcov/{species}.{release}.{build}/{sample}-indexcov.ped"
-        )
-        results["goleft"].append(
-            f"tmp/fair_bowtie2_mapping/goleft/indexcov/{species}.{release}.{build}/{sample}-indexcov.roc"
-        )
 
-    return results
+def get_transcripts_fasta(
+    wildcards: snakemake.io.Wildcards, genomes: pandas.DataFrame = genomes
+) -> str:
+    """
+    Return path to the final cDNA transcripts fasta sequences
+    """
+    default: str = "reference/sequences/{wildcards.species}.{wildcards.build}.{wildcards.release}.transcripts.fasta".format(
+        wildcards=wildcards
+    )
+    return lookup_genomes(
+        wildcards, key="transcripts_fasta", default=default, genomes=genomes
+    )
+
+
+def select_fasta(
+    wildcards: snakemake.io.Wildcards, genomes: pandas.DataFrame = genomes
+) -> str:
+    """
+    Evaluates the {datatype} wildcard, and return the right fasta file
+    """
+    return branch(
+        condition=str(wildcards.datatype).lower(),
+        cases={
+            "dna": get_dna_fasta(wildcards),
+            "cdna": get_cdna_fasta(wildcards),
+            "transcripts": get_transcripts_fasta(wildcards),
+        },
+    )
+
+
+def get_dna_fai(
+    wildcards: snakemake.io.Wildcards, genomes: pandas.DataFrame = genomes
+) -> str:
+    """
+    Return path to the final DNA fasta sequences index
+    """
+    default: str = "reference/sequences/{wildcards.species}.{wildcards.build}.{wildcards.release}.dna.fasta.fai".format(
+        wildcards=wildcards
+    )
+    return lookup_genomes(wildcards, key="dna_fai", default=default, genomes=genomes)
+
+
+def get_cdna_fai(
+    wildcards: snakemake.io.Wildcards, genomes: pandas.DataFrame = genomes
+) -> str:
+    """
+    Return path to the final cDNA fasta sequences index
+    """
+    default: str = "reference/sequences/{wildcards.species}.{wildcards.build}.{wildcards.release}.cdna.fasta.fai".format(
+        wildcards=wildcards
+    )
+    return lookup_genomes(wildcards, key="cdna_fai", default=default, genomes=genomes)
+
+
+def get_transcripts_fai(
+    wildcards: snakemake.io.Wildcards, genomes: pandas.DataFrame = genomes
+) -> str:
+    """
+    Return path to the final cDNA transcripts fasta sequences index
+    """
+    default: str = "reference/sequences/{wildcards.species}.{wildcards.build}.{wildcards.release}.transcripts.fasta.fai".format(
+        wildcards=wildcards
+    )
+    return lookup_genomes(
+        wildcards, key="transcripts_fai", default=default, genomes=genomes
+    )
+
+
+def select_fai(
+    wildcards: snakemake.io.Wildcards, genomes: pandas.DataFrame = genomes
+) -> str:
+    """
+    Evaluates the {datatype} wildcard, and return the right fasta index file
+    """
+    return branch(
+        condition=str(wildcards.datatype).lower(),
+        cases={
+            "dna": get_dna_fai(wildcards),
+            "cdna": get_cdna_fai(wildcards),
+            "transcripts": get_transcripts_fai(wildcards),
+        },
+    )
+
+
+def get_gtf(
+    wildcards: snakemake.io.Wildcards, genomes: pandas.DataFrame = genomes
+) -> str:
+    """
+    Return path to the final genome annotation
+    """
+    default: str = "reference/annotation/{wildcards.species}.{wildcards.build}.{wildcards.release}.gtf".format(
+        wildcards=wildcards
+    )
+    return lookup_genomes(wildcards, key="gtf", default=default, genomes=genomes)
+
+
+def get_dna_bowtie2_index(
+    wildcards: snakemake.io.Wildcards, genomes: pandas.DataFrame = genomes
+) -> str:
+    """
+    Return path to the final Bowtie2 index DNA index
+    """
+    default: list[str] = multiext(
+        "reference/bowtie2_index/{wildcards.species}.{wildcards.build}.{wildcards.release}.dna".format(
+            wildcards=wildcards
+        ),
+        ".1.bt2",
+        ".2.bt2",
+        ".3.bt2",
+        ".4.bt2",
+        ".rev.1.bt2",
+        ".rev.2.bt2",
+    )
+    return lookup_genomes(
+        wildcards, key="bowtie2_dna_index", default=default, genomes=genomes
+    )
+
+
+def get_cdna_bowtie2_index(
+    wildcards: snakemake.io.Wildcards, genomes: pandas.DataFrame = genomes
+) -> str:
+    """
+    Return path to the final Bowtie2 index cDNA index
+    """
+    default: list[str] = multiext(
+        "reference/bowtie2_index/{wildcards.species}.{wildcards.build}.{wildcards.release}.cdna".format(
+            wildcards=wildcards
+        ),
+        ".1.bt2",
+        ".2.bt2",
+        ".3.bt2",
+        ".4.bt2",
+        ".rev.1.bt2",
+        ".rev.2.bt2",
+    )
+    return lookup_genomes(
+        wildcards, key="bowtie2_cdna_index", default=default, genomes=genomes
+    )
+
+
+def get_transcripts_bowtie2_index(
+    wildcards: snakemake.io.Wildcards, genomes: pandas.DataFrame = genomes
+) -> str:
+    """
+    Return path to the final Bowtie2 index trnascripts index
+    """
+    default: list[str] = multiext(
+        "reference/bowtie2_index/{wildcards.species}.{wildcards.build}.{wildcards.release}.transcripts".format(
+            wildcards=wildcards
+        ),
+        ".1.bt2",
+        ".2.bt2",
+        ".3.bt2",
+        ".4.bt2",
+        ".rev.1.bt2",
+        ".rev.2.bt2",
+    )
+    return lookup_genomes(
+        wildcards, key="bowtie2_transcripts_index", default=default, genomes=genomes
+    )
 
 
 def get_fair_bowtie2_mapping_target(

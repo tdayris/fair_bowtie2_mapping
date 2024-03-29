@@ -16,9 +16,8 @@ rule fair_bowtie2_mapping_samtools_stats:
     benchmark:
         "benchmark/fair_bowtie2_mapping/samtools_stats/{species}.{build}.{release}.{datatype}/{sample}.tsv"
     params:
-        extra=dlookup(
+        extra=lookup_config(
             dpath="params/fair_bowtie2_mapping/samtools/stats",
-            within=config,
             default="",
         ),
     wrapper:

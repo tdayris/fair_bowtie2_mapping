@@ -7,14 +7,7 @@ module bowtie2_sambamba_metawrapper:
 
 use rule bowtie2_build from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping_bowtie2_build with:
     input:
-        ref=getattr(
-            lookup(
-                query="species == '{species}' & build == '{build}' & release == '{release}'",
-                within=genomes,
-            ),
-            "dna_fasta",
-            "reference/sequences/{species}.{build}.{release}.{datatype}.fasta",
-        ),
+        ref=lambda wildcards: select_fasta(wildcards),
     output:
         multiext(
             "reference/bowtie2_index/{species}.{build}.{release}.{datatype}",
@@ -35,9 +28,8 @@ use rule bowtie2_build from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping
     benchmark:
         "benchmark/fair_bowtie2_mapping/bowtie2_build/{species}.{build}.{release}.{datatype}.tsv"
     params:
-        extra=dlookup(
+        extra=lookup_config(
             dpath="params/fair_bowtie2_mapping/bowtie2/build",
-            within=config,
             default="",
         ),
 
@@ -59,21 +51,13 @@ use rule bowtie2_alignment from bowtie2_sambamba_metawrapper as fair_bowtie2_map
                 sample="{sample}",
             ),
         ),
-        idx=getattr(
-            lookup(
-                query="species == '{species}' & build == '{build}' & release == '{release}'",
-                within=genomes,
-            ),
-            "bowtie2_index",
-            multiext(
-                "reference/bowtie2_index/{species}.{build}.{release}.{datatype}",
-                ".1.bt2",
-                ".2.bt2",
-                ".3.bt2",
-                ".4.bt2",
-                ".rev.1.bt2",
-                ".rev.2.bt2",
-            ),
+        idx=lambda wildcards: branch(
+            condition=str(wildcards.datatype).lower(),
+            cases={
+                "cdna": get_cdna_bowtie2_index(wildcards),
+                "dna": get_dna_bowtie2_index(wildcards),
+                "transcripts": get_transcripts_bowtie2_index(wildcards),
+            },
         ),
     output:
         temp(
@@ -89,9 +73,8 @@ use rule bowtie2_alignment from bowtie2_sambamba_metawrapper as fair_bowtie2_map
     benchmark:
         "benchmark/fair_bowtie2_mapping/bowtie2_alignment/{species}.{build}.{release}.{datatype}/{sample}.tsv"
     params:
-        extra=dlookup(
+        extra=lookup_config(
             dpath="params/fair_bowtie2_mapping/bowtie2/align",
-            within=config,
             default=" --rg-id {sample} --rg 'SM:{sample} LB:{sample} PU:{species}.{build}.{release}.{datatype}.{sample} PL:ILLUMINA'",
         ),
 
@@ -131,9 +114,8 @@ use rule sambamba_view from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping
     benchmark:
         "benchmark/fair_bowtie2_mapping/sambamba_view/{species}.{build}.{release}.{datatype}/{sample}.tsv"
     params:
-        extra=dlookup(
+        extra=lookup_config(
             dpath="params/fair_bowtie2_mapping/sambamba/view",
-            within=config,
             default="--format 'bam' --filter 'mapping_quality >= 30 and not (unmapped or mate_is_unmapped)' ",
         ),
 
@@ -153,9 +135,8 @@ use rule sambamba_markdup from bowtie2_sambamba_metawrapper as fair_bowtie2_mapp
     benchmark:
         "benchmark/fair_bowtie2_mapping/sambamba_markdup/{species}.{build}.{release}.{datatype}/{sample}.tsv"
     params:
-        extra=dlookup(
+        extra=lookup_config(
             dpath="params/fair_bowtie2_mapping/sambamba/markdup",
-            within=config,
             default="--remove-duplicates --overflow-list-size=500000",
         ),
 

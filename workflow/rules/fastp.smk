@@ -37,12 +37,9 @@ rule fair_bowtie2_mapping_fastp_trimming_pair_ended:
     benchmark:
         "benchmark/fair_bowtie2_mapping/fastp_trimming_pair_ended/{sample}.tsv"
     params:
-        adapters=dlookup(
-            dpath="params/fair_bowtie2_mapping/fastp/adapters", within=config
-        ),
-        extra=dlookup(
+        adapters=lookup_config(dpath="params/fair_bowtie2_mapping/fastp/adapters"),
+        extra=lookup_config(
             dpath="params/fair_bowtie2_mapping/fastp/extra",
-            within=config,
             default="--verbose --overrepresentation_analysis",
         ),
     wrapper:
