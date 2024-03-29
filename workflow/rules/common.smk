@@ -66,7 +66,7 @@ snakemake.utils.validate(genomes, "../schemas/genomes.schema.yaml")
 report: "../report/workflows.rst"
 
 
-snakemake_wrappers_prefix: str = "v3.5.2"
+snakemake_wrappers_prefix: str = "v3.7.0"
 release_list: list[str] = list(set(genomes.release.tolist()))
 build_list: list[str] = list(set(genomes.build.tolist()))
 species_list: list[str] = list(set(genomes.species.tolist()))
