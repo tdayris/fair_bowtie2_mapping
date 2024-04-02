@@ -13,11 +13,13 @@ genomes:
 load_fair_genome_indexer:
   type: boolean
   description: Load (or not) the fair_genome_indexer pipeline. Internal use only.
+  default: true
 
 
 load_fair_fastqc_multiqc:
   type: boolean
   description: Load (or not) the fair_fastqc_multiqc pipeline. Internal use only.
+  default: true
 
 
 samples:
@@ -26,100 +28,155 @@ samples:
 
 params:
   type: object
-  description: Optional parameters
+  description: Optional parameters for each (sub) pipelines used
 
-  pyfaidx:
+  # This pipeline supports the exact parameters provided in these documentation
+  # fair_genome_indexer: see https://github.com/tdayris/fair_genome_indexer/blob/main/workflow/schemas/config.schema.yaml
+  # fair_fastqc_multiqc: see https://github.com/tdayris/fair_fastqc_multiqc/blob/main/workflow/schemas/config.schema.yaml
+  # Note: Do not change the pipeline name in the parameteres. 
+  # Leave fair_fastqc_multiqc or fair_genome_indexer
+  # as they are written in their original configuration file.
+  # This is used to disambiguate many parameters.
+
+  fair_bowtie2_mapping:
     type: object
-    description: Optional parameters for pyfaidx (filter/correct fasta format)
-    dna:
-      type: string
-      description: Filter-out non canonical chromosomes
-    cdna:
-      type: string
-      description: Keep all cdna sequences
+    description: Optional parameters for this pipeline
 
-  agat:
-    type: object
-    description: Optional parameters for agat (filter/correct GTF format)
-    gff2gtf:
-      type: string
-      description: Optional parameters for agat_convert_sp_gff2gtf.pl
-    filter_features:
-      type: string
-      description: Optional parameters for agat_sq_filter_feature_from_fasta.pl
-    select_feature_by_attribute_value:
-      type: string
-      descrption: Optional parameters for agat_sq_select_feature_by_attribute_value.pl
-    agat_convert_sp_gff2tsv: 
-      type: string
-      description: Optional parameters for agat_convert_sp_gff2tsv.pl
+    bowtie2:
+      type: object
+      description: Optional parameters for bowtie2
+      build:
+        type: string
+        description: Optional parameters for bowtie2-build
+        default: ""
 
-  gffread:
-    type: string
-    descrption: Optional parameters for GFFRead
-
-  bedtools:
-    type: object
-    descrption: Optional parameters for bedtools
-    filter_non_canonical_chrom:
-      type: string
-      description: Optional parameters for filtering non-canonical chromosomes over dbSNP
-
-  bowtie2:
-    type: object
-    description: Optional parameters for bowtie2
-    build:
-      type: string
-      description: Optional parameters for bowtie2-build
-    align:
-      type: string
-      description: Optional parameters for bowtie2-align
+      align:
+        type: string
+        description: Optional parameters for bowtie2-align
 
 
-  sambamba:
-    type: object
-    description: Optional parameters for sambamba
-    view:
-      type: string
-      description: Optional parameters for sambamba view filters
-    markdup:
-      type: string
-      description: Optional parameters for sambamba markdup
+    sambamba:
+      type: object
+      description: Optional parameters for sambamba
+      view:
+        type: string
+        description: Optional parameters for sambamba view filters
+        default: "--format 'bam' --filter 'mapping_quality >= 30 and not (unmapped or mate_is_unmapped)'"
+      
+      markdup:
+        type: string
+        description: Optional parameters for sambamba markdup
+        default: "--remove-duplicates --overflow-list-size=500000"
 
-  fastqc:
-    type: string
-    description: Optional parameters for FastQC
-  multiqc:
-    type: string
-    description: Optional parameters for MultiQC
+    multiqc:
+      type: string
+      description: Optional parameters for MultiQC
 
-  picard:
-    type: object
-    metrics:
-      type: string
-      description: Optional parameters for Picard CollectMultipleMetrics
+    picard:
+      type: object
+      metrics:
+        type: string
+        description: Optional parameters for Picard CollectMultipleMetrics
+        default: ""
 
-  samtools:
-    type: object
-    description: Optional parameters for Samtools
-    stats:
-      type: string
-      description: Optional parameters for Samtools stats
-    faidx:
-      type: string
-      description: Optional parameters for Samtools faidx
+    samtools:
+      type: object
+      description: Optional parameters for Samtools
+      stats:
+        type: string
+        description: Optional parameters for Samtools stats quality control
+        default: ""
+
+      faidx:
+        type: string
+        description: Optional parameters for indexing BAMs
+        default: ""
+   
+    ngsderive:
+      type: object
+      description: Optional parameters for NGSDerive quality controls
+      strandedness:
+        type: string
+        description: Optional parameters for NGSDerive strandedness
+        default: ""
+
+      encoding:
+        type: string
+        description: Optional parameters for NGSDerive encoding
+        default: ""
+
+      instrument:
+        type: string
+        description: Optional parameters for NGSDerive instrument
+        default: ""
+
+      readlen:
+        type: string
+        description: Optional parameters for NGSDerive readlen
+        default: ""
+
+    fastp:
+      type: object
+      descrition: Optional parameters for Fastp's Snakemake-Wrapper
+      adapters:
+        type: string
+        description: Optional adapter given through command line
+        default: none
+
+      extra:
+        type: string
+        description: Optional command line parameters
+        default: "--verbose --overrepresentation_analysis"
+
+    goleft:
+      type: object
+      description: Optional parameters for Goleft quality control
+      indexcov:
+        type: string
+        description: Optional parameters for `indexcov` subcommand
+        default: ""
+
+    multiqc:
+      type: object
+      description: Optional parameters for MultiQC's Snakemake-wrapper
+      extra:
+        type: string
+        description: Optional parameters for MultiQC command line
+        default: "--verbose --no-megaqc-upload --no-ansi --force"
+      use_input_files_only:
+        type: boolean
+        description: Use exact list of files or search in directories
+        default: true
     
+    ucsc:
+      type: object
+      description: Optional parameters for ucsc tools
 
-  fastp:
-    type: object
-    adapters:
-      type: string
-      description: Optional adapter given through command line
-    extra:
-      type: string
-      description: Optional command line parameters
+      genepred2bed:
+        type: string
+        description: Optional parameters for genePred to BED conversion
+        default: ""
 
-  multiqc:
-    typre: string
-    description: Optional MultiQC command line parameters
+    rseqc:
+      type: object
+      description: Optional for RSeQC quality controls
 
+      bamstat:
+        type: string
+        description: Optional parameters for RSeQC bamstat
+        default: ""
+
+      read_gc:
+        type: string
+        description: Optional parameters for RSeQC read_gc
+        default: ""
+
+      read_distribution:
+        type: string
+        description: Optional parameters for RSeQC read_distribution
+        default: ""
+
+      inner_distance:
+        type: string
+        description: Optional parameters for RSeQC inner_distance
+        default: ""
