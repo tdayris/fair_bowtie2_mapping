@@ -18,12 +18,12 @@ rule fair_bowtie2_mapping_multiqc_config:
             "title": "Mapping quality control report",
             "subtitle": "Produced on raw fastq recieved from sequencer",
             "intro_text": (
-            "This pipeline building this report has "
+                "This pipeline building this report has "
                 "no information about sequencing protocol, "
                 "wet-lab experimental design, nor sample organisms."
             ),
             "report_comment": (
-            "This report was generated using: "
+                "This report was generated using: "
                 "https://github.com/tdayris/fair_bowtie2_mapping"
             ),
             "show_analysis_paths": False,
