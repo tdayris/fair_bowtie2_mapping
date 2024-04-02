@@ -10,3 +10,7 @@ web-browser.
 .. _Stats: https://snakemake-wrappers.readthedocs.io/en/v3.7.0/wrappers/samtools/stats.html
 .. _Picard: https://snakemake-wrappers.readthedocs.io/en/v3.7.0/wrappers/picard/collectmultiplemetrics.html
 .. _Samtools: https://snakemake-wrappers.readthedocs.io/en/v3.7.0/wrappers/samtools/stats.html
+.. _GOleft: https://github.com/brentp/goleft
+.. _NGSderive: https://stjudecloud.github.io/ngsderive/
+.. _RSeQC: https://rseqc.sourceforge.net/
+

@@ -52,7 +52,9 @@ installation usage, and resutls can be found on the
 .. _Samtools: https://snakemake-wrappers.readthedocs.io/en/v3.7.0/wrappers/samtools/faidx.html
 .. _FastQC: https://snakemake-wrappers.readthedocs.io/en/v3.7.0/wrappers/fastqc.html
 .. _Pyfaidx: https://github.com/mdshw5/pyfaidx
-
+.. _GOleft: https://github.com/brentp/goleft
+.. _NGSderive: https://stjudecloud.github.io/ngsderive/
+.. _RSeQC: https://rseqc.sourceforge.net/
 
 :Authors:
     Thibault Dayris
