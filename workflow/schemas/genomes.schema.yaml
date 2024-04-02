@@ -32,9 +32,17 @@ transcripts_fasta:
   type: string
   description: Path to DNA transcripts sequence (fasta)
 
+transcriptome_fai:
+  type: string
+  description: Path to DNA stranscripts sequence index (fasta.fai)
+
 cdna_fasta:
   type: string
   description: Path to coding DNA genome sequences (fasta)
+
+cdna_fai:
+  type: string
+  description: Path to coding DNA genome sequence index (fasta.fai)
 
 gtf:
   type: string
@@ -48,17 +56,19 @@ t2g:
   type: string
   description: Path to transcript_id to gene_id correspondancy (tsv)
 
-dbsnp:
+bowtie2_dna_index:
   type: string
-  description: Path to dbSNP known variants (vcf)
+  description: Path to Bowtie2 DNA sequence index
 
-dbsnp_tbi:
-  type: string
-  description: Path to dbSNP variant index table (vcf.tbi)
 
-blacklist:
+bowtie2_transcripts_index:
   type: string
-  description: Path to blacklisted regions for peak-calling (bed)
+  description: Path to Bowtie2 transcripts sequence index
+
+
+bowtie2_cdna_index:
+  type: string
+  description: Path to Bowtie2 coding DNA sequence index
 
 required:
   - species
