@@ -95,4 +95,6 @@ clean:
 		   .java \
 		   .wget-hsts \
 		   .snakemake \
-		   black.txt
+		   black.txt \
+		   report.zip \
+		   test.png
