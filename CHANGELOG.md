@@ -3,6 +3,7 @@
 ## Features:
 
 * Use human readable functions to replace raw lookups
+* Documentation update
 
 # 3.3.1
 
