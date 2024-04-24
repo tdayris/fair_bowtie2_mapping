@@ -1,3 +1,9 @@
+# 3.3.3
+
+## Features:
+
+* fair_fastqc_multiqc update to 2.2.7
+
 # 3.3.2
 
 ## Features:
