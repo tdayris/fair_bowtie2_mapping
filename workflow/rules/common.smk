@@ -401,11 +401,12 @@ def get_fair_bowtie2_mapping_target(
     Dictionnary of expected output files
     """
     # Include requirements of previous pipelines
-    fair_genome_indexer_targets: dict[str, list[str] | str] = (
-        fair_genome_indexer.get_fair_genome_indexer_target(
-            wildcards=wildcards, genomes=genomes, samples=samples
-        )
+    fair_genome_indexer_targets: dict[
+        str, list[str] | str
+    ] = fair_genome_indexer.get_fair_genome_indexer_target(
+        wildcards=wildcards, genomes=genomes, samples=samples
     )
+
     fair_fastqc_multiqc_targets: dict[str, list[str]] = dict(
         fair_fastqc_multiqc.rules.fair_fastqc_multiqc_target.input
     )
