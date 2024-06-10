@@ -2,10 +2,10 @@ rule fair_bowtie2_mapping_rseqc_infer_experiment:
     input:
         aln="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam",
         alnbai="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam.bai",
-        refgene="tmp/fair_bowtie2_mapping/ucsc_genepred_to_bed/{species}.{build}.{release}.bed",
+        refgene="tmp/fair_bowtie2_mapping_ucsc_genepred_to_bed/{species}.{build}.{release}.bed",
     output:
         temp(
-            "tmp/fair_bowtie2_mapping/rseqc_infer_experiment/{species}.{build}.{release}.{datatype}/{sample}.infer_experiment.txt"
+            "tmp/fair_bowtie2_mapping_rseqc_infer_experiment/{species}.{build}.{release}.{datatype}/{sample}.infer_experiment.txt"
         ),
     threads: 1
     resources:
@@ -13,12 +13,12 @@ rule fair_bowtie2_mapping_rseqc_infer_experiment:
         runtime=lambda wildcards, attempt: attempt * 15,
         tmpdir=tmp,
     log:
-        "logs/fair_bowtie2_mapping/rseqc_infer_experiment/{species}.{build}.{release}.{datatype}/{sample}.log",
+        "logs/fair_bowtie2_mapping_rseqc_infer_experiment/{species}.{build}.{release}.{datatype}/{sample}.log",
     benchmark:
-        "benchmark/fair_bowtie2_mapping/rseqc_infer_experiment/{species}.{build}.{release}.{datatype}/{sample}.tsv"
+        "benchmark/fair_bowtie2_mapping_rseqc_infer_experiment/{species}.{build}.{release}.{datatype}/{sample}.tsv"
     params:
         extra=lookup_config(
-            dpath="params/fair_bowtie2_mapping/rseqc/infer_experiment",
+            dpath="params/fair_bowtie2_mapping_rseqc_infer_experiment",
             default="",
         ),
     wrapper:
@@ -31,7 +31,7 @@ rule fair_bowtie2_mapping_rseqc_bamstat:
         alnbai="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam.bai",
     output:
         temp(
-            "tmp/fair_bowtie2_mapping/rseqc_bamstat/{species}.{build}.{release}.{datatype}/{sample}.bamstat.txt"
+            "tmp/fair_bowtie2_mapping_rseqc_bamstat/{species}.{build}.{release}.{datatype}/{sample}.bamstat.txt"
         ),
     threads: 1
     resources:
@@ -39,12 +39,12 @@ rule fair_bowtie2_mapping_rseqc_bamstat:
         runtime=lambda wildcards, attempt: attempt * 10,
         tmpdir=tmp,
     log:
-        "logs/fair_bowtie2_mapping/rseqc_bamstat/{species}.{build}.{release}/{sample}.{datatype}.log",
+        "logs/fair_bowtie2_mapping_rseqc_bamstat/{species}.{build}.{release}/{sample}.{datatype}.log",
     benchmark:
-        "benchmark/fair_bowtie2_mapping/rseqc_bamstat/{species}.{build}.{release}/{sample}.{datatype}.tsv"
+        "benchmark/fair_bowtie2_mapping_rseqc_bamstat/{species}.{build}.{release}/{sample}.{datatype}.tsv"
     params:
         extra=lookup_config(
-            dpath="params/fair_bowtie2_mapping/rseqc/bamstat",
+            dpath="params/fair_bowtie2_mapping_rseqc_bamstat",
             default="",
         ),
     conda:
@@ -59,7 +59,7 @@ rule fair_bowtie2_mapping_rseqc_read_gc:
         alnbai="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam.bai",
     output:
         xls=temp(
-            "tmp/fair_bowtie2_mapping/rseqc_read_gc/{species}.{build}.{release}.{datatype}/{sample}.GC.xls"
+            "tmp/fair_bowtie2_mapping_rseqc_read_gc/{species}.{build}.{release}.{datatype}/{sample}.GC.xls"
         ),
     threads: 1
     resources:
@@ -67,12 +67,12 @@ rule fair_bowtie2_mapping_rseqc_read_gc:
         runtime=lambda wildcards, attempt: attempt * 10,
         tmpdir=tmp,
     log:
-        "logs/fair_bowtie2_mapping/rseqc_bamstat/{species}.{build}.{release}.{datatype}/{sample}.log",
+        "logs/fair_bowtie2_mapping_rseqc_read_gc/{species}.{build}.{release}.{datatype}/{sample}.log",
     benchmark:
-        "benchmark/fair_bowtie2_mapping/rseqc_bamstat/{species}.{build}.{release}.{datatype}/{sample}.tsv"
+        "benchmark/fair_bowtie2_mapping_rseqc_read_gc/{species}.{build}.{release}.{datatype}/{sample}.tsv"
     params:
         extra=lookup_config(
-            dpath="params/fair_bowtie2_mapping/rseqc/read_gc",
+            dpath="params/fair_bowtie2_mapping_rseqc_read_gc",
             default="",
         ),
     wrapper:
@@ -83,10 +83,10 @@ rule fair_bowtie2_mapping_rseqc_read_distribution:
     input:
         aln="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam",
         alnbai="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam.bai",
-        refgene="tmp/fair_bowtie2_mapping/ucsc_genepred_to_bed/{species}.{build}.{release}.bed",
+        refgene="tmp/fair_bowtie2_mapping_ucsc_genepred_to_bed/{species}.{build}.{release}.bed",
     output:
         temp(
-            "tmp/fair_bowtie2_mapping/rseqc_read_distribution/{species}.{build}.{release}.{datatype}/{sample}.txt"
+            "tmp/fair_bowtie2_mapping_rseqc_read_distribution/{species}.{build}.{release}.{datatype}/{sample}.txt"
         ),
     threads: 1
     resources:
@@ -94,12 +94,12 @@ rule fair_bowtie2_mapping_rseqc_read_distribution:
         runtime=lambda wildcards, attempt: attempt * 10,
         tmpdir=tmp,
     log:
-        "logs/fair_bowtie2_mapping/rseqc_read_distribution/{species}.{build}.{release}.{datatype}/{sample}.log",
+        "logs/fair_bowtie2_mapping_rseqc_read_distribution/{species}.{build}.{release}.{datatype}/{sample}.log",
     benchmark:
-        "benchmark/fair_bowtie2_mapping/rseqc_read_distribution/{species}.{build}.{release}.{datatype}/{sample}.tsv"
+        "benchmark/fair_bowtie2_mapping_rseqc_read_distribution/{species}.{build}.{release}.{datatype}/{sample}.tsv"
     params:
         extra=lookup_config(
-            dpath="params/fair_bowtie2_mapping/rseqc/read_distribution",
+            dpath="params/fair_bowtie2_mapping_rseqc_read_distribution",
             default="",
         ),
     wrapper:
@@ -110,16 +110,16 @@ rule fair_bowtie2_mapping_rseqc_inner_distance:
     input:
         aln="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam",
         alnbai="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam.bai",
-        refgene="tmp/fair_bowtie2_mapping/ucsc_genepred_to_bed/{species}.{build}.{release}.bed",
+        refgene="tmp/fair_bowtie2_mapping_ucsc_genepred_to_bed/{species}.{build}.{release}.bed",
     output:
         txt=temp(
-            "tmp/fair_bowtie2_mapping/rseqc_inner_distance/{species}.{build}.{release}.{datatype}/{sample}.inner_distance.txt"
+            "tmp/fair_bowtie2_mapping_rseqc_inner_distance/{species}.{build}.{release}.{datatype}/{sample}.inner_distance.txt"
         ),
         freq=temp(
-            "tmp/fair_bowtie2_mapping/rseqc_inner_distance/{species}.{build}.{release}.{datatype}/{sample}.inner_distance_freq.txt"
+            "tmp/fair_bowtie2_mapping_rseqc_inner_distance/{species}.{build}.{release}.{datatype}/{sample}.inner_distance_freq.txt"
         ),
         plot_r=temp(
-            "tmp/fair_bowtie2_mapping/rseqc_inner_distance/{species}.{build}.{release}.{datatype}/{sample}.inner_distance_plot.r"
+            "tmp/fair_bowtie2_mapping_rseqc_inner_distance/{species}.{build}.{release}.{datatype}/{sample}.inner_distance_plot.r"
         ),
     threads: 1
     resources:
@@ -127,12 +127,12 @@ rule fair_bowtie2_mapping_rseqc_inner_distance:
         runtime=lambda wildcards, attempt: attempt * 10,
         tmpdir=tmp,
     log:
-        "logs/fair_bowtie2_mapping/rseqc_inner_distance/{species}.{build}.{release}.{datatype}/{sample}.log",
+        "logs/fair_bowtie2_mapping_rseqc_inner_distance/{species}.{build}.{release}.{datatype}/{sample}.log",
     benchmark:
-        "benchmark/fair_bowtie2_mapping/rseqc_inner_distance/{species}.{build}.{release}.{datatype}/{sample}.tsv"
+        "benchmark/fair_bowtie2_mapping_rseqc_inner_distance/{species}.{build}.{release}.{datatype}/{sample}.tsv"
     params:
         extra=lookup_config(
-            dpath="params/fair_bowtie2_mapping/rseqc/inner_distance",
+            dpath="params/fair_bowtie2_mapping_rseqc_inner_distance",
             default="",
         ),
     conda:

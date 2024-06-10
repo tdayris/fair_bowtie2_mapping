@@ -1,16 +1,17 @@
-include: "rules/common.smk"
+configfile: "config/config.yaml"
 
 
 if config.get("load_fair_genome_indexer", True):
 
-    include: "rules/fair_genome_indexer_pipeline.smk"
+    include: "rules/fair_genome_indexer.smk"
 
 
 if config.get("load_fair_fastqc_multiqc", True):
 
-    include: "rules/fair_fastqc_multiqc_pipeline.smk"
+    include: "rules/fair_fastqc_multiqc.smk"
 
 
+include: "rules/common.smk"
 include: "rules/bowtie2_sambamba_meta.smk"
 include: "rules/fastp.smk"
 include: "rules/goleft.smk"
@@ -20,7 +21,6 @@ include: "rules/picard_metrics.smk"
 include: "rules/rseqc.smk"
 include: "rules/samtools_stats.smk"
 include: "rules/ucsc.smk"
-
 
 rule fair_bowtie2_mapping_target:
     input:

@@ -26,10 +26,8 @@ snakefiles := \
 pythonfiles := \
 	"../workflow/scripts/fair_bowtie2_mapping_multiqc_config.py" \
 	"../workflow/scripts/regenerate_genome.py" \
-	"../workflow/scripts/rseqc_infer_experiment.py" \
+	"../workflow/scripts/rseqc_bamstat.py" \
 	"../workflow/scripts/rseqc_inner_distance.py" \
-	"../workflow/scripts/rseqc_read_distribution.py" \
-	"../workflow/scripts/rseqc_read_gc.py" \
 	"../workflow/scripts/ucsc_genepred_to_bed.py"
 
 
@@ -38,20 +36,17 @@ all: report.txt
 
 
 dag.png:
-	mamba activate test-snakemake-wrappers && \
 	snakemake -s ../workflow/Snakefile \
 		--rulegraph --forceall | dot -Tpng > dag.png && \
 	cp --verbose dag.png ../dag.png
 
 
 report.txt: pipeline.txt
-	mamba activate test-snakemake-wrappers && \
 	snakemake -s ../workflow/Snakefile --profile local \
 		--report report.html 2>&1 | tee report.txt
 
 
 pipeline.txt: linter.txt
-	mamba activate test-snakemake-wrappers && \
 	snakemake -s ../workflow/Snakefile --profile local  \
 		--cores 2 \
 		--software-deployment-method apptainer conda \
@@ -59,18 +54,15 @@ pipeline.txt: linter.txt
 
 
 format.txt:
-	mamba activate test-snakemake-wrappers && \
 	snakefmt $(snakefiles) 2>&1 | tee format.txt
 
 
 linter.txt: format.txt black.txt
-	mamba activate test-snakemake-wrappers && \
 	snakemake -s ../workflow/Snakefile  --profile local \
 		--lint 2>&1 | tee linter.txt
 
 
 black.txt:
-	mamba activate test-snakemake-wrappers && \
 	black $(pythonfiles) 2>&1 | tee black.txt
 
 

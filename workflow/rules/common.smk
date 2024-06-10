@@ -4,84 +4,130 @@ import pandas
 import snakemake
 import snakemake.utils
 
-from collections import defaultdict
-from pathlib import Path
-from typing import Any, NamedTuple
+from typing import Any, Callable, NamedTuple
 
-snakemake.utils.min_version("8.1.0")
+snakemake_min_version: str = "8.13.0"
+snakemake.utils.min_version(snakemake_min_version)
+
+snakemake_docker_image: str = "docker://snakemake/snakemake:v8.13.0"
 
 
-container: "docker://snakemake/snakemake:v8.5.3"
+container: snakemake_docker_image
 
 
 # Load and check configuration file
-configfile: "config/config.yaml"
+default_config_file: str = "config/config.yaml"
+
+
+configfile: default_config_file
 
 
 snakemake.utils.validate(config, "../schemas/config.schema.yaml")
 
 # Load and check samples properties table
-sample_table_path: str = config.get("samples", "config/samples.csv")
-with open(sample_table_path, "r") as sample_table_stream:
-    dialect: csv.Dialect = csv.Sniffer().sniff(sample_table_stream.readline())
-    sample_table_stream.seek(0)
+def load_table(path: str) -> pandas.DataFrame:
+    """
+    Load a table in memory, automatically inferring column separators
 
-samples: pandas.DataFrame = pandas.read_csv(
-    filepath_or_buffer=sample_table_path,
-    sep=dialect.delimiter,
-    header=0,
-    index_col=None,
-    comment="#",
-    dtype=str,
-)
-samples = samples.where(samples.notnull(), None)
-snakemake.utils.validate(samples, "../schemas/samples.schema.yaml")
+    Parameters:
+    path (str): Path to the table to be loaded
 
-# This is here for compatibility with
-genome_table_path: str = config.get("genomes")
-if genome_table_path:
-    with open(genome_table_path, "r") as genome_table_stream:
-        dialect: csv.Dialect = csv.Sniffer().sniff(genome_table_stream.readline())
-        genome_table_stream.seek(0)
+    Return
+    (pandas.DataFrame): The loaded table
+    """
+    with open(path, "r") as table_stream:
+        dialect: csv.Dialect = csv.Sniffer().sniff(table_stream.readline())
+        table_stream.seek(0)
 
-    genomes: pandas.DataFrame = pandas.read_csv(
-        filepath_or_buffer=genome_table_path,
+    # Load table
+    table: pandas.DataFrame = pandas.read_csv(
+        path,
         sep=dialect.delimiter,
         header=0,
         index_col=None,
         comment="#",
         dtype=str,
     )
-    genomes = genomes.where(genomes.notnull(), None)
-else:
-    genomes: pandas.DataFrame = samples[
-        ["species", "build", "release"]
-    ].drop_duplicates(keep="first", ignore_index=True)
-    genomes.to_csv("genomes.csv", sep=",", index=False, header=True)
-    config["genomes"] = "genomes.csv"
+
+    # Remove empty lines
+    table = table.where(table.notnull(), None)
+
+    return table
+
+
+def load_genomes(path: str | None = None, samples: pandas.DataFrame | None = None) -> pandas.DataFrame:
+    """
+    Load genome file, build it if genome file is missing and samples is not None.
+
+    Parameters:
+    path    (str)               : Path to genome file
+    samples (pandas.DataFrame)  : Loaded samples
+    """
+    if path is not None:
+        genomes: pandas.DataFrame = load_table(path)
+
+        if samples is not None:
+            genomes = used_genomes(genomes, samples)
+        return genomes
+
+    elif samples is not None:
+        return samples[["species", "build", "release"]].drop_duplicates(ignore_index=True)
+
+    raise ValueError("Provide either a path to a genome file, or a loaded samples table")
+
+
+def used_genomes(
+    genomes: pandas.DataFrame, samples: pandas.DataFrame | None = None
+) -> tuple[str]:
+    """
+    Reduce the number of genomes to download to the strict minimum
+    """
+    if samples is None:
+        return genomes
+
+    return genomes.loc[
+        genomes.species.isin(samples.species.tolist())
+        & genomes.build.isin(samples.build.tolist())
+        & genomes.release.isin(samples.release.tolist())
+    ]
+
+
+
+# Load and check samples properties tables
+try:
+    if (samples is None) or samples.empty():
+        sample_table_path: str = config.get("samples", "config/samples.csv")
+        samples: pandas.DataFrame = load_table(sample_table_path)
+except NameError:
+    sample_table_path: str = config.get("samples", "config/samples.csv")
+    samples: pandas.DataFrame = load_table(sample_table_path)
+
+snakemake.utils.validate(samples, "../schemas/samples.schema.yaml")
+
+
+# Load and check genomes properties table
+genomes_table_path: str = config.get("genomes", "config/genomes.csv")
+try:
+    if (genomes is None) or genomes.empty:
+        genomes: pandas.DataFrame = load_genomes(genomes_table_path, samples)
+except NameError:
+    genomes: pandas.DataFrame = load_genomes(genomes_table_path, samples)
 
 snakemake.utils.validate(genomes, "../schemas/genomes.schema.yaml")
 
 
 report: "../report/workflows.rst"
 
-
-snakemake_wrappers_prefix: str = "v3.7.0"
-release_list: list[str] = list(set(genomes.release.tolist()))
-build_list: list[str] = list(set(genomes.build.tolist()))
-species_list: list[str] = list(set(genomes.species.tolist()))
-datatype_list: list[str] = ["dna", "cdna", "transcripts"]
-stream_list: list[str] = ["1", "2"]
+snakemake_wrappers_prefix: str = "v3.12.0"
+release_tuple: tuple[str] = tuple(set(genomes.release.tolist()))
+build_tuple: tuple[str] = tuple(set(genomes.build.tolist()))
+species_tuple: tuple[str] = tuple(set(genomes.species.tolist()))
+datatype_tuple: tuple[str] = ("dna", "cdna", "all", "transcripts")
+gxf_tuple: tuple[str] = ("gtf", "gff3")
+id2name_tuple: tuple[str] = ("t2g", "id_to_gene")
 tmp: str = f"{os.getcwd()}/tmp"
-
-
-wildcard_constraints:
-    sample=r"|".join(samples.sample_id),
-    release=r"|".join(release_list),
-    build=r"|".join(build_list),
-    species=r"|".join(species_list),
-    datatype=r"|".join(datatype_list),
-    stream=r"|".join(stream_list),
+samples_id_tuple: tuple[str] = tuple(samples.sample_id)
+stream_tuple: tuple[str] = ("1", "2")
 
 
 def lookup_config(
@@ -116,6 +162,7 @@ def lookup_genomes(
             wildcards=wildcards
         )
     )
+    print(wildcards, key, default, query)
     return getattr(lookup(query=query, within=genomes), key, default)
 
 
@@ -126,7 +173,7 @@ def get_dna_fasta(
     Return path to the final DNA fasta sequences
     """
     default: str = (
-        "reference/sequences/{wildcards.species}.{wildcards.build}.{wildcards.release}.dna.fasta".format(
+        "reference/sequences/{wildcards.species}.{wildcards.build}.{wildcards.release}/{wildcards.species}.{wildcards.build}.{wildcards.release}.dna.fasta".format(
             wildcards=wildcards
         )
     )
@@ -140,7 +187,7 @@ def get_cdna_fasta(
     Return path to the final cDNA fasta sequences
     """
     default: str = (
-        "reference/sequences/{wildcards.species}.{wildcards.build}.{wildcards.release}.cdna.fasta".format(
+        "reference/sequences/{wildcards.species}.{wildcards.build}.{wildcards.release}/{wildcards.species}.{wildcards.build}.{wildcards.release}.cdna.fasta".format(
             wildcards=wildcards
         )
     )
@@ -154,7 +201,7 @@ def get_transcripts_fasta(
     Return path to the final cDNA transcripts fasta sequences
     """
     default: str = (
-        "reference/sequences/{wildcards.species}.{wildcards.build}.{wildcards.release}.transcripts.fasta".format(
+        "reference/sequences/{wildcards.species}.{wildcards.build}.{wildcards.release}/{wildcards.species}.{wildcards.build}.{wildcards.release}.transcripts.fasta".format(
             wildcards=wildcards
         )
     )
@@ -186,7 +233,7 @@ def get_dna_fai(
     Return path to the final DNA fasta sequences index
     """
     default: str = (
-        "reference/sequences/{wildcards.species}.{wildcards.build}.{wildcards.release}.dna.fasta.fai".format(
+        "reference/sequences/{wildcards.species}.{wildcards.build}.{wildcards.release}/{wildcards.species}.{wildcards.build}.{wildcards.release}.dna.fasta.fai".format(
             wildcards=wildcards
         )
     )
@@ -200,7 +247,7 @@ def get_cdna_fai(
     Return path to the final cDNA fasta sequences index
     """
     default: str = (
-        "reference/sequences/{wildcards.species}.{wildcards.build}.{wildcards.release}.cdna.fasta.fai".format(
+        "reference/sequences/{wildcards.species}.{wildcards.build}.{wildcards.release}/{wildcards.species}.{wildcards.build}.{wildcards.release}.cdna.fasta.fai".format(
             wildcards=wildcards
         )
     )
@@ -214,7 +261,7 @@ def get_transcripts_fai(
     Return path to the final cDNA transcripts fasta sequences index
     """
     default: str = (
-        "reference/sequences/{wildcards.species}.{wildcards.build}.{wildcards.release}.transcripts.fasta.fai".format(
+        "reference/sequences/{wildcards.species}.{wildcards.build}.{wildcards.release}/{wildcards.species}.{wildcards.build}.{wildcards.release}.transcripts.fasta.fai".format(
             wildcards=wildcards
         )
     )
@@ -243,14 +290,37 @@ def get_gtf(
     wildcards: snakemake.io.Wildcards, genomes: pandas.DataFrame = genomes
 ) -> str:
     """
-    Return path to the final genome annotation
+    Return path to the final genome annotation (GTF formatted)
     """
     default: str = (
-        "reference/annotation/{wildcards.species}.{wildcards.build}.{wildcards.release}.gtf".format(
+        "reference/annotation/{wildcards.species}.{wildcards.build}.{wildcards.release}/{wildcards.species}.{wildcards.build}.{wildcards.release}.gtf".format(
             wildcards=wildcards
         )
     )
     return lookup_genomes(wildcards, key="gtf", default=default, genomes=genomes)
+
+
+def get_gff(
+    wildcards: snakemake.io.Wildcards, genomes: pandas.DataFrame = genomes
+) -> str:
+    """
+    Return path to the final genome annotation (GFF3 formatted)
+    """
+    default: str = (
+        "reference/annotation/{wildcards.species}.{wildcards.build}.{wildcards.release}/{wildcards.species}.{wildcards.build}.{wildcards.release}.gff3".format(
+            wildcards=wildcards
+        )
+    )
+    return lookup_genomes(wildcards, key="gff3", default=default, genomes=genomes)
+
+
+wildcard_constraints:
+    sample=r"|".join(samples_id_tuple),
+    release=r"|".join(release_tuple),
+    build=r"|".join(build_tuple),
+    species=r"|".join(species_tuple),
+    datatype=r"|".join(datatype_tuple),
+    stream=r"|".join(stream_tuple),
 
 
 def get_dna_bowtie2_index(
@@ -260,7 +330,7 @@ def get_dna_bowtie2_index(
     Return path to the final Bowtie2 index DNA index
     """
     default: list[str] = multiext(
-        "reference/bowtie2_index/{wildcards.species}.{wildcards.build}.{wildcards.release}.dna".format(
+        "reference/bowtie2_index/{wildcards.species}.{wildcards.build}.{wildcards.release}/{wildcards.species}.{wildcards.build}.{wildcards.release}.dna".format(
             wildcards=wildcards
         ),
         ".1.bt2",
@@ -282,7 +352,7 @@ def get_cdna_bowtie2_index(
     Return path to the final Bowtie2 index cDNA index
     """
     default: list[str] = multiext(
-        "reference/bowtie2_index/{wildcards.species}.{wildcards.build}.{wildcards.release}.cdna".format(
+        "reference/bowtie2_index/{wildcards.species}.{wildcards.build}.{wildcards.release}/{wildcards.species}.{wildcards.build}.{wildcards.release}.cdna".format(
             wildcards=wildcards
         ),
         ".1.bt2",
@@ -304,7 +374,7 @@ def get_transcripts_bowtie2_index(
     Return path to the final Bowtie2 index trnascripts index
     """
     default: list[str] = multiext(
-        "reference/bowtie2_index/{wildcards.species}.{wildcards.build}.{wildcards.release}.transcripts".format(
+        "reference/bowtie2_index/{wildcards.species}.{wildcards.build}.{wildcards.release}/{wildcards.species}.{wildcards.build}.{wildcards.release}.transcripts".format(
             wildcards=wildcards
         ),
         ".1.bt2",
@@ -317,6 +387,7 @@ def get_transcripts_bowtie2_index(
     return lookup_genomes(
         wildcards, key="bowtie2_transcripts_index", default=default, genomes=genomes
     )
+
 
 
 def get_fair_bowtie2_mapping_target(
@@ -335,15 +406,39 @@ def get_fair_bowtie2_mapping_target(
     Return (dict[str, List(str)]):
     Dictionnary of expected output files
     """
-    results: dict[str, list[str]] = {
-        "multiqc": [
-            "results/QC/MultiQC_FastQC.html",
-            "results/QC/MultiQC_FastQC_data.zip",
-        ],
-        "multiqc_mapping": [],
-        "bams": [],
-        "bais": [],
-    }
+    # Include requirements of previous pipelines
+    fair_genome_indexer_targets: dict[str, list[str] | str] = (
+        fair_genome_indexer.get_fair_genome_indexer_target(
+            wildcards=wildcards, genomes=genomes, samples=samples
+        )
+    )
+    fair_fastqc_multiqc_targets: dict[str, list[str]] = dict(
+        fair_fastqc_multiqc.rules.fair_fastqc_multiqc_target.input
+    )
+
+    # Build dict of expected outputs
+    usable_genomes: list[NameTyple] | NamedTuple = lookup(
+        query="species != '' & build != '' & release != ''",
+        within=used_genomes(genomes, samples),
+    )
+    if not isinstance(usable_genomes, list):
+        usable_genomes = [usable_genomes]
+
+    genome_properties: list[str] = [
+        ".".join([usable_genome.species, usable_genome.build, usable_genome.release])
+        for usable_genome in usable_genomes
+    ]
+    results: dict[str, list[str] | str] = (
+        fair_fastqc_multiqc_targets | fair_genome_indexer_targets
+    )
+    results["multiqc_mapping"] = (
+        f"results/{genome_property}.dna/QC/MultiQC_Mapping.html"
+        for genome_property in genome_properties
+    )
+
+    results["bams"] = []
+    results["bais"] = []
+
     sample_iterator = zip(
         samples.sample_id,
         samples.species,
@@ -351,9 +446,6 @@ def get_fair_bowtie2_mapping_target(
         samples.release,
     )
     for sample, species, build, release in sample_iterator:
-        results["multiqc_mapping"].append(
-            f"results/{species}.{build}.{release}.dna/QC/MultiQC_Mapping.html"
-        )
         results["bams"].append(
             f"results/{species}.{build}.{release}.dna/Mapping/{sample}.bam"
         )
@@ -361,5 +453,4 @@ def get_fair_bowtie2_mapping_target(
             f"results/{species}.{build}.{release}.dna/Mapping/{sample}.bam.bai"
         )
 
-    results["multiqc_mapping"] = list(set(results["multiqc_mapping"]))
     return results

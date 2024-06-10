@@ -6,7 +6,7 @@ rule fair_bowtie2_mapping_picard_create_multiple_metrics:
     output:
         temp(
             multiext(
-                "tmp/fair_bowtie2_mapping/picard_create_multiple_metrics/{species}.{build}.{release}.{datatype}/stats/{sample}",
+                "tmp/fair_bowtie2_mapping_picard_create_multiple_metrics/{species}.{build}.{release}.{datatype}/stats/{sample}",
                 ".alignment_summary_metrics",
                 ".insert_size_metrics",
                 ".insert_size_histogram.pdf",
@@ -23,12 +23,12 @@ rule fair_bowtie2_mapping_picard_create_multiple_metrics:
         runtime=lambda wildcards, attempt: int(60 * 0.6) * attempt,
         tmpdir=tmp,
     log:
-        "logs/fair_bowtie2_mapping/picard_create_multiple_metrics/{species}.{build}.{release}.{datatype}/{sample}.log",
+        "logs/fair_bowtie2_mapping_picard_create_multiple_metrics/{species}.{build}.{release}.{datatype}/{sample}.log",
     benchmark:
-        "benchmark/fair_bowtie2_mapping/picard_create_multiple_metrics/{species}.{build}.{release}.{datatype}/{sample}.tsv"
+        "benchmark/fair_bowtie2_mapping_picard_create_multiple_metrics/{species}.{build}.{release}.{datatype}/{sample}.tsv"
     params:
         extra=lookup_config(
-            dpath="params/fair_bowtie2_mapping/picard/collectmultiplemetrics",
+            dpath="params/fair_bowtie2_mapping_picard_collectmultiplemetrics",
             default="",
         ),
     wrapper:

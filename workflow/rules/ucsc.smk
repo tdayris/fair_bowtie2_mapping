@@ -1,9 +1,9 @@
 rule fair_bowtie2_mapping_ucsc_genepred_to_bed:
     input:
-        "reference/annotation/{species}.{build}.{release}.genePred",
+        "reference/annotation/{species}.{build}.{release}/{species}.{build}.{release}.genePred",
     output:
         temp(
-            "tmp/fair_bowtie2_mapping/ucsc_genepred_to_bed/{species}.{build}.{release}.bed"
+            "tmp/fair_bowtie2_mapping_ucsc_genepred_to_bed/{species}.{build}.{release}.bed"
         ),
     threads: 1
     resources:
@@ -11,12 +11,12 @@ rule fair_bowtie2_mapping_ucsc_genepred_to_bed:
         runtime=lambda wildcards, attempt: attempt * 10,
         tmpdir=tmp,
     log:
-        "logs/fair_bowtie2_mapping/ucsc_genepred_to_bed/{species}.{build}.{release}.log",
+        "logs/fair_bowtie2_mapping_ucsc_genepred_to_bed/{species}.{build}.{release}.log",
     benchmark:
-        "benchmark/fair_bowtie2_mapping/ucsc_genepred_to_bed/{species}.{build}.{release}.tsv"
+        "benchmark/fair_bowtie2_mapping_ucsc_genepred_to_bed/{species}.{build}.{release}.tsv"
     params:
         extra=lookup_config(
-            dpath="params/fair_bowtie2_mapping/ucsc/genepred2bed",
+            dpath="params/fair_bowtie2_mapping_ucsc_genepred2bed",
             default="-tab",
         ),
     wrapper:

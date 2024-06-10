@@ -94,7 +94,7 @@ rule tabix_gzipped_gtf:
         "benchmark/fair_bowtie2_mapping/ngsderive/tabix/{species}.{build}.{release}.tsv"
     params:
         extra=lookup_config(
-            dpath="params/fair_bowtie2_mapping/ngsderive/tabix_gtf",
+            dpath="params/fair_bowtie2_mapping_ngsderive_tabix_gtf",
             default="-p gff",
         ),
     wrapper:
@@ -105,11 +105,11 @@ rule fair_bowtie2_mapping_ngsderive_strandedness:
     input:
         ngs="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam",
         ngs_bai="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam.bai",
-        gene_model="tmp/fair_bowtie2_mapping/ngsderive/{species}.{build}.{release}.sorted.gtf.gz",
-        gene_model_tbi="tmp/fair_bowtie2_mapping/ngsderive/{species}.{build}.{release}.sorted.gtf.gz.tbi",
+        gene_model="tmp/fair_bowtie2_mapping_ngsderive_{species}.{build}.{release}.sorted.gtf.gz",
+        gene_model_tbi="tmp/fair_bowtie2_mapping_ngsderive_{species}.{build}.{release}.sorted.gtf.gz.tbi",
     output:
         tsv=temp(
-            "tmp/fair_bowtie2_mapping/ngsderive/strandedness/{species}.{build}/{release}.{datatype}/{sample}.strandedness.tsv"
+            "tmp/fair_bowtie2_mapping_ngsderive_strandedness/{species}.{build}/{release}.{datatype}/{sample}.strandedness.tsv"
         ),
     threads: 1
     resources:
@@ -117,19 +117,17 @@ rule fair_bowtie2_mapping_ngsderive_strandedness:
         runtime=lambda wildcards, attempt: attempt * 25,
         tmpdir=tmp,
     log:
-        "logs/fair_bowtie2_mapping/ngsderive/strandedness/{species}.{build}.{release}.{datatype}/{sample}.strandedness.log",
+        "logs/fair_bowtie2_mapping_ngsderive_strandedness/{species}.{build}.{release}.{datatype}/{sample}.strandedness.log",
     benchmark:
-        "benchmark/fair_bowtie2_mapping/ngsderive/strandedness/{species}.{build}.{release}.{datatype}/{sample}.strandedness.tsv"
+        "benchmark/fair_bowtie2_mapping_ngsderive_strandedness/{species}.{build}.{release}.{datatype}/{sample}.strandedness.tsv"
     params:
         command="strandedness",
         extra=lookup_config(
-            dpath="params/fair_bowtie2_mapping/ngsderive/strandedness",
+            dpath="params/fair_bowtie2_mapping_ngsderive_strandedness",
             default="",
         ),
-    conda:
-        "../envs/ngsderive.yaml"
-    script:
-        "../scripts/ngsderive.py"
+    wrapper:
+        f"{snakemake_wrappers_prefix}/bio/ngsderive"
 
 
 rule fair_bowtie2_mapping_ngsderive_encoding:
@@ -138,7 +136,7 @@ rule fair_bowtie2_mapping_ngsderive_encoding:
         ngs_bai="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam.bai",
     output:
         tsv=temp(
-            "tmp/fair_bowtie2_mapping/ngsderive/encoding/{species}.{build}/{release}.{datatype}/{sample}.encoding.tsv"
+            "tmp/fair_bowtie2_mapping_ngsderive_encoding/{species}.{build}/{release}.{datatype}/{sample}.encoding.tsv"
         ),
     threads: 1
     resources:
@@ -146,19 +144,17 @@ rule fair_bowtie2_mapping_ngsderive_encoding:
         runtime=lambda wildcards, attempt: attempt * 25,
         tmpdir=tmp,
     log:
-        "logs/fair_bowtie2_mapping/ngsderive/encoding/{species}.{build}.{release}.{datatype}/{sample}.encoding.log",
+        "logs/fair_bowtie2_mapping_ngsderive_encoding/{species}.{build}.{release}.{datatype}/{sample}.encoding.log",
     benchmark:
-        "benchmark/fair_bowtie2_mapping/ngsderive/encoding/{species}.{build}.{release}.{datatype}/{sample}.encoding.tsv"
+        "benchmark/fair_bowtie2_mapping_ngsderive_encoding/{species}.{build}.{release}.{datatype}/{sample}.encoding.tsv"
     params:
         command="encoding",
         extra=lookup_config(
-            dpath="params/fair_bowtie2_mapping/ngsderive/encoding",
+            dpath="params/fair_bowtie2_mapping_ngsderive_encoding",
             default="",
         ),
-    conda:
-        "../envs/ngsderive.yaml"
-    script:
-        "../scripts/ngsderive.py"
+    wrapper:
+        f"{snakemake_wrappers_prefix}/bio/ngsderive"
 
 
 rule fair_bowtie2_mapping_ngsderive_instrument:
@@ -167,7 +163,7 @@ rule fair_bowtie2_mapping_ngsderive_instrument:
         ngs_bai="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam.bai",
     output:
         tsv=temp(
-            "tmp/fair_bowtie2_mapping/ngsderive/instrument/{species}.{build}/{release}.{datatype}/{sample}.instrument.tsv"
+            "tmp/fair_bowtie2_mapping_ngsderive_instrument/{species}.{build}/{release}.{datatype}/{sample}.instrument.tsv"
         ),
     threads: 1
     resources:
@@ -175,19 +171,17 @@ rule fair_bowtie2_mapping_ngsderive_instrument:
         runtime=lambda wildcards, attempt: attempt * 25,
         tmpdir=tmp,
     log:
-        "logs/fair_bowtie2_mapping/ngsderive/instrument/{species}.{build}.{release}.{datatype}/{sample}.instrument.log",
+        "logs/fair_bowtie2_mapping_ngsderive_instrument/{species}.{build}.{release}.{datatype}/{sample}.instrument.log",
     benchmark:
-        "benchmark/fair_bowtie2_mapping/ngsderive/instrument/{species}.{build}.{release}.{datatype}/{sample}.instrument.tsv"
+        "benchmark/fair_bowtie2_mapping_ngsderive_instrument/{species}.{build}.{release}.{datatype}/{sample}.instrument.tsv"
     params:
         command="instrument",
         extra=lookup_config(
-            dpath="params/fair_bowtie2_mapping/ngsderive/instrument",
+            dpath="params/fair_bowtie2_mapping_ngsderive_instrument",
             default="",
         ),
-    conda:
-        "../envs/ngsderive.yaml"
-    script:
-        "../scripts/ngsderive.py"
+    wrapper:
+        f"{snakemake_wrappers_prefix}/bio/ngsderive"
 
 
 rule fair_bowtie2_mapping_ngsderive_readlen:
@@ -196,7 +190,7 @@ rule fair_bowtie2_mapping_ngsderive_readlen:
         ngs_bai="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam.bai",
     output:
         tsv=temp(
-            "tmp/fair_bowtie2_mapping/ngsderive/readlen/{species}.{build}/{release}.{datatype}/{sample}.readlen.tsv"
+            "tmp/fair_bowtie2_mapping_ngsderive_readlen/{species}.{build}/{release}.{datatype}/{sample}.readlen.tsv"
         ),
     threads: 1
     resources:
@@ -204,16 +198,14 @@ rule fair_bowtie2_mapping_ngsderive_readlen:
         runtime=lambda wildcards, attempt: attempt * 25,
         tmpdir=tmp,
     log:
-        "logs/fair_bowtie2_mapping/ngsderive/readlen/{species}.{build}.{release}.{datatype}/{sample}.readlen.log",
+        "logs/fair_bowtie2_mapping_ngsderive_readlen/{species}.{build}.{release}.{datatype}/{sample}.readlen.log",
     benchmark:
-        "benchmark/fair_bowtie2_mapping/ngsderive/readlen/{species}.{build}.{release}.{datatype}/{sample}.readlen.tsv"
+        "benchmark/fair_bowtie2_mapping_ngsderive_readlen/{species}.{build}.{release}.{datatype}/{sample}.readlen.tsv"
     params:
         command="readlen",
         extra=lookup_config(
-            dpath="params/fair_bowtie2_mapping/ngsderive/readlen",
+            dpath="params/fair_bowtie2_mapping_ngsderive_readlen",
             default="",
         ),
-    conda:
-        "../envs/ngsderive.yaml"
-    script:
-        "../scripts/ngsderive.py"
+    wrapper:
+        f"{snakemake_wrappers_prefix}/bio/ngsderive"

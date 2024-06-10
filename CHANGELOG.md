@@ -1,3 +1,13 @@
+# 3.4.0
+
+## Features:
+
+* Snakemake wrappers version fixed on fair_genome_indexer
+* Importing functions and globals from both fair_genome_indexer and fair_fastqc_multiqc
+* Fix benchmark IO for rseqc bamstat
+* Use of wrappers for ngsderive
+
+
 # 3.3.3
 
 ## Features:
