@@ -24,6 +24,7 @@ configfile: default_config_file
 
 snakemake.utils.validate(config, "../schemas/config.schema.yaml")
 
+
 # Load and check samples properties table
 def load_table(path: str) -> pandas.DataFrame:
     """
@@ -55,7 +56,9 @@ def load_table(path: str) -> pandas.DataFrame:
     return table
 
 
-def load_genomes(path: str | None = None, samples: pandas.DataFrame | None = None) -> pandas.DataFrame:
+def load_genomes(
+    path: str | None = None, samples: pandas.DataFrame | None = None
+) -> pandas.DataFrame:
     """
     Load genome file, build it if genome file is missing and samples is not None.
 
@@ -71,9 +74,13 @@ def load_genomes(path: str | None = None, samples: pandas.DataFrame | None = Non
         return genomes
 
     elif samples is not None:
-        return samples[["species", "build", "release"]].drop_duplicates(ignore_index=True)
+        return samples[["species", "build", "release"]].drop_duplicates(
+            ignore_index=True
+        )
 
-    raise ValueError("Provide either a path to a genome file, or a loaded samples table")
+    raise ValueError(
+        "Provide either a path to a genome file, or a loaded samples table"
+    )
 
 
 def used_genomes(
@@ -90,7 +97,6 @@ def used_genomes(
         & genomes.build.isin(samples.build.tolist())
         & genomes.release.isin(samples.release.tolist())
     ]
-
 
 
 # Load and check samples properties tables
@@ -118,6 +124,7 @@ snakemake.utils.validate(genomes, "../schemas/genomes.schema.yaml")
 
 report: "../report/workflows.rst"
 
+
 snakemake_wrappers_prefix: str = "v3.12.0"
 release_tuple: tuple[str] = tuple(set(genomes.release.tolist()))
 build_tuple: tuple[str] = tuple(set(genomes.build.tolist()))
@@ -128,6 +135,15 @@ id2name_tuple: tuple[str] = ("t2g", "id_to_gene")
 tmp: str = f"{os.getcwd()}/tmp"
 samples_id_tuple: tuple[str] = tuple(samples.sample_id)
 stream_tuple: tuple[str] = ("1", "2")
+
+
+wildcard_constraints:
+    sample=r"|".join(samples_id_tuple),
+    release=r"|".join(release_tuple),
+    build=r"|".join(build_tuple),
+    species=r"|".join(species_tuple),
+    datatype=r"|".join(datatype_tuple),
+    stream=r"|".join(stream_tuple),
 
 
 def lookup_config(
@@ -162,8 +178,14 @@ def lookup_genomes(
             wildcards=wildcards
         )
     )
-    print(wildcards, key, default, query)
-    return getattr(lookup(query=query, within=genomes), key, default)
+
+    query_result: str | float = getattr(
+        lookup(query=query, within=genomes), key, default
+    )
+    if (query_result != query_result) or (query_result is None):
+        # Then the result of the query is nan
+        return default
+    return query_result
 
 
 def get_dna_fasta(
@@ -314,15 +336,6 @@ def get_gff(
     return lookup_genomes(wildcards, key="gff3", default=default, genomes=genomes)
 
 
-wildcard_constraints:
-    sample=r"|".join(samples_id_tuple),
-    release=r"|".join(release_tuple),
-    build=r"|".join(build_tuple),
-    species=r"|".join(species_tuple),
-    datatype=r"|".join(datatype_tuple),
-    stream=r"|".join(stream_tuple),
-
-
 def get_dna_bowtie2_index(
     wildcards: snakemake.io.Wildcards, genomes: pandas.DataFrame = genomes
 ) -> str:
@@ -387,7 +400,6 @@ def get_transcripts_bowtie2_index(
     return lookup_genomes(
         wildcards, key="bowtie2_transcripts_index", default=default, genomes=genomes
     )
-
 
 
 def get_fair_bowtie2_mapping_target(

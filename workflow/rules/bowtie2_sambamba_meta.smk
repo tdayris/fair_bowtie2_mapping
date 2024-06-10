@@ -24,7 +24,7 @@ use rule bowtie2_build from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping
         runtime=lambda wildcards, attempt: int(60 * 1.5) * attempt,
         tmpdir=tmp,
     log:
-        "logs/fair_bowtie2_mappingi_bowtie2_build/{species}.{build}.{release}.{datatype}.log",
+        "logs/fair_bowtie2_mapping_bowtie2_build/{species}.{build}.{release}.{datatype}.log",
     benchmark:
         "benchmark/fair_bowtie2_mapping_bowtie2_build/{species}.{build}.{release}.{datatype}.tsv"
     params:

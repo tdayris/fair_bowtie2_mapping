@@ -22,6 +22,7 @@ include: "rules/rseqc.smk"
 include: "rules/samtools_stats.smk"
 include: "rules/ucsc.smk"
 
+
 rule fair_bowtie2_mapping_target:
     input:
         unpack(get_fair_bowtie2_mapping_target),

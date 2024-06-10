@@ -11,3 +11,7 @@ genomes: config/genomes.csv
 # Deactivate the import of fair_fastqc_multiqc pipeline.
 # Requires to redefine fastqc and multiqc rules.
 # load_fair_fastqc_multiqc: true
+
+# # Avoid git fetching
+# fair_genome_indexer_snakefile: /media/tdayris/Dev/fair_genome_indexer/workflow/Snakefile
+# fair_fastqc_multiqc_snakefile: /media/tdayris/Dev/fair_fastqc_multiqc/workflow/Snakefile

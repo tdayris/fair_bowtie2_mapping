@@ -2,10 +2,11 @@
 
 ## Features:
 
-* Snakemake wrappers version fixed on fair_genome_indexer
-* Importing functions and globals from both fair_genome_indexer and fair_fastqc_multiqc
 * Fix benchmark IO for rseqc bamstat
 * Use of wrappers for ngsderive
+* tmp/logs/benchmark hold rulenames
+* fair_fastqc_multiqc and fair_genome_indexer updates
+* Pipeline can now localy import sub-modules
 
 
 # 3.3.3
