@@ -1,3 +1,10 @@
+# 3.5.1
+
+## Features:
+
+* fair_genome_indexer up to 3.8.0
+* fair_fastqc_multiqc up to 2.3.5
+
 # 3.5.0
 
 ## Features:

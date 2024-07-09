@@ -9,7 +9,7 @@ rule fair_bowtie2_mapping_rseqc_infer_experiment:
     input:
         aln="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam",
         alnbai="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam.bai",
-        refgene="tmp/fair_bowtie2_mapping_ucsc_genepred_to_bed/{species}.{build}.{release}.bed",
+        refgene=lambda wildcards: get_genepred_bed(wildcards),
     output:
         temp(
             "tmp/fair_bowtie2_mapping_rseqc_infer_experiment/{species}.{build}.{release}.{datatype}/{sample}.infer_experiment.txt"
@@ -111,7 +111,7 @@ rule fair_bowtie2_mapping_rseqc_read_distribution:
     input:
         aln="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam",
         alnbai="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam.bai",
-        refgene="tmp/fair_bowtie2_mapping_ucsc_genepred_to_bed/{species}.{build}.{release}.bed",
+        refgene=lambda wildcards: get_genepred_bed(wildcards),
     output:
         temp(
             "tmp/fair_bowtie2_mapping_rseqc_read_distribution/{species}.{build}.{release}.{datatype}/{sample}.txt"
@@ -145,7 +145,7 @@ rule fair_bowtie2_mapping_rseqc_inner_distance:
     input:
         aln="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam",
         alnbai="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam.bai",
-        refgene="tmp/fair_bowtie2_mapping_ucsc_genepred_to_bed/{species}.{build}.{release}.bed",
+        refgene=lambda wildcards: get_genepred_bed(wildcards),
     output:
         txt=temp(
             "tmp/fair_bowtie2_mapping_rseqc_inner_distance/{species}.{build}.{release}.{datatype}/{sample}.inner_distance.txt"

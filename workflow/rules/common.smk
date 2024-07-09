@@ -426,6 +426,25 @@ def select_bowtie2_index(wildcards: snakemake.io.Wildcards, genomes: pandas.Data
     )
 
 
+def get_genepred_bed(
+    wildcards: snakemake.io.Wildcards, genomes: pandas.DataFrame = genomes
+) -> str:
+    """
+    Return path to bed-formatted genepred file
+    """
+    default: str = (
+        "reference/annotation/{wildcards.species}.{wildcards.build}.{wildcards.release}/{wildcards.species}.{wildcards.build}.{wildcards.release}.genePred.bed".format(
+            wildcards=wildcards
+        )
+    )
+    return lookup_genomes(
+        wildcards,
+        key="genepred_bed",
+        default=default,
+        genomes=genomes,
+    )
+
+
 def get_fair_bowtie2_mapping_target(
     wildcards: snakemake.io.Wildcards,
     samples: pandas.DataFrame = samples,

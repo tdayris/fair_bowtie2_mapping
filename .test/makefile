@@ -19,7 +19,6 @@ snakefiles := \
 	"../workflow/rules/picard_metrics.smk" \
 	"../workflow/rules/rseqc.smk" \
 	"../workflow/rules/samtools_stats.smk" \
-	"../workflow/rules/ucsc.smk" \
 	"../workflow/Snakefile"
 
 

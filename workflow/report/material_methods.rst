@@ -59,4 +59,4 @@ installation usage, and resutls can be found on the
 :Authors:
     Thibault Dayris
 
-:Version: 3.3.3 of 06/09/2024
+:Version: 3.5.1 of 06/09/2024
