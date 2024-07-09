@@ -1,3 +1,10 @@
+"""
+Reported on Flamingo on a 6gb dataset (hg38)
+* mem 1.5Go ± 1mb
+* time 20s ± 20s
+"""
+
+
 rule fair_bowtie2_mapping_goleft_indexcov:
     input:
         aln="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam",
@@ -13,8 +20,8 @@ rule fair_bowtie2_mapping_goleft_indexcov:
         ),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: attempt * 1_000,
-        runtime=lambda wildcards, attempt: attempt * 30,
+        mem_mb=lambda wildcards, attempt: (attempt * 100) + 1_590,
+        runtime=lambda wildcards, attempt: attempt * 10,
         tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping_goleft_indexcov/{sample}.{species}.{build}.{release}.{datatype}.log",

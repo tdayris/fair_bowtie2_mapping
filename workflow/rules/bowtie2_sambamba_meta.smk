@@ -5,33 +5,11 @@ module bowtie2_sambamba_metawrapper:
         config
 
 
-use rule bowtie2_build from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping_bowtie2_build with:
-    input:
-        ref=lambda wildcards: select_fasta(wildcards),
-    output:
-        multiext(
-            "reference/bowtie2_index/{species}.{build}.{release}/{species}.{build}.{release}.{datatype}",
-            ".1.bt2",
-            ".2.bt2",
-            ".3.bt2",
-            ".4.bt2",
-            ".rev.1.bt2",
-            ".rev.2.bt2",
-        ),
-    threads: 20
-    resources:
-        mem_mb=lambda wildcards, attempt: (15 * 1024) * attempt,
-        runtime=lambda wildcards, attempt: int(60 * 1.5) * attempt,
-        tmpdir=tmp,
-    log:
-        "logs/fair_bowtie2_mapping_bowtie2_build/{species}.{build}.{release}.{datatype}.log",
-    benchmark:
-        "benchmark/fair_bowtie2_mapping_bowtie2_build/{species}.{build}.{release}.{datatype}.tsv"
-    params:
-        extra=lookup_config(
-            dpath="params/fair_bowtie2_mapping_bowtie2_build",
-            default="",
-        ),
+"""
+Reported on Flamingo, on a 6Gb (HG38) dataset with 20 threads:
+* time 1h27±15min
+* mem 5746±20mb
+"""
 
 
 use rule bowtie2_alignment from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping_bowtie2_alignment with:
@@ -65,8 +43,8 @@ use rule bowtie2_alignment from bowtie2_sambamba_metawrapper as fair_bowtie2_map
         ),
     threads: 20
     resources:
-        mem_mb=lambda wildcards, attempt: (15 * 1024) * attempt,
-        runtime=lambda wildcards, attempt: int(60 * 1.5) * attempt,
+        mem_mb=lambda wildcards, attempt: 6_000 * attempt,
+        runtime=lambda wildcards, attempt: int(60 * 1.75) * attempt,
         tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping_bowtie2_alignment/{species}.{build}.{release}.{datatype}/{sample}.log",
@@ -79,6 +57,13 @@ use rule bowtie2_alignment from bowtie2_sambamba_metawrapper as fair_bowtie2_map
         ),
 
 
+"""
+Reported on Flamingo on a 6gb hg38 dataset with 6 threads
+* mem 3296±250mb
+* time 5±12min
+"""
+
+
 use rule sambamba_sort from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping_sambamba_sort with:
     input:
         "tmp/fair_bowtie2_mapping_bowtie2_alignment/{species}.{build}.{release}.{datatype}/{sample}.bam",
@@ -88,13 +73,20 @@ use rule sambamba_sort from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping
         ),
     threads: 6
     resources:
-        mem_mb=lambda wildcards, attempt: (6 * 1024) * attempt,
-        runtime=lambda wildcards, attempt: int(60 * 0.75) * attempt,
+        mem_mb=lambda wildcards, attempt: 3_300 + (700 * attempt),
+        runtime=lambda wildcards, attempt: 20 * attempt,
         tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping_sambamba_sort/{species}.{build}.{release}.{datatype}/{sample}.log",
     benchmark:
         "benchmark/fair_bowtie2_mapping_sambamba_sort/{species}.{build}.{release}.{datatype}/{sample}.tsv"
+
+
+"""
+Reported on Flamingo on a 6gb hg38 dataset with 6 threads
+* mem 789±100mb
+* time 1±2min
+"""
 
 
 use rule sambamba_view from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping_sambamba_view with:
@@ -106,8 +98,8 @@ use rule sambamba_view from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping
         ),
     threads: 6
     resources:
-        mem_mb=lambda wildcards, attempt: (2 * 1024) * attempt,
-        runtime=lambda wildcards, attempt: int(60 * 0.75) * attempt,
+        mem_mb=lambda wildcards, attempt: 800 + (200 * attempt),
+        runtime=lambda wildcards, attempt: 10 * attempt,
         tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping_sambamba_view/{species}.{build}.{release}.{datatype}/{sample}.log",
@@ -120,6 +112,13 @@ use rule sambamba_view from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping
         ),
 
 
+"""
+Reported on Flamingo on a 6gb hg38 dataset with 6 threads
+* time 2±2min
+* mem 2,5Gb±1Gb
+"""
+
+
 use rule sambamba_markdup from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping_sambamba_markdup with:
     input:
         "tmp/fair_bowtie2_mapping_sambamba_view/{species}.{build}.{release}.{datatype}/{sample}.bam",
@@ -127,8 +126,8 @@ use rule sambamba_markdup from bowtie2_sambamba_metawrapper as fair_bowtie2_mapp
         protected("results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam"),
     threads: 6
     resources:
-        mem_mb=lambda wildcards, attempt: (6 * 1024) * attempt,
-        runtime=lambda wildcards, attempt: int(60 * 0.75) * attempt,
+        mem_mb=lambda wildcards, attempt: 3_000 + (600 * attempt),
+        runtime=lambda wildcards, attempt: 20 * attempt,
         tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping_sambamba_markdup/{species}.{build}.{release}.{datatype}/{sample}.log",
@@ -141,6 +140,13 @@ use rule sambamba_markdup from bowtie2_sambamba_metawrapper as fair_bowtie2_mapp
         ),
 
 
+"""
+Reported on Flamingo on a 6gb hg38 dataset with 6 threads
+* time 40±20sec
+* mem 460±20mb
+"""
+
+
 use rule sambamba_index from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping_sambamba_index with:
     input:
         "results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam",
@@ -150,8 +156,8 @@ use rule sambamba_index from bowtie2_sambamba_metawrapper as fair_bowtie2_mappin
         ),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: (2 * 1024) * attempt,
-        runtime=lambda wildcards, attempt: int(60 * 0.5) * attempt,
+        mem_mb=lambda wildcards, attempt: 500 + (100 * attempt),
+        runtime=lambda wildcards, attempt: 5 * attempt,
         tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping_sambamba_index/{species}.{build}.{release}.{datatype}/{sample}.log",

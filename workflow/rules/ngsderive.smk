@@ -130,6 +130,13 @@ rule fair_bowtie2_mapping_ngsderive_strandedness:
         f"{snakemake_wrappers_prefix}/bio/ngsderive"
 
 
+"""
+Reported on Flamingo on a 6gb dataset (hg38)
+* mem 832mb ± 50mb
+* time 4min ± 2min
+"""
+
+
 rule fair_bowtie2_mapping_ngsderive_encoding:
     input:
         ngs="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam",
@@ -140,8 +147,8 @@ rule fair_bowtie2_mapping_ngsderive_encoding:
         ),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: attempt * 1024,
-        runtime=lambda wildcards, attempt: attempt * 25,
+        mem_mb=lambda wildcards, attempt: (attempt * 100) + 850,
+        runtime=lambda wildcards, attempt: attempt * 10,
         tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping_ngsderive_encoding/{species}.{build}.{release}.{datatype}/{sample}.encoding.log",
@@ -157,6 +164,13 @@ rule fair_bowtie2_mapping_ngsderive_encoding:
         f"{snakemake_wrappers_prefix}/bio/ngsderive"
 
 
+"""
+Reported on Flamingo on a 6gb dataset (hg38)
+* time 1:20 ± 1min
+* mem 700mb ± 200mb
+"""
+
+
 rule fair_bowtie2_mapping_ngsderive_instrument:
     input:
         ngs="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam",
@@ -167,8 +181,8 @@ rule fair_bowtie2_mapping_ngsderive_instrument:
         ),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: attempt * 1024,
-        runtime=lambda wildcards, attempt: attempt * 25,
+        mem_mb=lambda wildcards, attempt: (attempt * 100) + 900,
+        runtime=lambda wildcards, attempt: attempt * 15,
         tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping_ngsderive_instrument/{species}.{build}.{release}.{datatype}/{sample}.instrument.log",
@@ -184,6 +198,13 @@ rule fair_bowtie2_mapping_ngsderive_instrument:
         f"{snakemake_wrappers_prefix}/bio/ngsderive"
 
 
+"""
+Reported on Flamingo on a 6gb dataset
+* mem 840mb ± 50mb
+* time 2min ± 1min
+"""
+
+
 rule fair_bowtie2_mapping_ngsderive_readlen:
     input:
         ngs="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam",
@@ -194,8 +215,8 @@ rule fair_bowtie2_mapping_ngsderive_readlen:
         ),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: attempt * 1024,
-        runtime=lambda wildcards, attempt: attempt * 25,
+        mem_mb=lambda wildcards, attempt: (attempt * 100) + 875,
+        runtime=lambda wildcards, attempt: attempt * 15,
         tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping_ngsderive_readlen/{species}.{build}.{release}.{datatype}/{sample}.readlen.log",

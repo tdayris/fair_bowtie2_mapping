@@ -1,3 +1,20 @@
+# 3.5.0
+
+## Features:
+
+* fair_genome_indexer up to 3.7.0
+* fair_fastqc_multiqc up to 2.3.4
+
+## Documentation:
+
+* Fix links
+
+# 3.4.1
+
+## Features:
+
+* Better reservations
+
 # 3.4.0
 
 ## Features:

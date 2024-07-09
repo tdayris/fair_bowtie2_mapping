@@ -1,3 +1,10 @@
+"""
+Reported on Flamingo on a 6gb dataset
+* mem 380mb ± 20mb
+* time 1:30 ± 1min
+"""
+
+
 rule fair_bowtie2_mapping_samtools_stats:
     input:
         bam="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam",
@@ -8,8 +15,8 @@ rule fair_bowtie2_mapping_samtools_stats:
         ),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: (2 * 1024) * attempt,
-        runtime=lambda wildcards, attempt: int(60 * 0.6) * attempt,
+        mem_mb=lambda wildcards, attempt: 400 + (100 * attempt),
+        runtime=lambda wildcards, attempt: 10 * attempt,
         tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping_samtools_stats/{species}.{build}.{release}.{datatype}/{sample}.log",

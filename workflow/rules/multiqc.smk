@@ -1,3 +1,10 @@
+"""
+Reported on Flamingo
+* mem 395mo
+* time 15s
+"""
+
+
 rule fair_bowtie2_mapping_multiqc_config:
     input:
         "tmp/fair_fastqc_multiqc_bigr_logo.png",
@@ -5,7 +12,7 @@ rule fair_bowtie2_mapping_multiqc_config:
         temp("tmp/fair_bowtie2_mapping_multiqc_config.yaml"),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: 500 + attempt * 100,
+        mem_mb=lambda wildcards, attempt: 400 + attempt * 100,
         runtime=lambda wildcards, attempt: attempt * 5,
         tmpdir=tmp,
     localrule: True
@@ -89,6 +96,13 @@ rule fair_bowtie2_mapping_multiqc_config:
         "../envs/python.yaml"
     script:
         "../scripts/fair_bowtie2_mapping_multiqc_config.py"
+
+
+"""
+Reported on Flamingo with ~150 datasets to aggregate
+* 10min
+* 7.4Go 
+"""
 
 
 rule fair_bowtie2_mapping_multiqc_report:
@@ -239,7 +253,7 @@ rule fair_bowtie2_mapping_multiqc_report:
         "results/{species}.{build}.{release}.{datatype}/QC/MultiQC_Mapping_data.zip",
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: 2_000 * attempt,
+        mem_mb=lambda wildcards, attempt: 7_000 + (400 * attempt),
         runtime=lambda wildcards, attempt: 30 * attempt,
         tmpdir=tmp,
     params:

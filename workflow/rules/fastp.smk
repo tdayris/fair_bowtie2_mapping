@@ -1,3 +1,10 @@
+"""
+Reported on Flamingo on a 6gb hg38 dataset with 20 threads
+* mem 4±2gb
+* time 2±6min
+"""
+
+
 rule fair_bowtie2_mapping_fastp_trimming_pair_ended:
     input:
         sample=expand(
@@ -29,8 +36,8 @@ rule fair_bowtie2_mapping_fastp_trimming_pair_ended:
         ),
     threads: 20
     resources:
-        mem_mb=lambda wildcards, attempt: (4 * 1024) * attempt,
-        runtime=lambda wildcards, attempt: int(60 * 0.5) * attempt,
+        mem_mb=lambda wildcards, attempt: 5_000 + (1_000 * attempt),
+        runtime=lambda wildcards, attempt: 10 * attempt,
         tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping_fastp_trimming_pair_ended/{sample}.log",

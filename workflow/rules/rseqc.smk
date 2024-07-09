@@ -1,3 +1,10 @@
+"""
+Reported on Flamingo on a 6gb dataset (hg38)
+* mem 300mb ± 400mb
+* time 1min ± 15s
+"""
+
+
 rule fair_bowtie2_mapping_rseqc_infer_experiment:
     input:
         aln="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam",
@@ -9,8 +16,8 @@ rule fair_bowtie2_mapping_rseqc_infer_experiment:
         ),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: attempt * 1024,
-        runtime=lambda wildcards, attempt: attempt * 15,
+        mem_mb=lambda wildcards, attempt: (attempt * 100) + 600,
+        runtime=lambda wildcards, attempt: attempt * 10,
         tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping_rseqc_infer_experiment/{species}.{build}.{release}.{datatype}/{sample}.log",
@@ -25,6 +32,13 @@ rule fair_bowtie2_mapping_rseqc_infer_experiment:
         f"{snakemake_wrappers_prefix}/bio/rseqc/infer_experiment"
 
 
+"""
+Reported on Flamingo on a 6gb dataset (hg38)
+* time 1:50 ± 1min
+* mem 580mb ± 50mb
+"""
+
+
 rule fair_bowtie2_mapping_rseqc_bamstat:
     input:
         aln="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam",
@@ -35,7 +49,7 @@ rule fair_bowtie2_mapping_rseqc_bamstat:
         ),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: attempt * 1024,
+        mem_mb=lambda wildcards, attempt: (attempt * 100) + 600,
         runtime=lambda wildcards, attempt: attempt * 10,
         tmpdir=tmp,
     log:
@@ -53,6 +67,13 @@ rule fair_bowtie2_mapping_rseqc_bamstat:
         "../scripts/rseqc_bamstat.py"
 
 
+"""
+Reported on Flamingo on a 6gb dataset (hg38)
+* time 1:20 ± 2min
+* mem 800mb ± 300mb
+"""
+
+
 rule fair_bowtie2_mapping_rseqc_read_gc:
     input:
         aln="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam",
@@ -63,7 +84,7 @@ rule fair_bowtie2_mapping_rseqc_read_gc:
         ),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: attempt * 1024,
+        mem_mb=lambda wildcards, attempt: (attempt * 300) + 1_100,
         runtime=lambda wildcards, attempt: attempt * 10,
         tmpdir=tmp,
     log:
@@ -79,6 +100,13 @@ rule fair_bowtie2_mapping_rseqc_read_gc:
         f"{snakemake_wrappers_prefix}/bio/rseqc/read_gc"
 
 
+"""
+Reported on Flamingo on a 6gb dataset
+* mem 1477mb ± 20mb
+* time 3min ± 2min
+"""
+
+
 rule fair_bowtie2_mapping_rseqc_read_distribution:
     input:
         aln="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam",
@@ -90,7 +118,7 @@ rule fair_bowtie2_mapping_rseqc_read_distribution:
         ),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: attempt * 1024,
+        mem_mb=lambda wildcards, attempt: (attempt * 500) + 1_200,
         runtime=lambda wildcards, attempt: attempt * 10,
         tmpdir=tmp,
     log:
@@ -104,6 +132,13 @@ rule fair_bowtie2_mapping_rseqc_read_distribution:
         ),
     wrapper:
         f"{snakemake_wrappers_prefix}/bio/rseqc/read_distribution"
+
+
+"""
+Reported in Flamingo on a 6gb dataset (hg38)
+* mem 1.5Gb ± 300mb
+* time 2min ± 1min
+"""
 
 
 rule fair_bowtie2_mapping_rseqc_inner_distance:
@@ -123,7 +158,7 @@ rule fair_bowtie2_mapping_rseqc_inner_distance:
         ),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: attempt * 1024,
+        mem_mb=lambda wildcards, attempt: (attempt * 300) + 1_700,
         runtime=lambda wildcards, attempt: attempt * 10,
         tmpdir=tmp,
     log:

@@ -1,3 +1,10 @@
+"""
+Reported on Flamingo on a 6gb dataset (hg38)
+* mem 5.9Go ± 500mb
+* time 8min ± 3min
+"""
+
+
 rule fair_bowtie2_mapping_picard_create_multiple_metrics:
     input:
         bam="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam",
@@ -19,8 +26,8 @@ rule fair_bowtie2_mapping_picard_create_multiple_metrics:
         ),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: (3 * 1024) * attempt,
-        runtime=lambda wildcards, attempt: int(60 * 0.6) * attempt,
+        mem_mb=lambda wildcards, attempt: 6_300 + (200 * attempt),
+        runtime=lambda wildcards, attempt: 15 * attempt,
         tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping_picard_create_multiple_metrics/{species}.{build}.{release}.{datatype}/{sample}.log",
