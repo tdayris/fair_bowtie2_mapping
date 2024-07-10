@@ -464,9 +464,7 @@ def get_fair_bowtie2_mapping_target(
         ".".join([usable_genome.species, usable_genome.build, usable_genome.release])
         for usable_genome in usable_genomes
     ]
-    results: dict[str, list[str] | str] = (
-        fair_fastqc_multiqc_targets | fair_genome_indexer_targets
-    )
+    results: dict[str, list[str] | str] = fair_fastqc_multiqc_targets.copy()
     results["multiqc_mapping"] = (
         f"results/{genome_property}.dna/QC/MultiQC_Mapping.html"
         for genome_property in genome_properties
