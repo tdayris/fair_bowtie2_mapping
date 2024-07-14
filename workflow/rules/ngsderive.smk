@@ -131,9 +131,13 @@ rule fair_bowtie2_mapping_ngsderive_strandedness:
 
 
 """
-Reported on Flamingo on a 6gb dataset (hg38)
-* mem 832mb ± 50mb
-* time 4min ± 2min
+## Memory
+Requires a job with at most 850.05  Mb,
+ on average 618.31 ± 345.26 Mb, 
+on Gustave Roussy's HPC Flamingo, on a 93.0  Mb dataset.
+## Time
+A job took 0:02:38 to proceed,
+on average 0:00:43 ± 0:00:54
 """
 
 
@@ -165,9 +169,13 @@ rule fair_bowtie2_mapping_ngsderive_encoding:
 
 
 """
-Reported on Flamingo on a 6gb dataset (hg38)
-* time 1:20 ± 1min
-* mem 700mb ± 200mb
+## Memory
+Requires a job with at most 850.05  Mb,
+ on average 603.39 ± 339.64 Mb, 
+on Gustave Roussy's HPC Flamingo, on a 93.0  Mb dataset.
+## Time
+A job took 0:01:42 to proceed,
+on average 0:00:32 ± 0:00:40
 """
 
 
@@ -199,9 +207,13 @@ rule fair_bowtie2_mapping_ngsderive_instrument:
 
 
 """
-Reported on Flamingo on a 6gb dataset
-* mem 840mb ± 50mb
-* time 2min ± 1min
+## Memory
+Requires a job with at most 850.05  Mb,
+ on average 631.74 ± 360.07 Mb, 
+on Gustave Roussy's HPC Flamingo, on a 93.0  Mb dataset.
+## Time
+A job took 0:09:25 to proceed,
+on average 0:02:38 ± 0:02:58
 """
 
 
@@ -215,7 +227,7 @@ rule fair_bowtie2_mapping_ngsderive_readlen:
         ),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: (attempt * 100) + 875,
+        mem_mb=lambda wildcards, attempt: (attempt * 100) + 800,
         runtime=lambda wildcards, attempt: attempt * 15,
         tmpdir=tmp,
     log:

@@ -1,7 +1,11 @@
 """
-Reported on Flamingo on a 6gb dataset
-* mem 380mb ± 20mb
-* time 1:30 ± 1min
+## Memory
+Requires a job with at most 386.02  Mb,
+ on average 285.2 ± 149.11 Mb, 
+on Gustave Roussy's HPC Flamingo, on a 93.0  Mb dataset.
+## Time
+A job took 0:07:12 to proceed,
+on average 0:02:00 ± 0:02:16
 """
 
 
@@ -15,7 +19,7 @@ rule fair_bowtie2_mapping_samtools_stats:
         ),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: 400 + (100 * attempt),
+        mem_mb=lambda wildcards, attempt: 300 + (100 * attempt),
         runtime=lambda wildcards, attempt: 10 * attempt,
         tmpdir=tmp,
     log:

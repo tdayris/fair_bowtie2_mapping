@@ -1,7 +1,11 @@
 """
-Reported on Flamingo on a 6gb dataset (hg38)
-* mem 5.9Go ± 500mb
-* time 8min ± 3min
+## Memory
+Requires a job with at most 13732.27  Mb,
+ on average 6663.51 ± 4320.56 Mb, 
+on Gustave Roussy's HPC Flamingo, on a 93.0  Mb dataset.
+## Time
+A job took 0:17:57 to proceed,
+on average 0:06:23 ± 0:05:19
 """
 
 
@@ -26,8 +30,8 @@ rule fair_bowtie2_mapping_picard_create_multiple_metrics:
         ),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: 6_300 + (200 * attempt),
-        runtime=lambda wildcards, attempt: 15 * attempt,
+        mem_mb=lambda wildcards, attempt: 12_000 + (2_000 * attempt),
+        runtime=lambda wildcards, attempt: 30 * attempt,
         tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping_picard_create_multiple_metrics/{species}.{build}.{release}.{datatype}/{sample}.log",

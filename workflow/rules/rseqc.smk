@@ -1,7 +1,11 @@
 """
-Reported on Flamingo on a 6gb dataset (hg38)
-* mem 300mb ± 400mb
-* time 1min ± 15s
+## Memory
+Requires a job with at most 611.01  Mb,
+ on average 459.18 ± 252.04 Mb, 
+on Gustave Roussy's HPC Flamingo, on a 93.0  Mb dataset.
+## Time
+A job took 0:01:33 to proceed,
+on average 0:00:22 ± 0:00:31
 """
 
 
@@ -33,9 +37,13 @@ rule fair_bowtie2_mapping_rseqc_infer_experiment:
 
 
 """
-Reported on Flamingo on a 6gb dataset (hg38)
-* time 1:50 ± 1min
-* mem 580mb ± 50mb
+## Memory
+Requires a job with at most 583.43  Mb,
+ on average 436.03 ± 240.22 Mb, 
+on Gustave Roussy's HPC Flamingo, on a 93.0  Mb dataset.
+## Time
+A job took 0:09:02 to proceed,
+on average 0:02:28 ± 0:02:52
 """
 
 
@@ -49,8 +57,8 @@ rule fair_bowtie2_mapping_rseqc_bamstat:
         ),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: (attempt * 100) + 600,
-        runtime=lambda wildcards, attempt: attempt * 10,
+        mem_mb=lambda wildcards, attempt: (attempt * 100) + 500,
+        runtime=lambda wildcards, attempt: attempt * 15,
         tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping_rseqc_bamstat/{species}.{build}.{release}/{sample}.{datatype}.log",
@@ -68,9 +76,13 @@ rule fair_bowtie2_mapping_rseqc_bamstat:
 
 
 """
-Reported on Flamingo on a 6gb dataset (hg38)
-* time 1:20 ± 2min
-* mem 800mb ± 300mb
+## Memory
+Requires a job with at most 1986.88  Mb,
+ on average 704.57 ± 564.98 Mb, 
+on Gustave Roussy's HPC Flamingo, on a 93.0  Mb dataset.
+## Time
+A job took 0:11:13 to proceed,
+on average 0:02:45 ± 0:03:35
 """
 
 
@@ -84,8 +96,8 @@ rule fair_bowtie2_mapping_rseqc_read_gc:
         ),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: (attempt * 300) + 1_100,
-        runtime=lambda wildcards, attempt: attempt * 10,
+        mem_mb=lambda wildcards, attempt: (attempt * 300) + 2_000,
+        runtime=lambda wildcards, attempt: attempt * 20,
         tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping_rseqc_read_gc/{species}.{build}.{release}.{datatype}/{sample}.log",
@@ -101,9 +113,13 @@ rule fair_bowtie2_mapping_rseqc_read_gc:
 
 
 """
-Reported on Flamingo on a 6gb dataset
-* mem 1477mb ± 20mb
-* time 3min ± 2min
+## Memory
+Requires a job with at most 1564.66  Mb,
+ on average 1094.74 ± 639.86 Mb, 
+on Gustave Roussy's HPC Flamingo, on a 93.0  Mb dataset.
+## Time
+A job took 0:14:04 to proceed,
+on average 0:04:06 ± 0:04:19
 """
 
 
@@ -119,7 +135,7 @@ rule fair_bowtie2_mapping_rseqc_read_distribution:
     threads: 1
     resources:
         mem_mb=lambda wildcards, attempt: (attempt * 500) + 1_200,
-        runtime=lambda wildcards, attempt: attempt * 10,
+        runtime=lambda wildcards, attempt: attempt * 20,
         tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping_rseqc_read_distribution/{species}.{build}.{release}.{datatype}/{sample}.log",
@@ -135,9 +151,13 @@ rule fair_bowtie2_mapping_rseqc_read_distribution:
 
 
 """
-Reported in Flamingo on a 6gb dataset (hg38)
-* mem 1.5Gb ± 300mb
-* time 2min ± 1min
+## Memory
+Requires a job with at most 1623.0  Mb,
+ on average 1035.33 ± 661.93 Mb, 
+on Gustave Roussy's HPC Flamingo, on a 93.0  Mb dataset.
+## Time
+A job took 0:02:53 to proceed,
+on average 0:01:10 ± 0:00:49
 """
 
 
@@ -158,7 +178,7 @@ rule fair_bowtie2_mapping_rseqc_inner_distance:
         ),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: (attempt * 300) + 1_700,
+        mem_mb=lambda wildcards, attempt: (attempt * 300) + 1_500,
         runtime=lambda wildcards, attempt: attempt * 10,
         tmpdir=tmp,
     log:

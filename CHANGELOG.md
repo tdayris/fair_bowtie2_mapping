@@ -1,3 +1,10 @@
+# 3.5.2
+
+## Features:
+
+* fair_genome_indexer up to 3.8.1
+* Memory / Time reservations
+
 # 3.5.1
 
 ## Features:

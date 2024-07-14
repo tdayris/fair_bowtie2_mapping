@@ -6,9 +6,13 @@ module bowtie2_sambamba_metawrapper:
 
 
 """
-Reported on Flamingo, on a 6Gb (HG38) dataset with 20 threads:
-* time 1h27±15min
-* mem 5746±20mb
+## Memory
+Requires a job with at most 5753.98  Mb,
+ on average 4325.62 ± 2640.25 Mb, 
+on Gustave Roussy's HPC Flamingo, on a 93.0  Mb dataset.
+## Time
+A job took 2:02:58 to proceed,
+on average 0:33:06 ± 0:39:30
 """
 
 
@@ -43,8 +47,8 @@ use rule bowtie2_alignment from bowtie2_sambamba_metawrapper as fair_bowtie2_map
         ),
     threads: 20
     resources:
-        mem_mb=lambda wildcards, attempt: 6_000 * attempt,
-        runtime=lambda wildcards, attempt: int(60 * 1.75) * attempt,
+        mem_mb=lambda wildcards, attempt: 5_000 + 2_000 * attempt,
+        runtime=lambda wildcards, attempt: 120 * attempt,
         tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping_bowtie2_alignment/{species}.{build}.{release}.{datatype}/{sample}.log",
@@ -58,9 +62,13 @@ use rule bowtie2_alignment from bowtie2_sambamba_metawrapper as fair_bowtie2_map
 
 
 """
-Reported on Flamingo on a 6gb hg38 dataset with 6 threads
-* mem 3296±250mb
-* time 5±12min
+## Memory
+Requires a job with at most 3363.84  Mb,
+ on average 2259.72 ± 1341.36 Mb, 
+on Gustave Roussy's HPC Flamingo, on a 93.0  Mb dataset.
+## Time
+A job took 0:20:26 to proceed,
+on average 0:06:01 ± 0:06:23
 """
 
 
@@ -74,7 +82,7 @@ use rule sambamba_sort from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping
     threads: 6
     resources:
         mem_mb=lambda wildcards, attempt: 3_300 + (700 * attempt),
-        runtime=lambda wildcards, attempt: 20 * attempt,
+        runtime=lambda wildcards, attempt: 30 * attempt,
         tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping_sambamba_sort/{species}.{build}.{release}.{datatype}/{sample}.log",
@@ -83,9 +91,13 @@ use rule sambamba_sort from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping
 
 
 """
-Reported on Flamingo on a 6gb hg38 dataset with 6 threads
-* mem 789±100mb
-* time 1±2min
+## Memory
+Requires a job with at most 803.36  Mb,
+ on average 613.88 ± 351.0 Mb, 
+on Gustave Roussy's HPC Flamingo, on a 93.0  Mb dataset.
+## Time
+A job took 0:10:44 to proceed,
+on average 0:03:11 ± 0:03:18
 """
 
 
@@ -98,8 +110,8 @@ use rule sambamba_view from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping
         ),
     threads: 6
     resources:
-        mem_mb=lambda wildcards, attempt: 800 + (200 * attempt),
-        runtime=lambda wildcards, attempt: 10 * attempt,
+        mem_mb=lambda wildcards, attempt: 700 + (200 * attempt),
+        runtime=lambda wildcards, attempt: 15 * attempt,
         tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping_sambamba_view/{species}.{build}.{release}.{datatype}/{sample}.log",
@@ -113,9 +125,13 @@ use rule sambamba_view from bowtie2_sambamba_metawrapper as fair_bowtie2_mapping
 
 
 """
-Reported on Flamingo on a 6gb hg38 dataset with 6 threads
-* time 2±2min
-* mem 2,5Gb±1Gb
+## Memory
+Requires a job with at most 3861.41  Mb,
+ on average 2525.59 ± 1518.73 Mb, 
+on Gustave Roussy's HPC Flamingo, on a 93.0  Mb dataset.
+## Time
+A job took 0:12:12 to proceed,
+on average 0:03:20 ± 0:03:53
 """
 
 
@@ -126,7 +142,7 @@ use rule sambamba_markdup from bowtie2_sambamba_metawrapper as fair_bowtie2_mapp
         protected("results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam"),
     threads: 6
     resources:
-        mem_mb=lambda wildcards, attempt: 3_000 + (600 * attempt),
+        mem_mb=lambda wildcards, attempt: 3_000 + (1_000 * attempt),
         runtime=lambda wildcards, attempt: 20 * attempt,
         tmpdir=tmp,
     log:
@@ -141,9 +157,13 @@ use rule sambamba_markdup from bowtie2_sambamba_metawrapper as fair_bowtie2_mapp
 
 
 """
-Reported on Flamingo on a 6gb hg38 dataset with 6 threads
-* time 40±20sec
-* mem 460±20mb
+## Memory
+Requires a job with at most 468.46  Mb,
+ on average 348.49 ± 185.48 Mb, 
+on Gustave Roussy's HPC Flamingo, on a 93.0  Mb dataset.
+## Time
+A job took 0:03:41 to proceed,
+on average 0:01:22 ± 0:01:09
 """
 
 

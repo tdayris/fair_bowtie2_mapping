@@ -1,7 +1,11 @@
 """
-Reported on Flamingo
-* mem 395mo
-* time 15s
+## Memory
+Requires a job with at most 255.86  Mb,
+ on average 219.45 ± 96.33 Mb, 
+on Gustave Roussy's HPC Flamingo, on a 1.0  Mb dataset.
+## Time
+A job took 0:00:05 to proceed,
+on average 0:00:05 ± 0:00:01
 """
 
 
@@ -12,7 +16,7 @@ rule fair_bowtie2_mapping_multiqc_config:
         temp("tmp/fair_bowtie2_mapping_multiqc_config.yaml"),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: 400 + attempt * 100,
+        mem_mb=lambda wildcards, attempt: 300 + attempt * 100,
         runtime=lambda wildcards, attempt: attempt * 5,
         tmpdir=tmp,
     localrule: True
@@ -99,9 +103,13 @@ rule fair_bowtie2_mapping_multiqc_config:
 
 
 """
-Reported on Flamingo with ~150 datasets to aggregate
-* 10min
-* 7.4Go 
+## Memory
+Requires a job with at most 6812.27  Mb,
+ on average 5839.23 ± 2574.42 Mb, 
+on Gustave Roussy's HPC Flamingo, on a 1.0  Mb dataset.
+## Time
+A job took 0:01:54 to proceed,
+on average 0:01:38 ± 0:00:42
 """
 
 
@@ -253,7 +261,7 @@ rule fair_bowtie2_mapping_multiqc_report:
         "results/{species}.{build}.{release}.{datatype}/QC/MultiQC_Mapping_data.zip",
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: 7_000 + (400 * attempt),
+        mem_mb=lambda wildcards, attempt: 7_000 + (1_000 * attempt),
         runtime=lambda wildcards, attempt: 30 * attempt,
         tmpdir=tmp,
     params:

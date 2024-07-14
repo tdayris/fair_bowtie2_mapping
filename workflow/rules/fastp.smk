@@ -1,7 +1,11 @@
 """
-Reported on Flamingo on a 6gb hg38 dataset with 20 threads
-* mem 4±2gb
-* time 2±6min
+## Memory
+Requires a job with at most 3955.46  Mb,
+ on average 2431.49 ± 1520.85 Mb, 
+on Gustave Roussy's HPC Flamingo, on a 56.0  Mb dataset.
+## Time
+A job took 0:06:30 to proceed,
+on average 0:02:12 ± 0:01:57
 """
 
 
@@ -36,8 +40,8 @@ rule fair_bowtie2_mapping_fastp_trimming_pair_ended:
         ),
     threads: 20
     resources:
-        mem_mb=lambda wildcards, attempt: 5_000 + (1_000 * attempt),
-        runtime=lambda wildcards, attempt: 10 * attempt,
+        mem_mb=lambda wildcards, attempt: 3_000 + (1_000 * attempt),
+        runtime=lambda wildcards, attempt: 15 * attempt,
         tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping_fastp_trimming_pair_ended/{sample}.log",
