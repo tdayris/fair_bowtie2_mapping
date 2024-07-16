@@ -74,26 +74,26 @@ genomes = replace_col(
 genomes = replace_col(
     df=genomes,
     column="dna_fasta",
-    default="reference/sequences/{species}.{build}.{reference}.dna/{species}.{build}.{release}.dna.fasta",
+    default="reference/sequences/{species}.{build}.{release}.dna/{species}.{build}.{release}.dna.fasta",
 )
 genomes = replace_col(
     df=genomes,
     column="dna_fai",
-    default="reference/sequences/{species}.{build}.{reference}.dna/{species}.{build}.{release}.dna.fasta.fai",
+    default="reference/sequences/{species}.{build}.{release}.dna/{species}.{build}.{release}.dna.fasta.fai",
 )
 genomes = replace_col(
     df=genomes,
     column="gtf",
-    default="reference/annotation/{species}.{build}.{reference}.dna/{species}.{build}.{release}.gtf",
+    default="reference/annotation/{species}.{build}.{release}.dna/{species}.{build}.{release}.gtf",
 )
 genomes = replace_col(
     df=genomes,
     column="genepred",
-    default="reference/annotation/{species}.{build}.{reference}.dna/{species}.{build}.{release}.genePred",
+    default="reference/annotation/{species}.{build}.{release}.dna/{species}.{build}.{release}.genePred",
 )
 genomes = replace_col(
     df=genomes,
     column="genepred_bed",
-    default="reference/annotation/{species}.{build}.{reference}.dna/{species}.{build}.{release}.genePred.bed",
+    default="reference/annotation/{species}.{build}.{release}.dna/{species}.{build}.{release}.genePred.bed",
 )
 genomes.to_csv(path_or_buf=snakemake.output.genomes, sep=",", header=True, index=False)
