@@ -28,10 +28,10 @@ See  [`fair_fastqc_multiqc`](https://github.com/tdayris/fair_fastqc_multiqc/) do
 
 | Step          | Meta-Wrapper                                                                                                              | Wrapper                                                                                           |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| Bowtie2-build | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.7.0/meta-wrappers/bowtie2_sambamba.html) | [bowtie2-build](https://snakemake-wrappers.readthedocs.io/en/v3.7.0/wrappers/bowtie2/build.html) |
-| Fastp         |                                                                                                                           | [fastp](https://snakemake-wrappers.readthedocs.io/en/v3.7.0/wrappers/fastp.html)                  |
-| Bowtie2-align | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.7.0/meta-wrappers/bowtie2_sambamba.html) | [bowtie2-align](https://snakemake-wrappers.readthedocs.io/en/v3.7.0/wrappers/bowtie2/align.html) |
-| Sambamba sort | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.7.0/meta-wrappers/bowtie2_sambamba.html) | [sambamba-sort](https://snakemake-wrappers.readthedocs.io/en/v3.7.0/wrappers/sambamba/sort.html) |
+| Bowtie2-build | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.13.7/meta-wrappers/bowtie2_sambamba.html) | [bowtie2-build](https://snakemake-wrappers.readthedocs.io/en/v3.13.7/wrappers/bowtie2/build.html) |
+| Fastp         |                                                                                                                           | [fastp](https://snakemake-wrappers.readthedocs.io/en/v3.13.7/wrappers/fastp.html)                  |
+| Bowtie2-align | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.13.7/meta-wrappers/bowtie2_sambamba.html) | [bowtie2-align](https://snakemake-wrappers.readthedocs.io/en/v3.13.7/wrappers/bowtie2/align.html) |
+| Sambamba sort | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.13.7/meta-wrappers/bowtie2_sambamba.html) | [sambamba-sort](https://snakemake-wrappers.readthedocs.io/en/v3.13.7/wrappers/sambamba/sort.html) |
 
 ```
 ┌───────────────────────────┐   ┌─────────────────────────┐
@@ -52,40 +52,46 @@ See  [`fair_fastqc_multiqc`](https://github.com/tdayris/fair_fastqc_multiqc/) do
 
 ### Filtering
 
-| Step             | Meta-Wrapper                                                                                                   | Wrapper                                                                                                 |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| Sambamba-view    | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.7.0/meta-wrappers/bowtie2_sambamba.html) | [sambamba-view](https://snakemake-wrappers.readthedocs.io/en/v3.7.0/wrappers/sambamba/view.html)       |
-| Sambamba-markdup | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.7.0/meta-wrappers/bowtie2_sambamba.html) | [sambamba-markdup](https://snakemake-wrappers.readthedocs.io/en/v3.7.0/wrappers/sambamba/markdup.html) |
-| Sambamba-index   | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.7.0/meta-wrappers/bowtie2_sambamba.html) | [sambamba-index](https://snakemake-wrappers.readthedocs.io/en/v3.7.0/wrappers/sambamba/index.html)     |
+| Step             | Meta-Wrapper                                                                                                             | Wrapper                                                                                                       |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------- |
+| Sambamba-view    | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.13.7/meta-wrappers/bowtie2_sambamba.html) | [sambamba-view](https://snakemake-wrappers.readthedocs.io/en/v3.13.7/wrappers/sambamba/view.html)              |
+| Sambamba-markdup | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.13.7/meta-wrappers/bowtie2_sambamba.html) | [sambamba-markdup](https://snakemake-wrappers.readthedocs.io/en/v3.13.7/wrappers/sambamba/markdup.html)        |
+| Sambamba-index   | [bowtie2-sambamba meta-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.13.7/meta-wrappers/bowtie2_sambamba.html) | [sambamba-index](https://snakemake-wrappers.readthedocs.io/en/v3.13.7/wrappers/sambamba/index.html)            |
+| Deeptools        |                                                                                                                          | [deeptools-alignment-sieve](https://snakemake-wrappers.readthedocs.io/en/v3.13.7/bio/deeptools/alignmentsieve) |
 
 ```
-┌──────────────────────────┐        
-│Aligned reads (see above) │        
-└──────────────┬───────────┘        
-               │                    
-               │                    
-┌──────────────▼──────────────┐     
-│Filter low quality (sambamba)│     
-└──────────────┬──────────────┘     
-               │                    
-               │                    
-┌──────────────▼───────────┐        
-│Mark duplicates (sambamba)│        
-└──────────────┬───────────┘        
-               │                    
-               │                    
-┌──────────────▼───────────────────┐
-│Index aligned sequences (sambamba)│
-└──────────────────────────────────┘
+ ┌─────────────────────────┐                                                
+ │Aligned reads (see above)│                                                
+ └───────────┬─────────────┘                                                
+             │                                                              
+             │                                                              
+             │                                                              
+             │                                                              
+ ┌───────────▼─────────────────┐                                            
+ │Filter low quality (sambamba)│                                            
+ └───────────┬─────────────────┘                                            
+             │                                                              
+             │                                                              
+             │                                                              
+ ┌───────────▼──────────────┐           ┌──────────────────────────────────┐
+ │Mark duplicates (sambamba)├───────────►Index aligned sequences (sambamba)│
+ └───────────┬──────────────┘           └─────────┬────────────────────────┘
+             │                                    │                         
+             ├────────────────────────────────────┘                         
+             │                                                              
+┌────────────▼─────────────────┐        ┌──────────────────────────────────┐
+│ Sieve alignments (deeptools) ├────────►Index aligned sequences (sambamba)│
+│     OPTIONAL                 │        │     OPTIONAL                     │
+└──────────────────────────────┘        └──────────────────────────────────┘
 ```
 
 ### QC
 
-| Step     | Wrapper                                                                                                                          |
-| -------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| Picard   | [picard-collectmultiplemetrics](https://snakemake-wrappers.readthedocs.io/en/v3.7.0/wrappers/picard/collectmultiplemetrics.html) |
-| Samtools | [samtools-stats](https://snakemake-wrappers.readthedocs.io/en/v3.7.0/wrappers/samtools/stats.html)                               |
-| MultiQC  | [multiqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.7.0/wrappers/multiqc.html)                                     |
+| Step     | Wrapper                                                                                                                           |
+| -------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| Picard   | [picard-collectmultiplemetrics](https://snakemake-wrappers.readthedocs.io/en/v3.13.7/wrappers/picard/collectmultiplemetrics.html) |
+| Samtools | [samtools-stats](https://snakemake-wrappers.readthedocs.io/en/v3.13.7/wrappers/samtools/stats.html)                               |
+| MultiQC  | [multiqc-wrapper](https://snakemake-wrappers.readthedocs.io/en/v3.13.7/wrappers/multiqc.html)                                     |
 
 ```
 ┌──────────────────────┐        ┌─────────────────────┐                ┌─────────────────────────┐
