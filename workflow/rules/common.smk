@@ -462,12 +462,6 @@ def get_fair_bowtie2_mapping_target(
     Dictionnary of expected output files
     """
     # Include requirements of previous pipelines
-    fair_genome_indexer_targets: dict[str, list[str] | str] = (
-        fair_genome_indexer.get_fair_genome_indexer_target(
-            wildcards=wildcards, genomes=genomes, samples=samples
-        )
-    )
-
     fair_fastqc_multiqc_targets: dict[str, list[str]] = dict(
         fair_fastqc_multiqc.rules.fair_fastqc_multiqc_target.input
     )
@@ -518,4 +512,5 @@ def get_fair_bowtie2_mapping_target(
                 f"tmp/fair_bowtie2_mapping_deeptools_alignment_sieve/{species}.{build}.{release}.dna/{sample}.bam.bai"
             )
     
+
     return results
