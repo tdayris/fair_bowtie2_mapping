@@ -173,7 +173,7 @@ def lookup_genomes(
     """
     Run lookup function with default parameters in order to search user-provided sequence/annotation files
     """
-    query: str = (
+    query = str(
         "species == '{wildcards.species}' & build == '{wildcards.build}' & release == '{wildcards.release}'".format(
             wildcards=wildcards
         )
@@ -194,7 +194,7 @@ def get_dna_fasta(
     """
     Return path to the final DNA fasta sequences
     """
-    default: str = (
+    default = str(
         "reference/sequences/{wildcards.species}.{wildcards.build}.{wildcards.release}/{wildcards.species}.{wildcards.build}.{wildcards.release}.dna.fasta".format(
             wildcards=wildcards
         )
@@ -208,7 +208,7 @@ def get_cdna_fasta(
     """
     Return path to the final cDNA fasta sequences
     """
-    default: str = (
+    default = str(
         "reference/sequences/{wildcards.species}.{wildcards.build}.{wildcards.release}/{wildcards.species}.{wildcards.build}.{wildcards.release}.cdna.fasta".format(
             wildcards=wildcards
         )
@@ -222,7 +222,7 @@ def get_transcripts_fasta(
     """
     Return path to the final cDNA transcripts fasta sequences
     """
-    default: str = (
+    default = str(
         "reference/sequences/{wildcards.species}.{wildcards.build}.{wildcards.release}/{wildcards.species}.{wildcards.build}.{wildcards.release}.transcripts.fasta".format(
             wildcards=wildcards
         )
@@ -254,7 +254,7 @@ def get_dna_fai(
     """
     Return path to the final DNA fasta sequences index
     """
-    default: str = (
+    default = str(
         "reference/sequences/{wildcards.species}.{wildcards.build}.{wildcards.release}/{wildcards.species}.{wildcards.build}.{wildcards.release}.dna.fasta.fai".format(
             wildcards=wildcards
         )
@@ -268,7 +268,7 @@ def get_cdna_fai(
     """
     Return path to the final cDNA fasta sequences index
     """
-    default: str = (
+    default = str(
         "reference/sequences/{wildcards.species}.{wildcards.build}.{wildcards.release}/{wildcards.species}.{wildcards.build}.{wildcards.release}.cdna.fasta.fai".format(
             wildcards=wildcards
         )
@@ -282,7 +282,7 @@ def get_transcripts_fai(
     """
     Return path to the final cDNA transcripts fasta sequences index
     """
-    default: str = (
+    default = str(
         "reference/sequences/{wildcards.species}.{wildcards.build}.{wildcards.release}/{wildcards.species}.{wildcards.build}.{wildcards.release}.transcripts.fasta.fai".format(
             wildcards=wildcards
         )
@@ -314,7 +314,7 @@ def get_gtf(
     """
     Return path to the final genome annotation (GTF formatted)
     """
-    default: str = (
+    default = str(
         "reference/annotation/{wildcards.species}.{wildcards.build}.{wildcards.release}/{wildcards.species}.{wildcards.build}.{wildcards.release}.gtf".format(
             wildcards=wildcards
         )
@@ -328,7 +328,7 @@ def get_gff(
     """
     Return path to the final genome annotation (GFF3 formatted)
     """
-    default: str = (
+    default = str(
         "reference/annotation/{wildcards.species}.{wildcards.build}.{wildcards.release}/{wildcards.species}.{wildcards.build}.{wildcards.release}.gff3".format(
             wildcards=wildcards
         )
@@ -432,7 +432,7 @@ def get_genepred_bed(
     """
     Return path to bed-formatted genepred file
     """
-    default: str = (
+    default = str(
         "reference/annotation/{wildcards.species}.{wildcards.build}.{wildcards.release}/{wildcards.species}.{wildcards.build}.{wildcards.release}.genePred.bed".format(
             wildcards=wildcards
         )
