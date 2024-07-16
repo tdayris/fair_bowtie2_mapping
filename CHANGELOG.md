@@ -1,3 +1,10 @@
+# 4.0.0
+
+## Features:
+
+* Deeptools alignment sieve (on `params/make_sieve` set to `true`)
+* snakemake_wrappers up to 3.13.7
+
 # 3.5.2
 
 ## Features:
