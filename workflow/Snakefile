@@ -13,6 +13,7 @@ if config.get("load_fair_fastqc_multiqc", True):
 
 include: "rules/common.smk"
 include: "rules/bowtie2_sambamba_meta.smk"
+include: "rules/deeptools.smk"
 include: "rules/fastp.smk"
 include: "rules/goleft.smk"
 include: "rules/multiqc.smk"

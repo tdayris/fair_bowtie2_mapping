@@ -4,6 +4,9 @@ samples: config/samples.csv
 # Optional path to a `genome.csv` file
 genomes: config/genomes.csv
 
+params:
+  make_sieve: true
+
 # Internal use only, not described in documentation.
 # deactivate import of fair_genome_indexer pipeline.
 # Requires the file `genome.csv` to be filled.

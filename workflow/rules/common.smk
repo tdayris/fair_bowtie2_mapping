@@ -492,6 +492,8 @@ def get_fair_bowtie2_mapping_target(
 
     results["bams"] = []
     results["bais"] = []
+    results["sieve"] = []
+    results["sieve_bai"] = []
 
     sample_iterator = zip(
         samples.sample_id,
@@ -499,6 +501,8 @@ def get_fair_bowtie2_mapping_target(
         samples.build,
         samples.release,
     )
+
+    make_sieve = lookup_config(dpath="params/make_sieve", default=False)
     for sample, species, build, release in sample_iterator:
         results["bams"].append(
             f"results/{species}.{build}.{release}.dna/Mapping/{sample}.bam"
@@ -506,5 +510,12 @@ def get_fair_bowtie2_mapping_target(
         results["bais"].append(
             f"results/{species}.{build}.{release}.dna/Mapping/{sample}.bam.bai"
         )
-
+        if make_sieve is True:
+            results["sieve"].append(
+                f"tmp/fair_bowtie2_mapping_deeptools_alignment_sieve/{species}.{build}.{release}.dna/{sample}.bam"
+            )
+            results["sieve_bai"].append(
+                f"tmp/fair_bowtie2_mapping_deeptools_alignment_sieve/{species}.{build}.{release}.dna/{sample}.bam.bai"
+            )
+    
     return results

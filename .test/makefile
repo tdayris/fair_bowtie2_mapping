@@ -10,6 +10,7 @@ MAKEFLAGS += --no-builtin-rules
 snakefiles := \
 	"../workflow/rules/bowtie2_sambamba_meta.smk" \
 	"../workflow/rules/common.smk" \
+	"../workflow/rules/deeptools.smk" \
 	"../workflow/rules/fair_genome_indexer.smk" \
 	"../workflow/rules/fair_fastqc_multiqc.smk" \
 	"../workflow/rules/fastp.smk" \
