@@ -24,12 +24,12 @@ use rule bowtie2_alignment from bowtie2_sambamba_metawrapper as fair_bowtie2_map
                 within=samples,
             ),
             then=expand(
-                "tmp/fair_bowtie2_mapping_fastp_trimming_pair_ended/{sample}.{stream}.fastq",
+                "tmp/fair_bowtie2_mapping_fastp_trimming_pair_ended/{sample}.{stream}.fastq.gz",
                 sample="{sample}",
                 stream=stream_tuple,
             ),
             otherwise=expand(
-                "tmp/fair_bowtie2_mapping_fastp_trimming_single_ended/{sample}.fastq",
+                "tmp/fair_bowtie2_mapping_fastp_trimming_single_ended/{sample}.fastq.gz",
                 sample="{sample}",
             ),
         ),
