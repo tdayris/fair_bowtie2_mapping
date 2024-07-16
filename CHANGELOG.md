@@ -1,3 +1,9 @@
+# 4.1.0
+
+## Features:
+
+* Fastp output compressed
+
 # 4.0.0
 
 ## Features:

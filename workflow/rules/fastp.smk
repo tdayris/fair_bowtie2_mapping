@@ -19,7 +19,7 @@ rule fair_bowtie2_mapping_fastp_trimming_pair_ended:
     output:
         trimmed=temp(
             expand(
-                "tmp/fair_bowtie2_mapping_fastp_trimming_pair_ended/{sample}.{stream}.fastq",
+                "tmp/fair_bowtie2_mapping_fastp_trimming_pair_ended/{sample}.{stream}.fastq.gz",
                 stream=stream_tuple,
                 allow_missing=True,
             )
@@ -64,7 +64,7 @@ use rule fair_bowtie2_mapping_fastp_trimming_pair_ended as fair_bowtie2_mapping_
         ],
     output:
         trimmed=temp(
-            "tmp/fair_bowtie2_mapping_fastp_trimming_single_ended/{sample}.fastq"
+            "tmp/fair_bowtie2_mapping_fastp_trimming_single_ended/{sample}.fastq.gz"
         ),
         html=report(
             "results/QC/report_se/{sample}.html",
