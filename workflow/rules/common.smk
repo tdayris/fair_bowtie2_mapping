@@ -511,6 +511,5 @@ def get_fair_bowtie2_mapping_target(
             results["sieve_bai"].append(
                 f"tmp/fair_bowtie2_mapping_deeptools_alignment_sieve/{species}.{build}.{release}.dna/{sample}.bam.bai"
             )
-    
 
     return results
