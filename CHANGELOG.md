@@ -1,3 +1,10 @@
+# 4.1.1
+
+## Features:
+
+* Allow local snakemake wrappers
+* Allow local modules
+
 # 4.1.0
 
 ## Features:
