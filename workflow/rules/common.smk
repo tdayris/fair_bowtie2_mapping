@@ -353,9 +353,13 @@ def get_dna_bowtie2_index(
         ".rev.1.bt2",
         ".rev.2.bt2",
     )
-    return lookup_genomes(
+    bt2_index: str | list[str] = lookup_genomes(
         wildcards, key="bowtie2_dna_index", default=default, genomes=genomes
     )
+    if (bt2_index != default) and isinstance(bt2_index, str):
+        bt2_index = [str(bt2) for bt2 in Path(bt2_index).iterdir()]
+
+    return bt2_index
 
 
 def get_cdna_bowtie2_index(
