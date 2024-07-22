@@ -38,7 +38,7 @@ rule fair_bowtie2_mapping_fastp_trimming_pair_ended:
         json=temp(
             "tmp/fair_bowtie2_mapping_fastp_trimming_pair_ended/{sample}.fastp.json"
         ),
-    threads: 20
+    threads: 6
     resources:
         mem_mb=lambda wildcards, attempt: 3_000 + (1_000 * attempt),
         runtime=lambda wildcards, attempt: 15 * attempt,
