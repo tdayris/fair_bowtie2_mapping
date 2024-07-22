@@ -1,3 +1,9 @@
+# 4.1.2
+
+## Features:
+
+* Reduce fastp threads
+
 # 4.1.1
 
 ## Features:
