@@ -1,3 +1,13 @@
+# 4.2.0
+
+## Features:
+
+* Samtools idxstats included
+
+## Fixes:
+
+* Deeptools alignment sieve producing non position-sorted bams 
+
 # 4.1.3
 
 ## Features:
