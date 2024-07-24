@@ -33,3 +33,34 @@ rule fair_bowtie2_mapping_samtools_stats:
         ),
     wrapper:
         f"{snakemake_wrappers_prefix}/bio/samtools/stats"
+
+
+"""
+No data
+"""
+
+
+rule fair_bowtie2_mapping_samtools_idxstats:
+    input:
+        bam="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam",
+        idx="results/{species}.{build}.{release}.{datatype}/Mapping/{sample}.bam.bai",
+    output:
+        temp(
+            "tmp/fair_bowtie2_mapping_samtools_idxstats/{species}.{build}.{release}.{datatype}/{sample}.idxstats"
+        ),
+    threads: 1
+    resources:
+        mem_mb=lambda wildcards, attempt: 300 + (100 * attempt),
+        runtime=lambda wildcards, attempt: 10 * attempt,
+        tmpdir=tmp,
+    log:
+        "logs/fair_bowtie2_mapping_samtools_idxstats/{species}.{build}.{release}.{datatype}/{sample}.log",
+    benchmark:
+        "benchmark/fair_bowtie2_mapping_samtools_idxstats/{species}.{build}.{release}.{datatype}/{sample}.tsv"
+    params:
+        extra=lookup_config(
+            dpath="params/fair_bowtie2_mapping_samtools_idxstats",
+            default="",
+        ),
+    wrapper:
+        f"{snakemake_wrappers_prefix}/bio/samtools/idxstats"

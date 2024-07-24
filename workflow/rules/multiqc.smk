@@ -65,6 +65,13 @@ rule fair_bowtie2_mapping_multiqc_report:
                 ".gc_bias.pdf",
             ],
         ),
+        idxstats=collect(
+            "tmp/fair_bowtie2_mapping_samtools_idxstats/{sample.species}.{sample.build}.{sample.release}.dna/{sample.sample_id}.idxstats",
+            sample=lookup(
+                query="species == '{species}' & build == '{build}' & release == '{release}'",
+                within=samples,
+            ),
+        ),
         fastp_pair_ended=collect(
             "tmp/fair_bowtie2_mapping_fastp_trimming_pair_ended/{sample.sample_id}.fastp.json",
             sample=lookup(

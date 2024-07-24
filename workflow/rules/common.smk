@@ -510,10 +510,10 @@ def get_fair_bowtie2_mapping_target(
         )
         if make_sieve is True:
             results["sieve"].append(
-                f"tmp/fair_bowtie2_mapping_deeptools_alignment_sieve/{species}.{build}.{release}.dna/{sample}.bam"
+                f"tmp/fair_bowtie2_mapping_sambamba_sort_sieve/{species}.{build}.{release}.dna/{sample}.bam"
             )
             results["sieve_bai"].append(
-                f"tmp/fair_bowtie2_mapping_deeptools_alignment_sieve/{species}.{build}.{release}.dna/{sample}.bam.bai"
+                f"tmp/fair_bowtie2_mapping_sambamba_sort_sieve/{species}.{build}.{release}.dna/{sample}.bam.bai"
             )
 
     return results

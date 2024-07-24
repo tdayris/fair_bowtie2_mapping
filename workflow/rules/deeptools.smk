@@ -26,12 +26,25 @@ rule fair_bowtie2_mapping_deeptools_alignment_sieve:
         f"{snakemake_wrappers_prefix}/bio/deeptools/alignmentsieve"
 
 
-use rule fair_bowtie2_mapping_sambamba_index as fair_bowtie2_mapping_sambamba_sieve_index with:
+use rule fair_bowtie2_mapping_sambamba_sort as fair_bowtie2_mapping_sambamba_sort_sieve with:
     input:
         "tmp/fair_bowtie2_mapping_deeptools_alignment_sieve/{species}.{build}.{release}.{datatype}/{sample}.bam",
     output:
         temp(
-            "tmp/fair_bowtie2_mapping_deeptools_alignment_sieve/{species}.{build}.{release}.{datatype}/{sample}.bam.bai"
+            "tmp/fair_bowtie2_mapping_sambamba_sort_sieve/{species}.{build}.{release}.{datatype}/{sample}.bam"
+        ),
+    log:
+        "logs/fair_bowtie2_mapping_sambamba_sort_sieve/{species}.{build}.{release}.{datatype}/{sample}.log",
+    benchmark:
+        "benchmark/fair_bowtie2_mapping_sambamba_sort_sieve/{species}.{build}.{release}.{datatype}/{sample}.tsv"
+
+
+use rule fair_bowtie2_mapping_sambamba_index as fair_bowtie2_mapping_sambamba_sieve_index with:
+    input:
+        "tmp/fair_bowtie2_mapping_sambamba_sort_sieve/{species}.{build}.{release}.{datatype}/{sample}.bam",
+    output:
+        temp(
+            "tmp/fair_bowtie2_mapping_sambamba_sort_sieve/{species}.{build}.{release}.{datatype}/{sample}.bam.bai"
         ),
     log:
         "logs/fair_bowtie2_mapping_sambamba_sieve_index/{species}.{build}.{release}.{datatype}/{sample}.log",
