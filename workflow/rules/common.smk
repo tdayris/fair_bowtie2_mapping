@@ -6,7 +6,7 @@ import snakemake.utils
 
 from typing import Any, Callable, NamedTuple
 
-snakemake_min_version: str = "8.13.0"
+snakemake_min_version: str = "8.13.7"
 snakemake.utils.min_version(snakemake_min_version)
 
 snakemake_docker_image: str = "docker://snakemake/snakemake:v8.16.0"
@@ -427,6 +427,21 @@ def select_bowtie2_index(wildcards: snakemake.io.Wildcards, genomes: pandas.Data
         key=f"bowtie2_{wildcards.datatype}_index",
         default=default,
         genomes=genomes,
+    )
+
+
+def get_intervals(
+    wildcards: snakemake.io.Wildcards, genomes: pandas.DataFrame = genomes
+) -> str | None:
+    """
+    Return path to capturekit file
+    """
+
+    default_interval = "tmp/fair_genome_indexer_pyfaidx_fasta_dict_to_bed/{wildcards.species}.{wildcards.build}.{wildcards.release}.{wildcards.datatype}.bed".format(
+        wildcards=wildcards,
+    )
+    return lookup_genomes(
+        wildcards, key="capture_kit", default=default_interval, genomes=genomes
     )
 
 

@@ -66,11 +66,12 @@ rule fair_bowtie2_mapping_multiqc_report:
             ],
         ),
         idxstats=collect(
-            "tmp/fair_bowtie2_mapping_samtools_idxstats/{sample.species}.{sample.build}.{sample.release}.dna/{sample.sample_id}.idxstats",
+            "tmp/fair_bowtie2_mapping_samtools_idxstats/{sample.species}.{sample.build}.{sample.release}.{datatype}/{sample.sample_id}.idxstats",
             sample=lookup(
                 query="species == '{species}' & build == '{build}' & release == '{release}'",
                 within=samples,
             ),
+            allow_missing=True,
         ),
         fastp_pair_ended=collect(
             "tmp/fair_bowtie2_mapping_fastp_trimming_pair_ended/{sample.sample_id}.fastp.json",
@@ -102,88 +103,124 @@ rule fair_bowtie2_mapping_multiqc_report:
             ),
         ),
         bowtie2=collect(
-            "logs/fair_bowtie2_mapping_bowtie2_alignment/{sample.species}.{sample.build}.{sample.release}.dna/{sample.sample_id}.log",
+            "logs/fair_bowtie2_mapping_bowtie2_alignment/{sample.species}.{sample.build}.{sample.release}.{datatype}/{sample.sample_id}.log",
             sample=lookup(
                 query="species == '{species}' & release == '{release}' & build == '{build}'",
                 within=samples,
             ),
+            allow_missing=True,
         ),
         samtools=collect(
-            "tmp/fair_bowtie2_mapping_samtools_stats/{sample.species}.{sample.build}.{sample.release}.dna/{sample.sample_id}.txt",
+            "tmp/fair_bowtie2_mapping_samtools_stats/{sample.species}.{sample.build}.{sample.release}.{datatype}/{sample.sample_id}.txt",
             sample=lookup(
                 query="species == '{species}' & release == '{release}' & build == '{build}'",
                 within=samples,
             ),
+            allow_missing=True,
         ),
         rseqc_infer_experiment=collect(
-            "tmp/fair_bowtie2_mapping_rseqc_infer_experiment/{sample.species}.{sample.build}.{sample.release}.dna/{sample.sample_id}.infer_experiment.txt",
+            "tmp/fair_bowtie2_mapping_rseqc_infer_experiment/{sample.species}.{sample.build}.{sample.release}.{datatype}/{sample.sample_id}.infer_experiment.txt",
             sample=lookup(
                 query="species == '{species}' & release == '{release}' & build == '{build}'",
                 within=samples,
             ),
+            allow_missing=True,
         ),
         rseqc_bamstat=collect(
-            "tmp/fair_bowtie2_mapping_rseqc_bamstat/{sample.species}.{sample.build}.{sample.release}.dna/{sample.sample_id}.bamstat.txt",
+            "tmp/fair_bowtie2_mapping_rseqc_bamstat/{sample.species}.{sample.build}.{sample.release}.{datatype}/{sample.sample_id}.bamstat.txt",
             sample=lookup(
                 query="species == '{species}' & release == '{release}' & build == '{build}'",
                 within=samples,
             ),
+            allow_missing=True,
         ),
         rseqc_read_gc=collect(
-            "tmp/fair_bowtie2_mapping_rseqc_read_gc/{sample.species}.{sample.build}.{sample.release}.dna/{sample.sample_id}.GC.xls",
+            "tmp/fair_bowtie2_mapping_rseqc_read_gc/{sample.species}.{sample.build}.{sample.release}.{datatype}/{sample.sample_id}.GC.xls",
             sample=lookup(
                 query="species == '{species}' & release == '{release}' & build == '{build}'",
                 within=samples,
             ),
+            allow_missing=True,
         ),
         rseqc_read_distribution=collect(
-            "tmp/fair_bowtie2_mapping_rseqc_read_distribution/{sample.species}.{sample.build}.{sample.release}.dna/{sample.sample_id}.txt",
+            "tmp/fair_bowtie2_mapping_rseqc_read_distribution/{sample.species}.{sample.build}.{sample.release}.{datatype}/{sample.sample_id}.txt",
             sample=lookup(
                 query="species == '{species}' & release == '{release}' & build == '{build}'",
                 within=samples,
             ),
+            allow_missing=True,
         ),
         rseqc_inner_distance=collect(
-            "tmp/fair_bowtie2_mapping_rseqc_inner_distance/{sample.species}.{sample.build}.{sample.release}.dna/{sample.sample_id}.inner_distance_freq.txt",
+            "tmp/fair_bowtie2_mapping_rseqc_inner_distance/{sample.species}.{sample.build}.{sample.release}.{datatype}/{sample.sample_id}.inner_distance_freq.txt",
             sample=lookup(
                 query="species == '{species}' & release == '{release}' & build == '{build}'",
                 within=samples,
             ),
+            allow_missing=True,
         ),
         goleft_indexcov_ped=collect(
-            "tmp/fair_bowtie2_mapping_goleft_indexcov/{sample.species}.{sample.release}.{sample.build}.dna/{sample.sample_id}-indexcov.ped",
+            "tmp/fair_bowtie2_mapping_goleft_indexcov/{sample.species}.{sample.release}.{sample.build}.{datatype}/{sample.sample_id}-indexcov.ped",
             sample=lookup(
                 query="species == '{species}' & release == '{release}' & build == '{build}'",
                 within=samples,
             ),
+            allow_missing=True,
         ),
         goleft_indexcov_roc=collect(
-            "tmp/fair_bowtie2_mapping_goleft_indexcov/{sample.species}.{sample.release}.{sample.build}.dna/{sample.sample_id}-indexcov.roc",
+            "tmp/fair_bowtie2_mapping_goleft_indexcov/{sample.species}.{sample.release}.{sample.build}.{datatype}/{sample.sample_id}-indexcov.roc",
             sample=lookup(
                 query="species == '{species}' & release == '{release}' & build == '{build}'",
                 within=samples,
             ),
+            allow_missing=True,
         ),
         ngsderive_readlen=collect(
-            "tmp/fair_bowtie2_mapping_ngsderive_readlen/{sample.species}.{sample.build}/{sample.release}.dna/{sample.sample_id}.readlen.tsv",
+            "tmp/fair_bowtie2_mapping_ngsderive_readlen/{sample.species}.{sample.build}/{sample.release}.{datatype}/{sample.sample_id}.readlen.tsv",
             sample=lookup(
                 query="species == '{species}' & release == '{release}' & build == '{build}'",
                 within=samples,
             ),
+            allow_missing=True,
         ),
         ngsderive_instrument=collect(
-            "tmp/fair_bowtie2_mapping_ngsderive_instrument/{sample.species}.{sample.build}/{sample.release}.dna/{sample.sample_id}.instrument.tsv",
+            "tmp/fair_bowtie2_mapping_ngsderive_instrument/{sample.species}.{sample.build}/{sample.release}.{datatype}/{sample.sample_id}.instrument.tsv",
             sample=lookup(
                 query="species == '{species}' & release == '{release}' & build == '{build}'",
                 within=samples,
             ),
+            allow_missing=True,
         ),
         ngsderive_encoding=collect(
-            "tmp/fair_bowtie2_mapping_ngsderive_encoding/{sample.species}.{sample.build}/{sample.release}.dna/{sample.sample_id}.encoding.tsv",
+            "tmp/fair_bowtie2_mapping_ngsderive_encoding/{sample.species}.{sample.build}/{sample.release}.{datatype}/{sample.sample_id}.encoding.tsv",
             sample=lookup(
                 query="species == '{species}' & release == '{release}' & build == '{build}'",
                 within=samples,
             ),
+            allow_missing=True,
+        ),
+        mosdepth_global=collect(
+            "tmp/fair_bowtie2_mapping_mosdepth/{sample.species}.{sample.build}.{sample.release}.{datatype}/{sample.sample_id}.mosdepth.global.dist.txt",
+            sample=lookup(
+                query="species == '{species}' & release == '{release}' & build == '{build}'",
+                within=samples,
+            ),
+            allow_missing=True,
+        ),
+        mosdepth_region=collect(
+            "tmp/fair_bowtie2_mapping_mosdepth/{sample.species}.{sample.build}.{sample.release}.{datatype}/{sample.sample_id}.mosdepth.region.dist.txt",
+            sample=lookup(
+                query="species == '{species}' & release == '{release}' & build == '{build}'",
+                within=samples,
+            ),
+            allow_missing=True,
+        ),
+        mosdepth_summary=collect(
+            "tmp/fair_bowtie2_mapping_mosdepth/{sample.species}.{sample.build}.{sample.release}.{datatype}/{sample.sample_id}.mosdepth.summary.txt",
+            sample=lookup(
+                query="species == '{species}' & release == '{release}' & build == '{build}'",
+                within=samples,
+            ),
+            allow_missing=True,
         ),
     output:
         report(

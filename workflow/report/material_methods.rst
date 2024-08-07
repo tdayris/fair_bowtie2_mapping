@@ -17,7 +17,8 @@ filter, mark duplicates, and compress aligned reads. Quality
 controls were done on cleaned, sorted, deduplicated aligned reads 
 using Picard_ [#picardpaper]_ and Samtools_ [#samtoolspaper]_.
 Additonal quality assessments are done with RSeQC_ [#rseqcpaper]_,
-NGSderive_ [#ngsderivepaper]_, and GOleft_ [#goleftpaper]_.
+NGSderive_ [#ngsderivepaper]_, GOleft_ [#goleftpaper]_,
+Mosdepth_ [#mosdepthpaper]_. 
 Quality repord produced during both trimming and mapping steps 
 have been aggregated with MultiQC_ [#multiqcpaper]_. 
 
@@ -39,6 +40,7 @@ installation usage, and resutls can be found on the
 .. [#rseqcpaper] Wang, Liguo, Shengqin Wang, and Wei Li. "RSeQC: quality control of RNA-seq experiments." Bioinformatics 28.16 (2012): 2184-2185.
 .. [#ngsderivepaper] McLeod, Clay, et al. "St. Jude Cloud: a pediatric cancer genomic data-sharing ecosystem." Cancer discovery 11.5 (2021): 1082-1099.
 .. [#goleftpaper] Pedersen, Brent S., et al. "Indexcov: fast coverage quality control for whole-genome sequencing." Gigascience 6.11 (2017): gix090.
+.. [#mosdepthpaper] Pedersen, Brent S., and Aaron R. Quinlan. "Mosdepth: quick coverage calculation for genomes and exomes." Bioinformatics 34.5 (2018): 867-868.
 .. [#multiqcpaper] Ewels, Philip, et al. "MultiQC: summarize analysis results for multiple tools and samples in a single report." Bioinformatics 32.19 (2016): 3047-3048.
 .. [#deeptoolspaper] Ramírez, Fidel, et al. "deepTools: a flexible platform for exploring deep-sequencing data." Nucleic acids research 42.W1 (2014): W187-W191.
 .. [#snakemakepaper] Köster, Johannes, and Sven Rahmann. "Snakemake—a scalable bioinformatics workflow engine." Bioinformatics 28.19 (2012): 2520-2522.
@@ -46,6 +48,7 @@ installation usage, and resutls can be found on the
 .. _Sambamba: https://snakemake-wrappers.readthedocs.io/en/v3.13.7/wrappers/sambamba.html
 .. _Bowtie2: https://snakemake-wrappers.readthedocs.io/en/v3.13.7/wrappers/bowtie2.html
 .. _Fastp: https://snakemake-wrappers.readthedocs.io/en/v3.13.7/wrappers/fastp.html
+.. _Mosdepth: https://snakemake-wrappers.readthedocs.io/en/v3.13.7/wrappers/mosdepth.html
 .. _Picard: https://snakemake-wrappers.readthedocs.io/en/v3.13.7/wrappers/picard/collectmultiplemetrics.html
 .. _MultiQC: https://snakemake-wrappers.readthedocs.io/en/v3.13.7/wrappers/multiqc.html
 .. _Snakemake: https://snakemake.readthedocs.io

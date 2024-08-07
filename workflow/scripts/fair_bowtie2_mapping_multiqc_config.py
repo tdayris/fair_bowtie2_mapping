@@ -49,6 +49,7 @@ default_config: dict[str, Any] = {
             "fastp": "0.23.4",
             "ngsderive": "3.3.2",
             "goleft": "0.2.4",
+            "mosdepth": "0.3.8",
         },
         "Pipeline": {
             "snakemake": "8.13.0",
@@ -68,6 +69,7 @@ default_config: dict[str, Any] = {
         "rseqc",
         "ngsderive",
         "goleft_indexcov",
+        "mosdepth",
     ],
     "report_section_order": {
         "fastq_screen": {"order": 1000},
@@ -79,6 +81,7 @@ default_config: dict[str, Any] = {
         "samtools": {"order": 860},
         "rseqc": {"order": 850},
         "goleft_indexcov": {"order": 840},
+        "mosdepth": {"order": 830},
         "software_versions": {"order": -1000},
     },
 }

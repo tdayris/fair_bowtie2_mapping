@@ -1,3 +1,9 @@
+# 4.3.0
+
+## Features:
+
+* Mosdepth included in QC
+
 # 4.2.0
 
 ## Features:
