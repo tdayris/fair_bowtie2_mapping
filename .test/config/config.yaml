@@ -15,6 +15,6 @@ params:
 # Requires to redefine fastqc and multiqc rules.
 # load_fair_fastqc_multiqc: true
 
-# # Avoid git fetching
-fair_genome_indexer_snakefile: /home/t_dayris/Documents/Devs/fair_genome_indexer/workflow/Snakefile
-fair_fastqc_multiqc_snakefile: /home/t_dayris/Documents/Devs/fair_fastqc_multiqc/workflow/Snakefile
+# Avoid git fetching
+# fair_genome_indexer_snakefile: /home/t_dayris/Documents/Devs/fair_genome_indexer/workflow/Snakefile
+# fair_fastqc_multiqc_snakefile: /home/t_dayris/Documents/Devs/fair_fastqc_multiqc/workflow/Snakefile
