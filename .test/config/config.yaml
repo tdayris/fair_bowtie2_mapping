@@ -16,5 +16,5 @@ params:
 # load_fair_fastqc_multiqc: true
 
 # # Avoid git fetching
-# fair_genome_indexer_snakefile: /media/tdayris/Dev/fair_genome_indexer/workflow/Snakefile
-# fair_fastqc_multiqc_snakefile: /media/tdayris/Dev/fair_fastqc_multiqc/workflow/Snakefile
+fair_genome_indexer_snakefile: /home/t_dayris/Documents/Devs/fair_genome_indexer/workflow/Snakefile
+fair_fastqc_multiqc_snakefile: /home/t_dayris/Documents/Devs/fair_fastqc_multiqc/workflow/Snakefile

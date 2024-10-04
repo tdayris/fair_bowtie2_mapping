@@ -1,3 +1,13 @@
+# 4.3.1
+
+## Features:
+
+* Snakemake-wrappers up to 4.6.0
+
+## Documentation:
+
+* Update in the configuration section
+
 # 4.3.0
 
 ## Features:
@@ -12,7 +22,7 @@
 
 ## Fixes:
 
-* Deeptools alignment sieve producing non position-sorted bams 
+* Deeptools alignment sieve producing non position-sorted bams
 
 # 4.1.3
 
@@ -111,7 +121,7 @@
 
 # 3.3.0
 
-## Featues: 
+## Featues:
 
 * All keys in configuration are now optional
 * Snakemake wrappers up to version 3.5.0
@@ -146,7 +156,7 @@ Update to Snakemake v8+
 
 * Usage updated
 * DAG as ascii art
-* tempfiles, logs and benchmarks paths reorganized: 
+* tempfiles, logs and benchmarks paths reorganized:
     * `tmp/fair_fastqc_multiqc/{rule_name}/{wildcards}.{extension}`
     * `log/fair_fastqc_multiqc/{rule_name}/{wildcards}.log`
     * `benchmark/fair_fastqc_multiqc/{rule_name}/{wildcards}.tsv`

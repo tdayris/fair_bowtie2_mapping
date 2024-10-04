@@ -45,23 +45,23 @@ installation usage, and resutls can be found on the
 .. [#deeptoolspaper] Ramírez, Fidel, et al. "deepTools: a flexible platform for exploring deep-sequencing data." Nucleic acids research 42.W1 (2014): W187-W191.
 .. [#snakemakepaper] Köster, Johannes, and Sven Rahmann. "Snakemake—a scalable bioinformatics workflow engine." Bioinformatics 28.19 (2012): 2520-2522.
 
-.. _Sambamba: https://snakemake-wrappers.readthedocs.io/en/v3.13.7/wrappers/sambamba.html
-.. _Bowtie2: https://snakemake-wrappers.readthedocs.io/en/v3.13.7/wrappers/bowtie2.html
-.. _Fastp: https://snakemake-wrappers.readthedocs.io/en/v3.13.7/wrappers/fastp.html
-.. _Mosdepth: https://snakemake-wrappers.readthedocs.io/en/v3.13.7/wrappers/mosdepth.html
-.. _Picard: https://snakemake-wrappers.readthedocs.io/en/v3.13.7/wrappers/picard/collectmultiplemetrics.html
-.. _MultiQC: https://snakemake-wrappers.readthedocs.io/en/v3.13.7/wrappers/multiqc.html
+.. _Sambamba: https://snakemake-wrappers.readthedocs.io/en/v4.6.0/wrappers/sambamba.html
+.. _Bowtie2: https://snakemake-wrappers.readthedocs.io/en/v4.6.0/wrappers/bowtie2.html
+.. _Fastp: https://snakemake-wrappers.readthedocs.io/en/v4.6.0/wrappers/fastp.html
+.. _Mosdepth: https://snakemake-wrappers.readthedocs.io/en/v4.6.0/wrappers/mosdepth.html
+.. _Picard: https://snakemake-wrappers.readthedocs.io/en/v4.6.0/wrappers/picard/collectmultiplemetrics.html
+.. _MultiQC: https://snakemake-wrappers.readthedocs.io/en/v4.6.0/wrappers/multiqc.html
 .. _Snakemake: https://snakemake.readthedocs.io
 .. _Github: https://github.com/tdayris/fair_bowtie2_mapping
 .. _`Snakemake workflow`: https://snakemake.github.io/snakemake-workflow-catalog?usage=tdayris/fair_bowtie2_mapping
 .. _Agat: https://agat.readthedocs.io/en/latest/index.html
-.. _Samtools: https://snakemake-wrappers.readthedocs.io/en/v3.13.7/wrappers/samtools/faidx.html
-.. _FastQC: https://snakemake-wrappers.readthedocs.io/en/v3.13.7/wrappers/fastqc.html
+.. _Samtools: https://snakemake-wrappers.readthedocs.io/en/v4.6.0/wrappers/samtools/faidx.html
+.. _FastQC: https://snakemake-wrappers.readthedocs.io/en/v4.6.0/wrappers/fastqc.html
 .. _Pyfaidx: https://github.com/mdshw5/pyfaidx
 .. _GOleft: https://github.com/brentp/goleft
 .. _NGSderive: https://stjudecloud.github.io/ngsderive/
 .. _RSeQC: https://rseqc.sourceforge.net/
-.. _Deeptools: https://snakemake-wrappers.readthedocs.io/en/v3.13.7/wrappers/deeptools/alignmentsieve.html
+.. _Deeptools: https://snakemake-wrappers.readthedocs.io/en/v4.6.0/wrappers/deeptools/alignmentsieve.html
 
 :Authors:
     Thibault Dayris

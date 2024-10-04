@@ -15,20 +15,8 @@ samples: config/samples.csv
 
 # Optional parameters
 params:
-  fair_bowtie2_mapping:
-    bowtie2:
-      # Optional parameters for bowtie2-build
-      build: ""
-      # Optional parameters for bowtie2-align
-      align: ""
-    sambamba:
-      # Optional parameters for sambamba view
-      view: "--format 'bam' --filter 'mapping_quality >= 30 and not (unmapped or mate_is_unmapped)' "
-      # Optional parameters for sambamba markdup
-      markdup: "--remove-duplicates"
-    picard:
-      # Mapping QC optional parameters
-      metrics: ""
+  # Path to configuration file
+  fair_fastqc_multiqc_fastq_screen_config: "/mnt/beegfs/database/bioinfo/Index_DB/Fastq_Screen/0.14.0/fastq_screen.conf"
 ```
 
 A complete list of accepted keys is available [in schemas](https://github.com/tdayris/fair_bowtie2_mapping/blob/main/workflow/schemas/config.schema.yaml),
