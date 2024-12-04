@@ -3,5 +3,5 @@ channels:
   - bioconda
   - nodefaults
 dependencies:
-  - gzip=1.13
-  - pbgzip=2016.08.04
+  - gzip =1.13
+  - pbgzip =2016.08.04

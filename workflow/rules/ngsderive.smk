@@ -98,7 +98,7 @@ rule tabix_gzipped_gtf:
             default="-p gff",
         ),
     wrapper:
-        f"{snakemake_wrappers_prefix}/bio/tabix/index"
+        "v5.3.0/bio/tabix/index"
 
 
 rule fair_bowtie2_mapping_ngsderive_strandedness:
@@ -127,7 +127,7 @@ rule fair_bowtie2_mapping_ngsderive_strandedness:
             default="",
         ),
     wrapper:
-        f"{snakemake_wrappers_prefix}/bio/ngsderive"
+        "v5.3.0/bio/ngsderive"
 
 
 """
@@ -165,7 +165,7 @@ rule fair_bowtie2_mapping_ngsderive_encoding:
             default="",
         ),
     wrapper:
-        f"{snakemake_wrappers_prefix}/bio/ngsderive"
+        "v5.3.0/bio/ngsderive"
 
 
 """
@@ -203,7 +203,7 @@ rule fair_bowtie2_mapping_ngsderive_instrument:
             default="",
         ),
     wrapper:
-        f"{snakemake_wrappers_prefix}/bio/ngsderive"
+        "v5.3.0/bio/ngsderive"
 
 
 """
@@ -241,4 +241,4 @@ rule fair_bowtie2_mapping_ngsderive_readlen:
             default="",
         ),
     wrapper:
-        f"{snakemake_wrappers_prefix}/bio/ngsderive"
+        "v5.3.0/bio/ngsderive"

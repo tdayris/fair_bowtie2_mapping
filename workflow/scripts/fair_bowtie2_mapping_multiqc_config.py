@@ -33,29 +33,11 @@ default_config: dict[str, Any] = {
         {"Project Type": "Mapping"},
     ],
     "software_versions": {
-        "Quality controls": {
-            "fastqc": "1.12.1",
-            "fastq_screen": "0.15.3",
-            "bowtie2": "2.5.3",
-            "bowtie1": "1.3.1",
-            "multiqc": "1.21.0",
-        },
-        "Mapping": {
-            "bowtie2": "2.5.3",
-            "sambamba": "1.0",
-            "samtools": "1.19.2",
-            "picard": "3.1.1",
-            "rseqc": "5.0.3",
-            "fastp": "0.23.4",
-            "ngsderive": "3.3.2",
-            "goleft": "0.2.4",
-            "mosdepth": "0.3.8",
-        },
         "Pipeline": {
             "snakemake": "8.13.0",
             "snakemake-wrappers-utils": "0.6.2",
-            "fair_fastqc_multiqc": "2.2.8",
-            "fair_genome_indexer": "3.6.0",
+            "fair_fastqc_multiqc": "2.4.2",
+            "fair_genome_indexer": "3.9.3",
         },
     },
     "disable_version_detection": True,
@@ -70,6 +52,7 @@ default_config: dict[str, Any] = {
         "ngsderive",
         "goleft_indexcov",
         "mosdepth",
+        "mtnucratio",
     ],
     "report_section_order": {
         "fastq_screen": {"order": 1000},
@@ -82,6 +65,7 @@ default_config: dict[str, Any] = {
         "rseqc": {"order": 850},
         "goleft_indexcov": {"order": 840},
         "mosdepth": {"order": 830},
+        "mtnucratio": {"order": 827},
         "software_versions": {"order": -1000},
     },
 }

@@ -23,7 +23,7 @@ rule fair_bowtie2_mapping_deeptools_alignment_sieve:
             dpath="params/fair_bowtie2_mapping_deeptools_alignment_sieve", default=""
         ),
     wrapper:
-        f"{snakemake_wrappers_prefix}/bio/deeptools/alignmentsieve"
+        "v5.3.0/bio/deeptools/alignmentsieve"
 
 
 use rule fair_bowtie2_mapping_sambamba_sort as fair_bowtie2_mapping_sambamba_sort_sieve with:

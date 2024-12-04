@@ -222,6 +222,15 @@ rule fair_bowtie2_mapping_multiqc_report:
             ),
             allow_missing=True,
         ),
+        #sexdeterrmine="tmp/fair_bowtie2_mapping_sexdeterrmine/{species}.{build}.{release}.{datatype}/sexdeterrmine.json",
+        mtnucratiocalculator=collect(
+            "tmp/fair_bowtie2_mapping_mtnucratiocalculator/{sample.species}.{sample.build}.{sample.release}.{datatype}/{sample.sample_id}.mtnuc.json",
+            sample=lookup(
+                query="species == '{species}' & release == '{release}' & build == '{build}'",
+                within=samples,
+            ),
+            allow_missing=True,
+        ),
     output:
         report(
             "results/{species}.{build}.{release}.{datatype}/QC/MultiQC_Mapping.html",
@@ -251,4 +260,4 @@ rule fair_bowtie2_mapping_multiqc_report:
     benchmark:
         "benchmark/fair_bowtie2_mapping_multiqc_report/{species}.{build}.{release}.{datatype}.tsv"
     wrapper:
-        f"{snakemake_wrappers_prefix}/bio/multiqc"
+        "v5.3.0/bio/multiqc"

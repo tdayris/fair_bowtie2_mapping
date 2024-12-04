@@ -32,7 +32,7 @@ rule fair_bowtie2_mapping_samtools_stats:
             default="",
         ),
     wrapper:
-        f"{snakemake_wrappers_prefix}/bio/samtools/stats"
+        "v5.3.0/bio/samtools/stats"
 
 
 """
@@ -63,4 +63,4 @@ rule fair_bowtie2_mapping_samtools_idxstats:
             default="",
         ),
     wrapper:
-        f"{snakemake_wrappers_prefix}/bio/samtools/idxstats"
+        "v5.3.0/bio/samtools/idxstats"

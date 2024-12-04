@@ -125,7 +125,6 @@ snakemake.utils.validate(genomes, "../schemas/genomes.schema.yaml")
 report: "../report/workflows.rst"
 
 
-snakemake_wrappers_prefix: str = "v4.6.0"
 release_tuple: tuple[str] = tuple(set(genomes.release.tolist()))
 build_tuple: tuple[str] = tuple(set(genomes.build.tolist()))
 species_tuple: tuple[str] = tuple(set(genomes.species.tolist()))
@@ -440,6 +439,40 @@ def get_genepred_bed(
         default=default,
         genomes=genomes,
     )
+
+
+def get_all_bams_per_genotype(
+    wildcards: snakemake.io.Wildcards,
+    samples: pandas.DataFrame = samples,
+    index: bool = False,
+    samples_only: bool = False,
+) -> list[str]:
+    """
+    Return the list of all bams belonging to a given genome
+    """
+    sampled_samples = lookup(
+        query="{species} = '{wildcards.species}' & {build} = '{wildcards.build}' & {release} = '{wildcards.release}'",
+        within=samples,
+    )
+    samples_id: list[str] | None = getattr(sampled_samples, "sample_id", None)
+    if samples_id is None:
+        raise ValueError(
+            "No samples found with the following informations: {wildcards=}"
+        )
+
+    if samples_only is True:
+        return samples_id
+
+    template: str = "results/{gp}.{datatype}/Mapping/{sample}.bam"
+    if index is True:
+        template = "results/{gp}.{datatype}/Mapping/{sample}.bam.bai"
+    datatype = str(wildcards.datatype)
+    gp: str = genome_property(wildcards)
+
+    return [
+        template.format(gp=gp, datatype=datatype, sample=sample)
+        for sample in samples_id
+    ]
 
 
 def get_fair_bowtie2_mapping_target(

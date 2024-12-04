@@ -33,7 +33,7 @@ rule fair_bowtie2_mapping_rseqc_infer_experiment:
             default="",
         ),
     wrapper:
-        f"{snakemake_wrappers_prefix}/bio/rseqc/infer_experiment"
+        "v5.3.0/bio/rseqc/infer_experiment"
 
 
 """
@@ -109,7 +109,7 @@ rule fair_bowtie2_mapping_rseqc_read_gc:
             default="",
         ),
     wrapper:
-        f"{snakemake_wrappers_prefix}/bio/rseqc/read_gc"
+        "v5.3.0/bio/rseqc/read_gc"
 
 
 """
@@ -147,7 +147,7 @@ rule fair_bowtie2_mapping_rseqc_read_distribution:
             default="",
         ),
     wrapper:
-        f"{snakemake_wrappers_prefix}/bio/rseqc/read_distribution"
+        "v5.3.0/bio/rseqc/read_distribution"
 
 
 """

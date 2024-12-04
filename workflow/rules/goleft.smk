@@ -37,4 +37,4 @@ rule fair_bowtie2_mapping_goleft_indexcov:
             default="",
         ),
     wrapper:
-        f"{snakemake_wrappers_prefix}/bio/goleft/indexcov"
+        "v5.3.0/bio/goleft/indexcov"

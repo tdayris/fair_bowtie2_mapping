@@ -1,3 +1,17 @@
+# 4.4.0
+
+## Features:
+
+* Snakemake-wrappers update to 5.3.0
+* MTNucRatioCalculator added to QC
+* Easy snakemake-wrappers update
+* Easy conda envs update
+* New testing pipeline with additional format checks
+
+## Doc:
+
+* Citation cff file added
+
 # 4.3.1
 
 ## Features:
