@@ -55,24 +55,24 @@ installation usage, and resutls can be found on the
 .. [#sexdeterrmine] Lamnidis, T.C. et al., 2018. Ancient Fennoscandian genomes reveal origin and spread of Siberian ancestry in Europe. Nature communications, 9(1), p.5018. Available at: http://dx.doi.org/10.1038/s41467-018-07483-5.
 .. [#multiqcpaper] Ewels, Philip, et al. "MultiQC: summarize analysis results for multiple tools and samples in a single report." Bioinformatics 32.19 (2016): 3047-3048.
 .. [#deeptoolspaper] Ramírez, Fidel, et al. "deepTools: a flexible platform for exploring deep-sequencing data." Nucleic acids research 42.W1 (2014): W187-W191.
-.. [#fairbowtiemapping] Dayris, T. (2024). fair-bowtie2-mapping (Version 4.4.0) [Computer software]. https://github.com/tdayris/fair_bowtie2_mapping
+.. [#fairbowtiemapping] Dayris, T. (2024). fair-bowtie2-mapping (Version 4.4.1) [Computer software]. https://github.com/tdayris/fair_bowtie2_mapping
 .. [#snakemakepaper] Köster, Johannes, and Sven Rahmann. "Snakemake—a scalable bioinformatics workflow engine." Bioinformatics 28.19 (2012): 2520-2522.
 .. [#fairgenomeindexer] Dayris, T. (2024). fair-genome-indexer (Version 3.9.3) [Computer software]. https://github.com/tdayris/fair_genome_indexer
 .. [#fairfastqcmultiqc] Dayris, T. (2024). fair-fastqc-multiqc (Version 2.4.2) [Computer software]. https://github.com/tdayris/fair_fastqc_multiqc
 
 
-.. _Sambamba: https://snakemake-wrappers.readthedocs.io/en/v5.3.0/wrappers/sambamba.html
-.. _Bowtie2: https://snakemake-wrappers.readthedocs.io/en/v5.3.0/wrappers/bowtie2.html
-.. _Fastp: https://snakemake-wrappers.readthedocs.io/en/v5.3.0/wrappers/fastp.html
-.. _Mosdepth: https://snakemake-wrappers.readthedocs.io/en/v5.3.0/wrappers/mosdepth.html
-.. _Picard: https://snakemake-wrappers.readthedocs.io/en/v5.3.0/wrappers/picard/collectmultiplemetrics.html
-.. _MultiQC: https://snakemake-wrappers.readthedocs.io/en/v5.3.0/wrappers/multiqc.html
+.. _Sambamba: https://snakemake-wrappers.readthedocs.io/en/v5.5.0/wrappers/sambamba.html
+.. _Bowtie2: https://snakemake-wrappers.readthedocs.io/en/v5.5.0/wrappers/bowtie2.html
+.. _Fastp: https://snakemake-wrappers.readthedocs.io/en/v5.5.0/wrappers/fastp.html
+.. _Mosdepth: https://snakemake-wrappers.readthedocs.io/en/v5.5.0/wrappers/mosdepth.html
+.. _Picard: https://snakemake-wrappers.readthedocs.io/en/v5.5.0/wrappers/picard/collectmultiplemetrics.html
+.. _MultiQC: https://snakemake-wrappers.readthedocs.io/en/v5.5.0/wrappers/multiqc.html
 .. _Snakemake: https://snakemake.readthedocs.io
 .. _Github: https://github.com/tdayris/fair_bowtie2_mapping
 .. _`Snakemake workflow`: https://snakemake.github.io/snakemake-workflow-catalog?usage=tdayris/fair_bowtie2_mapping
 .. _Agat: https://agat.readthedocs.io/en/latest/index.html
-.. _Samtools: https://snakemake-wrappers.readthedocs.io/en/v5.3.0/wrappers/samtools/faidx.html
-.. _FastQC: https://snakemake-wrappers.readthedocs.io/en/v5.3.0/wrappers/fastqc.html
+.. _Samtools: https://snakemake-wrappers.readthedocs.io/en/v5.5.0/wrappers/samtools/faidx.html
+.. _FastQC: https://snakemake-wrappers.readthedocs.io/en/v5.5.0/wrappers/fastqc.html
 .. _Fastq_utils: https://github.com/nunofonseca/fastq_utils
 .. _Seqkit: https://bioinf.shenwei.me/seqkit/
 .. _Fastqinfo: https://github.com/raymondkiu/fastq-info
@@ -80,7 +80,7 @@ installation usage, and resutls can be found on the
 .. _GOleft: https://github.com/brentp/goleft
 .. _NGSderive: https://stjudecloud.github.io/ngsderive/
 .. _RSeQC: https://rseqc.sourceforge.net/
-.. _Deeptools: https://snakemake-wrappers.readthedocs.io/en/v5.3.0/wrappers/deeptools/alignmentsieve.html
+.. _Deeptools: https://snakemake-wrappers.readthedocs.io/en/v5.5.0/wrappers/deeptools/alignmentsieve.html
 .. _SexDetERRmine: ???
 .. _MTNucRatioCalculator: ???
 .. _`fair-genome-indexer`: https://github.com/tdayris/fair_genome_indexer
@@ -91,4 +91,4 @@ installation usage, and resutls can be found on the
     Thibault Dayris
 
 
-:Version: 4.4.0 of 2024-12-04
+:Version: 4.4.1 of 2024-12-13

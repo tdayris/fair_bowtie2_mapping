@@ -1,17 +1,17 @@
 rule fair_bowtie2_mapping_samtools_depth:
     input:
-        bam=lambda wildcards: get_all_bams_per_genotype(
+        bams=lambda wildcards: get_all_bams_per_genotype(
             wildcards,
             samples,
         ),
-        bai=lambda wildcards: get_all_bams_per_genotype(
+        bais=lambda wildcards: get_all_bams_per_genotype(
             wildcards,
             samples,
             index=True,
         ),
-        bed=lambda wildcards: get_capturekit_bed(
+        bed=lambda wildcards: get_intervals(
             wildcards,
-            config,
+            genomes,
         ),
     output:
         temp(
@@ -32,42 +32,39 @@ rule fair_bowtie2_mapping_samtools_depth:
             default="--min-MQ 30 -l 10",
         ),
     wrapper:
-        "v5.3.0/bio/samtools/depth"
+        "v5.5.0/bio/samtools/depth"
 
 
-rule fair_bowtie2_mapping_csvkit_add_header:
-    input:
-        table="tmp/fair_bowtie2_mapping_samtools_depth/{species}.{build}.{release}.{datatype}.depth.tsv",
+rule fair_bowtie2_mapping_sample_list:
     output:
-        temp(
-            "tmp/fair_bowtie2_mapping_csvkit_add_header/{species}.{build}.{release}.{datatype}.depth.tsv"
-        ),
+        "tmp/fair_bowtie2_mapping_sample_list/{species}.{build}.{release}.{datatype}.txt",
     threads: 1
     resources:
         mem_mb=lambda wildcards, attempt: attempt * 1_000,
         runtime=lambda wildcards, attempt: attempt * 15,
         tmpdir=tmp,
     log:
-        "logs/fair_bowtie2_mapping_csvkit_add_header/{species}.{build}.{release}.{datatype}.log",
+        "logs/fair_bowtie2_mapping_sample_list/{species}.{build}.{release}.{datatype}.log",
     benchmark:
-        "benchmark/fair_bowtie2_mapping_csvkit_add_header/{species}.{build}.{release}.{datatype}.benchmark"
+        "benchmark/fair_bowtie2_mapping_sample_list/{species}.{build}.{release}.{datatype}.tsv"
     params:
-        subcommand="add-header",
-        extra=lambda wildcards: "-t -n Chr,Pos,"
-        + ",".join(
+        extra=lambda wildcards: "\n".join(
             get_all_bams_per_genotype(
                 wildcards,
                 samples,
                 samples_only=True,
-            ),
+            )
         ),
-    wrapper:
-        "v5.3.0/utils/csvtk"
+    conda:
+        "../envs/bash.yaml"
+    shell:
+        "echo '{params.extra}' > {output} 2> {log}"
 
 
 rule fair_bowtie2_mapping_sexdeterrmine:
     input:
-        depth="tmp/fair_bowtie2_mapping_csvkit_add_header/{species}.{build}.{release}.{datatype}.depth.tsv",
+        depth="tmp/fair_bowtie2_mapping_samtools_depth/{species}.{build}.{release}.{datatype}.depth.tsv",
+        samples="tmp/fair_bowtie2_mapping_sample_list/{species}.{build}.{release}.{datatype}.txt",
     output:
         tsv=report(
             "results/{species}.{build}.{release}.{datatype}/QC/Sex.DetERRmine.tsv",
@@ -92,5 +89,7 @@ rule fair_bowtie2_mapping_sexdeterrmine:
         "logs/fair_bowtie2_mapping_sexdeterrmine/{species}.{build}.{release}.{datatype}.log",
     benchmark:
         "benchmark/fair_bowtie2_mapping_sexdeterrmine/{species}.{build}.{release}.{datatype}.benchmark"
+    params:
+        extra=lambda wildcards, input: f" --SampleList {input.samples} ",
     wrapper:
-        "v5.3.0/bio/sexdeterrmine"
+        "v5.5.0/bio/sexdeterrmine"

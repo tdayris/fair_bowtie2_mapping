@@ -1,3 +1,15 @@
+# 4.4.1
+
+## Features:
+
+* Use of wrapper's version of Sex.DetERRmine
+* Snakemake-wrappers update to 5.5.0
+* Tasks update
+
+## Fix:
+
+* Sex.DetERRmine used only on human and mice
+
 # 4.4.0
 
 ## Features:

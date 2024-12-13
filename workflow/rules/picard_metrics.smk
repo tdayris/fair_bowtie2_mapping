@@ -43,4 +43,4 @@ rule fair_bowtie2_mapping_picard_create_multiple_metrics:
             default="",
         ),
     wrapper:
-        "v5.3.0/bio/picard/collectmultiplemetrics"
+        "v5.5.0/bio/picard/collectmultiplemetrics"

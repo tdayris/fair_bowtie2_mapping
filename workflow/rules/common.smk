@@ -1,5 +1,6 @@
 import csv
 import os
+import os.path as op
 import pandas
 import snakemake
 import snakemake.utils
@@ -336,7 +337,10 @@ def get_dna_bowtie2_index(
         wildcards, key="bowtie2_dna_index", default=default, genomes=genomes
     )
     if (bt2_index != default) and isinstance(bt2_index, str):
-        bt2_index = [str(bt2) for bt2 in Path(bt2_index).iterdir()]
+        bt2_index = [str(bt2) for bt2 in Path(bt2_index).iterdir() if str(bt2) != ""]
+
+    if op.commonpath(bt2_index) == "":
+        raise ValueError(f"No index found at {bt2_index=}")
 
     return bt2_index
 
@@ -451,13 +455,19 @@ def get_all_bams_per_genotype(
     Return the list of all bams belonging to a given genome
     """
     sampled_samples = lookup(
-        query="{species} = '{wildcards.species}' & {build} = '{wildcards.build}' & {release} = '{wildcards.release}'",
+        query=f"species == '{wildcards.species}' & build == '{wildcards.build}' & release == '{wildcards.release}'",
         within=samples,
     )
-    samples_id: list[str] | None = getattr(sampled_samples, "sample_id", None)
+    if not isinstance(sampled_samples, list):
+        sampled_samples = [sampled_samples]
+
+    samples_id: list[str] | None = [
+        getattr(sampled, "sample_id", None) for sampled in sampled_samples
+    ]
+
     if samples_id is None:
         raise ValueError(
-            "No samples found with the following informations: {wildcards=}"
+            f"No samples found with the following informations: {wildcards=}"
         )
 
     if samples_only is True:

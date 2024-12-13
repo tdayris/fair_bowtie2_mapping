@@ -222,7 +222,12 @@ rule fair_bowtie2_mapping_multiqc_report:
             ),
             allow_missing=True,
         ),
-        #sexdeterrmine="tmp/fair_bowtie2_mapping_sexdeterrmine/{species}.{build}.{release}.{datatype}/sexdeterrmine.json",
+        sexdeterrmine=branch(
+            evaluate("{species} == 'homo_sapiens'")
+            or evaluate("{species} == 'mus_musculus'"),
+            then="tmp/fair_bowtie2_mapping_sexdeterrmine/{species}.{build}.{release}.{datatype}/sexdeterrmine.json",
+            otherwise=[],
+        ),
         mtnucratiocalculator=collect(
             "tmp/fair_bowtie2_mapping_mtnucratiocalculator/{sample.species}.{sample.build}.{sample.release}.{datatype}/{sample.sample_id}.mtnuc.json",
             sample=lookup(
@@ -260,4 +265,4 @@ rule fair_bowtie2_mapping_multiqc_report:
     benchmark:
         "benchmark/fair_bowtie2_mapping_multiqc_report/{species}.{build}.{release}.{datatype}.tsv"
     wrapper:
-        "v5.3.0/bio/multiqc"
+        "v5.5.0/bio/multiqc"

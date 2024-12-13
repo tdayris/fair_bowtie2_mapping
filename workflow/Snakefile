@@ -23,6 +23,7 @@ include: "rules/ngsderive.smk"
 include: "rules/picard_metrics.smk"
 include: "rules/rseqc.smk"
 include: "rules/samtools_stats.smk"
+include: "rules/sexdeterrmine.smk"
 
 
 rule fair_bowtie2_mapping_target:

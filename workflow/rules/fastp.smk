@@ -54,7 +54,7 @@ rule fair_bowtie2_mapping_fastp_trimming_pair_ended:
             default="--verbose --overrepresentation_analysis",
         ),
     wrapper:
-        "v5.3.0/bio/fastp"
+        "v5.5.0/bio/fastp"
 
 
 use rule fair_bowtie2_mapping_fastp_trimming_pair_ended as fair_bowtie2_mapping_fastp_trimming_single_ended with:
