@@ -5,7 +5,7 @@ module fair_fastqc_multiqc:
             github(
                 "tdayris/fair_fastqc_multiqc",
                 path="workflow/Snakefile",
-                tag="2.5.0",
+                tag="2.5.1",
             ),
         )
     config:
