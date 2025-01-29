@@ -18,7 +18,7 @@ rule fair_bowtie2_mapping_mtnucratiocalculator:
         ),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: attempt * 1_000,
+        mem_mb=lambda wildcards, attempt: attempt * 300 + 500,
         runtime=lambda wildcards, attempt: attempt * 15,
         tmpdir=tmp,
     log:

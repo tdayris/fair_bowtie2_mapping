@@ -48,7 +48,7 @@ use rule bowtie2_alignment from bowtie2_sambamba_metawrapper as fair_bowtie2_map
     threads: 20
     resources:
         mem_mb=lambda wildcards, attempt: 5_000 + 2_000 * attempt,
-        runtime=lambda wildcards, attempt: 120 * attempt,
+        runtime=lambda wildcards, attempt: 60 * 4 * attempt,
         tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping_bowtie2_alignment/{species}.{build}.{release}.{datatype}/{sample}.log",

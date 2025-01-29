@@ -57,7 +57,7 @@ rule fair_bowtie2_mapping_rseqc_bamstat:
         ),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: (attempt * 100) + 500,
+        mem_mb=lambda wildcards, attempt: (attempt * 500) + 500,
         runtime=lambda wildcards, attempt: attempt * 15,
         tmpdir=tmp,
     log:
@@ -96,7 +96,7 @@ rule fair_bowtie2_mapping_rseqc_read_gc:
         ),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: (attempt * 300) + 2_000,
+        mem_mb=lambda wildcards, attempt: (attempt * 700) + 700,
         runtime=lambda wildcards, attempt: attempt * 20,
         tmpdir=tmp,
     log:
@@ -134,7 +134,7 @@ rule fair_bowtie2_mapping_rseqc_read_distribution:
         ),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: (attempt * 500) + 1_200,
+        mem_mb=lambda wildcards, attempt: (attempt * 500) + 1_400,
         runtime=lambda wildcards, attempt: attempt * 20,
         tmpdir=tmp,
     log:

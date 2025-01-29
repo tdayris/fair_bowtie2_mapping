@@ -20,8 +20,8 @@ rule fair_bowtie2_mapping_mosdepth:
         ),
     threads: 10
     resources:
-        mem_mb=lambda wildcards, attempt: (2_000 * attempt) + 1_000,
-        runtime=lambda wildcards, attempt: 45 * attempt,
+        mem_mb=lambda wildcards, attempt: (2_000 * attempt) + 3_000,
+        runtime=lambda wildcards, attempt: 15 * attempt,
         tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping_mosdepth/{species}.{build}.{release}.{datatype}/{sample}.log",

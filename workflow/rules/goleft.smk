@@ -24,7 +24,7 @@ rule fair_bowtie2_mapping_goleft_indexcov:
         ),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: (attempt * 100) + 1_500,
+        mem_mb=lambda wildcards, attempt: (attempt * 500) + 1_100,
         runtime=lambda wildcards, attempt: attempt * 10,
         tmpdir=tmp,
     log:

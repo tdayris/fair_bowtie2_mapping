@@ -19,8 +19,8 @@ rule fair_bowtie2_mapping_samtools_depth:
         ),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: attempt * 1_000,
-        runtime=lambda wildcards, attempt: attempt * 15,
+        mem_mb=lambda wildcards, attempt: attempt * 500,
+        runtime=lambda wildcards, attempt: attempt * 60 * 2,
         tmpdir=tmp,
     log:
         "logs/fair_bowtie2_mapping_samtools_depth/{species}.{build}.{release}.{datatype}.log",
@@ -40,7 +40,7 @@ rule fair_bowtie2_mapping_sample_list:
         "tmp/fair_bowtie2_mapping_sample_list/{species}.{build}.{release}.{datatype}.txt",
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: attempt * 1_000,
+        mem_mb=lambda wildcards, attempt: attempt * 200 + 300,
         runtime=lambda wildcards, attempt: attempt * 15,
         tmpdir=tmp,
     log:

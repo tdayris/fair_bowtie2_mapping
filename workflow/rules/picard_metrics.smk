@@ -30,7 +30,7 @@ rule fair_bowtie2_mapping_picard_create_multiple_metrics:
         ),
     threads: 1
     resources:
-        mem_mb=lambda wildcards, attempt: 12_000 + (2_000 * attempt),
+        mem_mb=lambda wildcards, attempt: 20_000 + (2_000 * attempt),
         runtime=lambda wildcards, attempt: 30 * attempt,
         tmpdir=tmp,
     log:
