@@ -1,3 +1,12 @@
+# 4.4.2
+
+## Features:
+
+* Snakemake-wrappers update to 5.6.0
+* fair_genome_indexer update
+* fair_fastqc_multiqc update
+* Reservations update
+
 # 4.4.1
 
 ## Features:
