@@ -3,4 +3,4 @@ channels:
   - nodefaults
 dependencies:
   - pandas =2.2.3
-  - pyarrow =19.0.0
+  - pyarrow =19.0.1

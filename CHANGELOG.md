@@ -1,3 +1,9 @@
+# 4.4.5
+
+## Features:
+
+* fair_genome_indexer update to 3.4.9
+
 # 4.4.2
 
 ## Features:
