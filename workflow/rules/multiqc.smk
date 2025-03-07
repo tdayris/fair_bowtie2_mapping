@@ -265,4 +265,4 @@ rule fair_bowtie2_mapping_multiqc_report:
     benchmark:
         "benchmark/fair_bowtie2_mapping_multiqc_report/{species}.{build}.{release}.{datatype}.tsv"
     wrapper:
-        "v5.6.0/bio/multiqc"
+        "v5.8.3/bio/multiqc"

@@ -32,7 +32,7 @@ rule fair_bowtie2_mapping_samtools_depth:
             default="--min-MQ 30 -l 10",
         ),
     wrapper:
-        "v5.6.0/bio/samtools/depth"
+        "v5.8.3/bio/samtools/depth"
 
 
 rule fair_bowtie2_mapping_sample_list:
@@ -92,4 +92,4 @@ rule fair_bowtie2_mapping_sexdeterrmine:
     params:
         extra=lambda wildcards, input: f" --SampleList {input.samples} ",
     wrapper:
-        "v5.6.0/bio/sexdeterrmine"
+        "v5.8.3/bio/sexdeterrmine"

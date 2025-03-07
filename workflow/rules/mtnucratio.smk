@@ -30,4 +30,4 @@ rule fair_bowtie2_mapping_mtnucratiocalculator:
             dpath="params/fair_bowtie2_mapping_mtnucratiocalculator", default="MT"
         ),
     wrapper:
-        "v5.6.0/bio/mtnucratio"
+        "v5.8.3/bio/mtnucratio"

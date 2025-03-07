@@ -1,6 +1,6 @@
 module bowtie2_sambamba_metawrapper:
     meta_wrapper:
-        "v5.6.0/meta/bio/bowtie2_sambamba"
+        "v5.8.3/meta/bio/bowtie2_sambamba"
     config:
         config
 

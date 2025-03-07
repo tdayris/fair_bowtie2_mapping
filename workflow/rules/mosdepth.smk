@@ -33,4 +33,4 @@ rule fair_bowtie2_mapping_mosdepth:
             default="--no-per-base --use-median",
         ),
     wrapper:
-        "v5.6.0/bio/mosdepth"
+        "v5.8.3/bio/mosdepth"

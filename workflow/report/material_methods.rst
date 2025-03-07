@@ -61,18 +61,18 @@ installation usage, and resutls can be found on the
 .. [#fairfastqcmultiqc] Dayris, T. (2024). fair-fastqc-multiqc (Version 2.4.2) [Computer software]. https://github.com/tdayris/fair_fastqc_multiqc
 
 
-.. _Sambamba: https://snakemake-wrappers.readthedocs.io/en/v5.6.0/wrappers/sambamba.html
-.. _Bowtie2: https://snakemake-wrappers.readthedocs.io/en/v5.6.0/wrappers/bowtie2.html
-.. _Fastp: https://snakemake-wrappers.readthedocs.io/en/v5.6.0/wrappers/fastp.html
-.. _Mosdepth: https://snakemake-wrappers.readthedocs.io/en/v5.6.0/wrappers/mosdepth.html
-.. _Picard: https://snakemake-wrappers.readthedocs.io/en/v5.6.0/wrappers/picard/collectmultiplemetrics.html
-.. _MultiQC: https://snakemake-wrappers.readthedocs.io/en/v5.6.0/wrappers/multiqc.html
+.. _Sambamba: https://snakemake-wrappers.readthedocs.io/en/v5.8.3/wrappers/sambamba.html
+.. _Bowtie2: https://snakemake-wrappers.readthedocs.io/en/v5.8.3/wrappers/bowtie2.html
+.. _Fastp: https://snakemake-wrappers.readthedocs.io/en/v5.8.3/wrappers/fastp.html
+.. _Mosdepth: https://snakemake-wrappers.readthedocs.io/en/v5.8.3/wrappers/mosdepth.html
+.. _Picard: https://snakemake-wrappers.readthedocs.io/en/v5.8.3/wrappers/picard/collectmultiplemetrics.html
+.. _MultiQC: https://snakemake-wrappers.readthedocs.io/en/v5.8.3/wrappers/multiqc.html
 .. _Snakemake: https://snakemake.readthedocs.io
 .. _Github: https://github.com/tdayris/fair_bowtie2_mapping
 .. _`Snakemake workflow`: https://snakemake.github.io/snakemake-workflow-catalog?usage=tdayris/fair_bowtie2_mapping
 .. _Agat: https://agat.readthedocs.io/en/latest/index.html
-.. _Samtools: https://snakemake-wrappers.readthedocs.io/en/v5.6.0/wrappers/samtools/faidx.html
-.. _FastQC: https://snakemake-wrappers.readthedocs.io/en/v5.6.0/wrappers/fastqc.html
+.. _Samtools: https://snakemake-wrappers.readthedocs.io/en/v5.8.3/wrappers/samtools/faidx.html
+.. _FastQC: https://snakemake-wrappers.readthedocs.io/en/v5.8.3/wrappers/fastqc.html
 .. _Fastq_utils: https://github.com/nunofonseca/fastq_utils
 .. _Seqkit: https://bioinf.shenwei.me/seqkit/
 .. _Fastqinfo: https://github.com/raymondkiu/fastq-info
@@ -80,7 +80,7 @@ installation usage, and resutls can be found on the
 .. _GOleft: https://github.com/brentp/goleft
 .. _NGSderive: https://stjudecloud.github.io/ngsderive/
 .. _RSeQC: https://rseqc.sourceforge.net/
-.. _Deeptools: https://snakemake-wrappers.readthedocs.io/en/v5.6.0/wrappers/deeptools/alignmentsieve.html
+.. _Deeptools: https://snakemake-wrappers.readthedocs.io/en/v5.8.3/wrappers/deeptools/alignmentsieve.html
 .. _SexDetERRmine: ???
 .. _MTNucRatioCalculator: ???
 .. _`fair-genome-indexer`: https://github.com/tdayris/fair_genome_indexer
@@ -91,4 +91,4 @@ installation usage, and resutls can be found on the
     Thibault Dayris
 
 
-:Version: 4.4.5 of 2025-02-17
+:Version: 4.4.6 of 2025-03-07

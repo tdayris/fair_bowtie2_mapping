@@ -1,9 +1,9 @@
 samples: config/samples.csv
 
 # Optional parameters
-params:
+# params:
   # Path to configuration file
-  fair_fastqc_multiqc_fastq_screen_config: "/mnt/beegfs/database/bioinfo/Index_DB/Fastq_Screen/0.14.0/fastq_screen.conf"
+  # fair_fastqc_multiqc_fastq_screen_config: "/mnt/beegfs02/database/bioinfo/Index_DB/Fastq_Screen/0.14.0/fastq_screen.conf"
 
 # Optional path to a `genome.csv` file
 genomes: config/genomes.csv
