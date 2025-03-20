@@ -10,12 +10,20 @@ on:
 jobs:
   formatting:
     runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      packages: read
+      # To report GitHub Actions status checks
+      statuses: read
+      
     steps:
     - name: Checkout with submodules
       uses: actions/checkout@v4
       with:
         submodules: recursive
         fetch-depth: 0
+      
     - name: Formatting
       uses: super-linter/super-linter@v7.3.0            
       env:
