@@ -29,6 +29,7 @@ jobs:
       env:
         DEFAULT_BRANCH: main
         VALIDATE_ALL_CODEBASE: false
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         VALIDATE_SNAKEMAKE_SNAKEFMT: true
 
   linting-tests:
