@@ -10,6 +10,10 @@ on:
 jobs:
   formatting:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+      statuses: write
     steps:
     - name: Checkout with submodules
       uses: actions/checkout@v4
@@ -20,7 +24,9 @@ jobs:
       uses: github/super-linter@v7.3.0
             
       env:
+        DEFAULT_BRANCH: main
         VALIDATE_ALL_CODEBASE: false
+        USE_FIND_ALGORITHM: true
         DEFAULT_BRANCH: main
         VALIDATE_SNAKEMAKE_SNAKEFMT: true
   linting-tests:
