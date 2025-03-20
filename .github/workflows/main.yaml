@@ -21,13 +21,12 @@ jobs:
         submodules: recursive
         fetch-depth: 0
     - name: Formatting
-      uses: github/super-linter@v7.3.0
-            
+      uses: super-linter/super-linter@v7.3.0            
       env:
         DEFAULT_BRANCH: main
         VALIDATE_ALL_CODEBASE: false
-        USE_FIND_ALGORITHM: true
         VALIDATE_SNAKEMAKE_SNAKEFMT: true
+
   linting-tests:
     runs-on: ubuntu-latest
     steps:
