@@ -10,10 +10,6 @@ on:
 jobs:
   formatting:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: read
-      statuses: write
     steps:
     - name: Checkout with submodules
       uses: actions/checkout@v4
