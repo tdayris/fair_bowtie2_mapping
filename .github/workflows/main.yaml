@@ -28,7 +28,7 @@ jobs:
       uses: super-linter/super-linter@v7.3.0            
       env:
         DEFAULT_BRANCH: main
-        VALIDATE_ALL_CODEBASE: false
+        VALIDATE_ALL_CODEBASE: true
         GITHUB_TOKEN: ${{ secrets.token }}
         VALIDATE_SNAKEMAKE_SNAKEFMT: true
 
